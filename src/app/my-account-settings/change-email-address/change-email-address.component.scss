@@ -1,0 +1,28 @@
+#contentAreaRight {
+    margin: 0;
+    padding: 0 15px 0 30px;
+}
+.messageQueueSuccess{
+    color: green;
+    font-size: 1.1em;
+    font-weight: 700;
+    padding: 0 1px 0 25px;
+}
+ol.instructionsList {
+    margin-top: 0.9em;
+}
+ol.instructionsList li {
+    padding-bottom: 7px;
+}
+.headerStyle {
+    padding-bottom: 3px;
+}
+.change-emailpw {
+    table-layout: inherit;
+}
+.update-email td, .current-email td {
+    padding: 8px 6px 7px 4px !important;
+}
+.change_btn input {
+    padding: 6px 25px;
+}

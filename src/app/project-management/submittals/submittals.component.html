@@ -1,0 +1,381 @@
+<div class="w-100 float-left mb-3">
+    <button class="btn blue-button float-left mr-2" (click)="loadNewSubmittalDialog(newSubmittal)">
+      Create New Submittal
+    </button>
+    <span class="mr-2 float-left mt-2">or</span>
+    <div class="float-left mr-2">
+      <select class="form-control">
+        <option>
+          Select Submittaldrafts
+        </option>
+      </select>
+    </div>
+  
+    <div class="float-left">
+      <select class="form-control">
+        <option>
+          Select Actions
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="col-md-12 col-lg-12 col-sm-12 float-start table-responsive p-0">
+    <table class="table table-striped Submittal-work">
+      <thead>
+        <tr>
+          <th>Submittal #
+            <em class="sort">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-chevron-expand" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M3.646 9.146a.5.5 0 0 1 .708 0L8 12.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708zm0-2.292a.5.5 0 0 0 .708 0L8 3.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708z" />
+              </svg>
+            </em>
+          </th>
+          <th>Cost Code
+            <em class="sort">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-chevron-expand" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M3.646 9.146a.5.5 0 0 1 .708 0L8 12.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708zm0-2.292a.5.5 0 0 0 .708 0L8 3.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708z" />
+              </svg>
+            </em>
+          </th>
+          <th>Spec no
+            <em class="sort">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-chevron-expand" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M3.646 9.146a.5.5 0 0 1 .708 0L8 12.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708zm0-2.292a.5.5 0 0 0 .708 0L8 3.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708z" />
+              </svg>
+            </em>
+          </th>
+          <th>Submittal Title
+            <em class="sort">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-chevron-expand" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M3.646 9.146a.5.5 0 0 1 .708 0L8 12.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708zm0-2.292a.5.5 0 0 0 .708 0L8 3.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708z" />
+              </svg>
+            </em>
+          </th>
+          <th>Plans Reference
+            <em class="sort">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-chevron-expand" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M3.646 9.146a.5.5 0 0 1 .708 0L8 12.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708zm0-2.292a.5.5 0 0 0 .708 0L8 3.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708z" />
+              </svg>
+            </em>
+          </th>
+          <th>Date Issued
+            <em class="sort">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-chevron-expand" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M3.646 9.146a.5.5 0 0 1 .708 0L8 12.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708zm0-2.292a.5.5 0 0 0 .708 0L8 3.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708z" />
+              </svg>
+            </em>
+          </th>
+          <th>Due Date
+            <em class="sort">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-chevron-expand" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M3.646 9.146a.5.5 0 0 1 .708 0L8 12.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708zm0-2.292a.5.5 0 0 0 .708 0L8 3.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708z" />
+              </svg>
+            </em>
+          </th>
+          <th>Submittal Recipient
+            <em class="sort">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-chevron-expand" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M3.646 9.146a.5.5 0 0 1 .708 0L8 12.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708zm0-2.292a.5.5 0 0 0 .708 0L8 3.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708z" />
+              </svg>
+            </em>
+          </th>
+          <th>Tags
+            <em class="sort">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-chevron-expand" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M3.646 9.146a.5.5 0 0 1 .708 0L8 12.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708zm0-2.292a.5.5 0 0 0 .708 0L8 3.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708z" />
+              </svg>
+            </em>
+          </th>
+          <th>Priority
+            <em class="sort">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-chevron-expand" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M3.646 9.146a.5.5 0 0 1 .708 0L8 12.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708zm0-2.292a.5.5 0 0 0 .708 0L8 3.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708z" />
+              </svg>
+            </em>
+          </th>
+          <th>Approved Date
+            <em class="sort">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-chevron-expand" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M3.646 9.146a.5.5 0 0 1 .708 0L8 12.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708zm0-2.292a.5.5 0 0 0 .708 0L8 3.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708z" />
+              </svg>
+            </em>
+          </th>
+          <th>Status
+            <em class="sort">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-chevron-expand" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M3.646 9.146a.5.5 0 0 1 .708 0L8 12.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708zm0-2.292a.5.5 0 0 0 .708 0L8 3.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708z" />
+              </svg>
+            </em>
+          </th>
+          <th>Days Open
+            <em class="sort">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-chevron-expand" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M3.646 9.146a.5.5 0 0 1 .708 0L8 12.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708zm0-2.292a.5.5 0 0 0 .708 0L8 3.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708z" />
+              </svg>
+            </em>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let submittalValue of submittalListData | paginate: { currentPage: p, itemsPerPage: 5 }">
+          <td>{{submittalValue.id}}</td>
+          <td>{{submittalValue.costCode}}</td>
+          <td>{{submittalValue.spectNo}}</td>
+          <td>{{submittalValue.submittalTitle}}</td>
+          <td>{{submittalValue.plansReference}}</td>
+          <td>{{dateFormat(submittalValue.dateIssued)}}</td>
+          <td>{{dateFormat(submittalValue.dueDate)}}</td>
+          <td>{{submittalValue.submittalReceipient}}</td>
+          <td>{{submittalValue.tags}}</td>
+          <td>{{submittalValue.priority}}</td>
+          <td>{{dateFormat(submittalValue.approvalDate)}}</td>
+          <td>{{submittalValue.status}}</td>
+          <td>{{submittalValue.daysOpen}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </div>
+  <ng-template #newSubmittal let-modal class="tests">
+    <div class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-front ui-dialog-buttons ui-draggable ui-resizable"
+      style="position: absolute; height: auto; width: 1136.7px; top: 6px; left: -230px; display: block; z-index: 401;background:white;"
+      tabindex="-1" role="dialog" aria-describedby="divModalWindow" aria-labelledby="ui-id-5">
+      <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix ui-draggable-handle">
+        <span id="ui-id-5" class="ui-dialog-title">Creat A New Submittal - Advent - Delta Lane</span>
+        <button type="button" (click)="modal.dismiss('Cross click')"
+          class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close"
+          role="button" style="float:
+            right; 
+          background: #91cef7 !important;
+          border: #4e4f51 !important;" title="Close">
+          <span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span>
+          <span class="ui-button-text">X</span>
+        </button>
+      </div>
+      <div id="divModalWindow" class="ui-dialog-content ui-widget-content"
+        style="width: auto; min-height: 0px; max-height: none; height: 434.44px;overflow:auto;">
+        <div class="col-md-6 col-lg-6 col-sm-12 float-left leftcard-section p-0">
+          <div class="card rounded-0">
+            <div class="card-header header-card-blue pt-3 pb-3 pl-2 pr-2">
+              <div class="float-left col-md-8 p-0">
+                Cost Code Reference:
+              </div>
+              <div class="float-left col-md-4 p-0">
+                Specification Number:
+              </div>
+            </div>
+            <div class="card-body p-0">
+              <div class="float-left pl-0 col-md-8 border-right  p-2">
+                <select class="form-control">
+                  <option>Optionally Select A Cost Code Below For Reference</option>
+                </select>
+              </div>
+              <div class="float-left col-md-4  p-2">
+                <input class="form-control" />
+              </div>
+            </div>
+          </div>
+          <div class="card rounded-0">
+            <div class="card-header header-card-blue pt-3 pb-3 pl-2 pr-2">
+              <div class="float-left col-md-12 p-0">
+                From (Subcontractor):
+              </div>
+            </div>
+            <div class="card-body p-0">
+              <div class="float-left pl-0 col-md-12 border-right p-2">
+                <select class="form-control">
+                  <option>Select a contact</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="card rounded-0">
+            <div class="card-header header-card-blue pt-3 pb-3 pl-2 pr-2">
+              <div class="float-left col-md-12 p-0">
+                Plan Page Reference:
+              </div>
+            </div>
+            <div class="card-body p-0">
+              <div class="float-left pl-0 col-md-12 border-right p-2">
+                <input class="form-control" />
+              </div>
+            </div>
+          </div>
+          <div class="card rounded-0">
+            <div class="card-header header-card-blue pt-3 pb-3 pl-2 pr-2">
+              <div class="float-left col-md-12 p-0">
+                Submittal Due Date:
+              </div>
+            </div>
+            <div class="card-body p-0">
+              <div class="float-left pl-0 col-md-8 p-2">
+                <input class="form-control" />
+              </div>
+            </div>
+          </div>
+          <div class="card rounded-0">
+            <div class="card-header header-card-blue pt-3 pb-3 pl-2 pr-2">
+              <div class="float-left col-md-12 p-0">
+                Submittal Notes:
+              </div>
+            </div>
+            <div class="card-body p-0">
+              <div class="float-left pl-0 col-md-12 p-2">
+                <textarea rows="6" class="rounded-0 form-control">
+                </textarea>
+              </div>
+            </div>
+          </div>
+          <div class="card rounded-0">
+            <div class="card-header header-card-blue pt-3 pb-3 pl-2 pr-2">
+              <div class="float-left col-md-3 p-0">
+                Submittal Priority:
+              </div>
+              <div class="float-left col-md-3 p-0">
+                Submittal Type:
+              </div>
+              <div class="float-left col-md-6 p-0">
+                Submittal Distribution Method:
+              </div>
+            </div>
+            <div class="card-body p-0">
+              <div class="float-left col-md-3 border-right p-1">
+                <select class="form-control">
+                  <option>Select a contact</option>
+                </select>
+              </div>
+              <div class="float-left col-md-3 border-right p-1">
+                <select class="form-control">
+                  <option>Select a contact</option>
+                </select>
+              </div>
+              <div class="float-left col-md-6 border-right p-1">
+                <select class="form-control">
+                  <option>Select a contact</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-12 float-left pr-0">
+          <div class="leftcard-section">
+            <div class="card rounded-0">
+              <div class="card-header header-card-blue pt-3 pb-3 pl-2 pr-2">
+                <div class="float-left col-md-12 p-0">
+                  Tags:
+                </div>
+              </div>
+              <div class="card-body p-0">
+                <div class="float-left pl-0 col-md-12 border-right p-2">
+                  <input class="form-control" />
+                </div>
+              </div>
+            </div>
+            <div class="card rounded-0">
+              <div class="card-header header-card-blue pt-3 pb-3 pl-2 pr-2">
+                <div class="float-left col-md-12 p-0">
+                  Submittal Due Date:
+                </div>
+              </div>
+              <div class="card-body p-0">
+                <div class="float-left pl-0 col-md-8 p-2">
+                  <input class="form-control" />
+                </div>
+              </div>
+            </div>
+            <div class="card rounded-0">
+              <div class="card-header header-card-blue pt-3 pb-3 pl-2 pr-2">
+                <div class="float-left col-md-12 p-0">
+                  Submittal Notes:
+                </div>
+              </div>
+              <div class="card-body p-0">
+                <div class="float-left pl-0 col-md-12 p-2">
+                  <span>
+                    <button class="btn btn-grey rounded-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
+                        <path
+                          d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5z" />
+                        <path
+                          d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z" />
+                      </svg>
+                      Drop or Click Files
+                    </button>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="card rounded-0">
+              <div class="card-header header-card-blue pt-3 pb-3 pl-2 pr-2">
+                <div class="float-left col-md-3 p-0">
+                  Attached Files:
+                </div>
+              </div>
+              <div class="card-body p-0">
+                <div class="float-left col-md-12 p-1">
+                  <p class="paragraph-p">No Files Attached</p>
+                </div>
+              </div>
+            </div>
+            <div class="card rounded-0">
+              <div class="card-header header-card-blue pt-1 pb-1 pl-2 pr-2">
+                <div class="float-left col-md-12 p-0">
+                  <span class="mt-2 float-left">Email:</span>
+                  <button class="btn-sm blue-button float-right">Select Recipient</button>
+                </div>
+              </div>
+              <div class="card-body p-0">
+                <div class="float-left col-md-12 p-1">
+                  <p class="ptag-style"><span><b>To : </b></span><span id="toemailist"></span></p>
+                  <div>
+                    <p class="ptag-style"><span><b>Cc : </b></span><span
+                        id="ccemailist">dinesh.kumar@optisolbusiness.com,</span></p>
+  
+                  </div>
+                  <div>
+                    <p class="ptag-style"><span><b>Bcc : </b></span><span id="bccemailist"></span></p>
+  
+                  </div>
+                  <p class="ptag-style">Add additional text to the body of the email: </p>
+                  <textarea rows="7" class="w-100 mb-2"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ui-dialog-buttonpane ui-dialog-content">
+        <div class="ui-dialog-buttonset">
+          <button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only btn-cmn"
+            role="button" (click)="modal.dismiss('Cross click')"><span class="ui-button-text">Close</span></button>
+        </div>
+      </div>
+    </div>
+  </ng-template>

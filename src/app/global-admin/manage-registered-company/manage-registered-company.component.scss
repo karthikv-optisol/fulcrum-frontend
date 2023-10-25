@@ -1,0 +1,31 @@
+// @import url('https://fulcrumnew.optisolbusiness.com/assets/styles.css');
+@import url("../../../assets/styles.css");
+@import url("https://fulcrumnew.optisolbusiness.com/assets/styles.css");
+@import url("https://fulcrumnew.optisolbusiness.com/assets/modules-file-manager-file-browser.css");
+@import url("https://fulcrumnew.optisolbusiness.com/assets/rightclick-menu-entypo.css");
+@import url("../../../assets/entypo.css");
+@import url("../../../assets/fSelect.css");
+#contentAreaRight {
+    margin: 0;
+    padding: 0 15px 0 30px;
+}
+input[type=checkbox] {
+    display: inline-block;
+    margin-right: 4px;
+    vertical-align: baseline;
+}
+input[type=checkbox], input[type=radio] {
+    box-sizing: border-box;
+    padding: 0;
+    height: 13px;
+    width: 13px;
+}
+
+.question {
+    margin-right: 5px;
+    float: left;
+}
+
+.hiddencontent {
+    font-size: 12px;
+}

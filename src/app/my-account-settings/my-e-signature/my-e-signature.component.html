@@ -1,0 +1,107 @@
+<div *ngIf="modalloading" style="display: block" id="divAjaxLoading">
+    Loading . . .
+    <img alt="Loading..." src="assets/images/ajax-loader.gif" />
+  </div>
+  <div id="wrapper" class="debugBorder">
+    <div class="spacerBottom"></div>
+    <div id="contentArea">
+      <div id="contentAreaLeft">
+        <app-sidemenu (SendValue)="ValueFromComp1($event)"></app-sidemenu>
+      </div>
+      <div id="contentAreaRight" align="left">
+        <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%">
+           <tbody>
+              <tr>
+                 <td align="left">
+                    <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%">
+                       <tbody>
+                          <tr>
+                             <td>
+                                <div id="softwareModuleHeadline">Delta Lane: My E-Signature</div>
+                                <div id="messageDiv" class="userMessage"></div>
+                               
+                             
+                                <div id="esinging">
+                                   <label class="headsle" style="font-size:20px;">E-Signature</label>
+                                   <table id="signTblTabularData" class="detailed_week content  
+                                      signature-table-head cell-border" border="0" cellpadding="5" cellspacing="0" width="100%">
+                                      <tbody>
+                                         <tr class="">
+                                            <td colspan="2" class="" style="font-weight: bold;padding-bottom: 15px;padding-top: 10px;">How would you like to create your signature?</td>
+                                         </tr>
+                                         <tr class="">
+                                            <td class="">
+                                               <label class="DCRtext"><input type="radio" value="type_my_signature" name="signset" class="radioLable" (click)="signsetchanges(1)" [checked]="radioValue == 1">Type my signature</label>
+                                            </td>
+                                         </tr>
+                                         <tr class="">
+                                            <td class="">
+                                               <label class="DCRtext"><input type="radio" value="draw_signimage" name="signset" class="radioLable" (click)="signsetchanges(2)" [checked]="radioValue ==2">Draw my signature</label>
+                                            </td>
+                                         </tr>
+                                         <tr class="">
+                                            <td class="">
+                                               <label class="DCRtext"><input type="radio" value="upload_signimage" name="signset" class="radioLable" (click)="signsetchanges(3)" [checked]="radioValue == 3">Use a image</label>
+                                            </td>
+                                         </tr>
+                                      </tbody>
+                                   </table>
+                                   <div *ngIf="radioValue == 3" id="upload_signimage" class="upload_signimage uploadimg-sinature textAlignCenter actions" style="margin-top:20px;">
+                                      <div id="uploader--esignature" class="boxViewUploader  uploaderInitialized" folder_id="" project_id="3" virtual_file_path="/Subcontract Change Order/Attachments/" virtual_file_name="" prepend_date_to_filename="1" append_date_to_filename="0" post_upload_js_callback="loadpreviewAfterimgupload()" action="/esignature/sign_src/save_sign.php" method="uploadimgforesign" allowed_extensions="gif,jpg,jpeg,png" drop_text_prefix="" style="" custom_label="" multiple="" file_upload_position="">
+                                         <div class="qq-uploader">
+                                            <div class="qq-upload-drop-area" style="display: none;"><img src="assets/images/icons/file-upload.png" width="15" height="17" alt="">Drop Here</div>
+                                            <div class="qq-upload-button" style="position: relative; overflow: hidden; direction: ltr;"><img src="assets/images/icons/file-upload.png" width="15" height="17" alt="">Drop or Click Files<input (change)="onFilechange($event)" multiple="multiple" type="file" id="file_upload_image" name="file" style="position: absolute; right: 0px; top: 0px; font-family: Arial; font-size: 118px; margin: 0px; padding: 0px; cursor: pointer; opacity: 0;"></div>
+                                         </div>
+                                      </div>
+                                     
+                                      <div>
+                                         <img src="{{filename}}" class="sign-preview" width="300px" height="100px" style="margin:0px 0px 0px 100px;">
+                                         <div id="signdata" style="margin-top: 7px;font-size: 12px;margin-left: 60px;">
+                                            Last Updated : 
+                                            <div class="eupdatedate" style="display: inline-block;">{{getValues.date | date : 'dd/MM/YYYY'}}</div>
+                                         </div>
+                                      </div>
+                                   </div>
+                                   <div [ngClass]="{'display-container': radioValue == 2}" id="draw_signimage" class="draw_signimage textAlignCenter actions draw-mysign-section" style="margin-top:20px;width:800px;display:none">
+                                    <div id="signArea" style="width:40%;">
+                                       <h4 class="tag-ingo">Put signature below,</h4>
+                                       <div class="sig sigWrapper current" style="height: auto; float: left; display: block;">
+                                       <div class="typed" style="display: none;"></div>
+                                       <canvas class="sign-pad" id="sign-pad" width="300" height="100"></canvas>
+                                    
+                                       </div>
+                                       </div>
+                                      <div class="sign-container">
+                                         <img src="{{filename}}" class="sign-preview" width="300px" height="100px" style="">
+                                         <div id="signdata" style="margin-top: 7px;font-size: 12px;" *ngIf="getValues">
+                                            Last Updated : 
+                                            <div class="eupdatedate" style="display: inline-block;">{{getValues.date | date : 'dd/MM/YYYY'}}</div>
+                                         </div>
+                                      </div>
+                                      <div class="textAlignCenter actions" style="margin-top:20px;">
+                                         <input type="button" id="btnSaveSign" value="Save Signature" (click)="generateDrawImage()">
+                                         <input type="button" id="clear" class="mx-3" value="Clear">
+                                      </div>
+                                   </div>
+                                   <div *ngIf="radioValue == 1" id="type_my_signature" class="type_my_signature enter-name-signsection">
+                                      <label style="font-weight: bold;width: 190px;text-align: left;">Enter Your Name:</label>
+                                      <input type="text" class="RFI_table2 required target signtext" id="html-content-holder" (change)="showTextPreview($event)" value="{{signName}}"> 		
+                                      <div class="" style="width: 100%;overflow: hidden;text-align: center;margin: 25px 0 0;">
+                                         <label style="font-weight: bold;width: 190px;text-align: left;">Review Your Signature:</label>
+                                         <div id="previewImage" style="float:left;">{{signName}}
+                                         </div>
+                                      </div>
+                                      <div style="width: 100%;margin: 25px 0 15px 205px;overflow: hidden;">
+                                         <input type="button" id="btn-Convert-Html2Image" value="Save Signature" (click)="generateImage()">
+                                      </div>
+                                   </div>
+                                </div>
+                             </td>
+                          </tr>
+                       </tbody>
+                    </table>
+                 </td>
+              </tr>
+           </tbody>
+        </table>
+

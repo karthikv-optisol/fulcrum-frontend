@@ -1,0 +1,154 @@
+<div id="messageDiv1" *ngIf="showerror"  [ngClass]="{'errorMessage':true}" class="">
+	Please fill in the highlighted areas.
+</div>
+<div id="messageDiv2" *ngIf="error" class="errorMessage">
+	{{error}}
+</div>
+<div id="wrapper" class="">
+	<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+		
+		<tbody><tr>
+			<td align="left">
+				<table id="contentArea" align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+					<tbody><tr>
+						<td id="" align="left">
+							<table align="left" border="0" cellpadding="0" cellspacing="0" width="100%">
+								<tbody><tr>
+									<td align="left">
+										<div id="signup" class=" ">
+	
+
+<div class="signup-bg">
+<div class="login-form-sec signup-page registerform"> 
+    <div class="hgroup">                                      
+	  <h2>SIGN UP FOR FREE</h2>										  
+	  <h4>GC or Developer? Sign up for a 60 day FREE TRIAL and see how Fulcrum can streamline your projects</h4>
+	  <h4>Subcontractor? Contact your Project Manager for a Plans download link or project invite</h4>
+
+</div> 
+	<form [formGroup]="signupTrail"  id="signupTrail" (ngSubmit)="onSubmit()">
+	<div id="record_creation_form_container" class="">
+	<div class="RFI_table_create">	
+	<table width="100%" cellspacing="0" cellpadding="4" border="0">
+	<tbody>
+		<tr>
+		<td class="">
+		 <div class="group">    		    
+		 	<input class="loginFormInput required target"  maxlength="50" [className]="(submitted && f.first_name.errors) ? 'redBorderThick': '' "  formControlName="first_name" size="30" tabindex="101" type="text" id="first_name" [ngClass]="{ 'is-invalid': submitted && f.first_name.errors }" >		    
+		 	<span class="highlight"></span><span class="bar"></span>
+		 	<label>First Name<span class="mandat">*</span></label>
+            
+		 </div>
+		</td>
+		<td class="">
+		 <div class="group">  
+		  <input type="text"  class="loginFormInput required target"  maxlength="50" [className]="(submitted && f.last_name.errors) ? 'redBorderThick': '' "  formControlName="last_name" size="30" tabindex="101" id="last_name" [ngClass]="{ 'is-invalid': submitted && f.last_name.errors }">
+		  <span class="highlight"></span><span class="bar"></span>
+		  <label>Last Name<span class="mandat">*</span></label>
+         
+		 </div>
+		</td>		
+		</tr>		
+		<tr>
+		<td class="">
+		 <div class="group">  
+		  <input (change)="checkemailExists($event)" type="text" class="loginFormInput required target" [className]="(submitted && f.email.errors) ? 'redBorderThick': '' "  formControlName="email"  [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+		  <span class="highlight"></span><span class="bar"></span>
+		  <label>Email<span class="mandat">*</span></label>
+		  <span class="mandat"  *ngIf="showemailexistserror"  id="email_err" class="mandat">
+			Email Already Exist</span>
+           <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+		  <span class="mandat"  *ngIf="submitted && f.email.errors.email"  id="email_err" class="mandat">
+			  Invalid Email Address</span>
+			  
+          </div>
+		  <input type="hidden" id="email_check" value="1">
+		 </div> 
+		</td>
+		<td class="">
+		 <div class="group">  
+		  <input type="text" class="loginFormInput required target" [className]="(submitted && f.company.errors) ? 'redBorderThick': '' "  formControlName="company" [ngClass]="{ 'is-invalid': submitted && f.company.errors }">
+		  <span class="highlight"></span><span class="bar"></span>
+		  <label>Company Name<span class="mandat">*</span></label>
+         
+		 </div>
+		</td>
+		</tr>	
+		<tr>
+		<td class="">
+		 <div class="group captcha-form" style="width: 85% !important;float: left;">  
+ 		  <input type="text" class="captcha" formControlName="cap_org" readonly="readonly" [(ngModel)]="cap_orginal" >		  
+		  <span class="highlight"></span><span class="bar"></span>
+		  <label>Captcha</label>		  
+		 </div>
+		 <button style="width: 10% !important;padding-left: 0;padding-right: 0;" type="button" (click)="captch()" class="buttonui"><img alt="" src="assets/images/icons/reload-gray.png"><!-- <i class="entypo-ccw"></i> --></button>
+		</td>
+		
+		<td class="">
+		 <div class="group">  
+  		  <input type="text" class="loginFormInput required target" formControlName="cap_match" [ngClass]="{ 'is-invalid': submitted && f.cap_match.errors }">
+		  <span class="highlight"></span><span class="bar"></span>
+		  <label>Enter the text shown<span class="mandat">*</span></label>
+          <div *ngIf="f.cap_match.errors" class="invalid-feedback">
+        <span  *ngIf="f.cap_match.errors.mustMatch" class="mandat" id="captch_err" >Captcha Not Matched!</span>
+        <span  *ngIf="f.cap_match.errors.required" class="mandat" id="captch_err" >Captcha Not Matched!</span>
+    </div> 
+    
+		 </div> 
+		</td>
+	   </tr>	
+		<tr>			
+		<td class="">
+		 <div class="group">  
+		  <input type="text" (keypress)="keyPressNumbers($event)" class="loginFormInput number required target" maxlength="6" [className]="(submitted && f.zip.errors) ? 'redBorderThick': '' " formControlName="zip" [ngClass]="{ 'is-invalid': submitted && f.zip.errors }">
+		  <span class="highlight"></span><span class="bar"></span>
+		  <label>Zip<span class="mandat">*</span></label>
+          
+		 </div>
+		 </td>
+		<td>
+		 <table style="float:right;">
+		  <tbody>
+		   <tr>
+		    <td>
+			 <input type="button" class="buttonui cancel-btn" onclick="window.location.href='/'" value="Cancel">
+			</td>
+			<td style="padding-left: 10px;">
+                <button class="buttonui">Sign Up</button>
+			
+			</td>
+		   </tr>
+		  </tbody>
+		 </table>    	
+		</td>
+	   </tr>
+	  </tbody>
+	 </table>
+	</div>
+   </div>
+  </form>
+  <div class="powered">
+     <a href="/">©2017 MyFulcrum.com™</a>
+     <a href="javascript:void(0)" (click)="login()">Login</a>
+     <a href="javascript:void(0)" (click)="login()">Account</a>
+  </div>
+</div>
+</div>
+
+
+</div>
+									</td>
+								</tr>
+							</tbody></table>
+
+						</td>
+					</tr>
+				</tbody></table>
+
+			</td>
+		</tr>
+
+		
+	</tbody></table>
+
+</div>

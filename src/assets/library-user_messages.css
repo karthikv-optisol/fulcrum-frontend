@@ -1,0 +1,141 @@
+@charset "UTF-8";
+
+/*******************************************************************************
+
+[vim]
+vim: set noexpandtab tabstop=4 shiftwidth=4 softtabstop=4:
+
+[emacs]
+Local variables:
+tab-width: 4
+c-basic-offset: 4
+c-hanging-comment-ender-p: nil
+c-indent-level: 4
+indent-tabs-mode: t
+tab-stop-list: '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60)
+End:
+
+*******************************************************************************/
+
+/* IE6 does not support this "exact attribute" selector. */
+input[class="button_default"] {
+	padding: 0 3px 0 12px;
+}
+
+.pageBlurbClass, .pageBlurbErrorClass, .pageBlurbConfirmClass, .pageBlurbErrorHeaderClass, .pageBlurbErrorTextClass {
+	padding: 6px 6px 15px 25px;
+}
+
+.pageBlurbClass {
+	background: #fffdd6 url(/assets/images/icon_help.gif) no-repeat 5px 6px;
+	border-bottom: 1px solid #d3d5ce;
+	color: #274981;
+}
+
+.pageBlurbErrorClass {
+	background: url(/assets/images/icon_error.gif) no-repeat 5px 6px;
+	color: #f71324;
+	font-weight: bold;
+}
+
+.pageBlurbErrorHeaderClass {
+	background: url(/assets/images/icon_error.gif) no-repeat 5px 6px;
+	color: #f71324;
+	font-size: 1.1em;
+	font-weight: bold;
+	padding-top: 8px;
+	padding-bottom: 0px;
+}
+
+.pageBlurbErrorTextClass {
+	color: #f71324;
+	font-size: 1.1em;
+	font-weight: bold;
+	padding: 0px 1px 0px 25px;
+}
+
+.pageBlurbConfirmClass {
+	background: url(/assets/images/icon_confirm.gif) no-repeat 5px 6px;
+	color: #000;
+}
+
+.messageQueueError, .messageQueueErrorHeader, .messageQueueErrorText, .messageQueueSuccess, .messageQueueSuccessHeader, .messageQueueSuccessText, .messageQueueConfirm, .messageQueueInfo {
+	padding: 7px 6px 15px 25px;
+	font-family: arial;
+	/*font-size: 11px !important;*/
+}
+
+.messageQueueErrorBlockContainer {
+	border: 0px solid #f71324;
+	margin-bottom: 3px;
+}
+
+.messageQueueSuccessBlockContainer {
+	border: 0px solid #48952C;
+	margin-bottom: 3px;
+}
+
+.messageQueueConfirmBlockContainer {
+	/*border: 1px solid #48952C;*/
+	border: 0px solid #000;
+	margin-bottom: 3px;
+}
+
+.messageQueueInfoBlockContainer {
+	border: 0px solid #274981;
+	margin-bottom: 3px;
+}
+
+.messageQueueError {
+	background: url(/assets/images/icon_error.gif) no-repeat 5px 6px;
+	color: #f71324;
+	font-weight: bold;
+}
+
+.messageQueueErrorHeader {
+	background: url(/assets/images/icon_error.gif) no-repeat 5px 6px;
+	color: #f71324;
+	font-size: 1.1em;
+	font-weight: bold;
+	padding-top: 5px;
+	padding-bottom: 0px;
+}
+
+.messageQueueErrorText {
+	color: #f71324;
+	font-size: 1.1em;
+	font-weight: bold;
+	padding: 0px 1px 0px 25px;
+}
+
+.messageQueueSuccess {
+	background: url(/assets/images/icon_confirm.gif) no-repeat 5px 6px;
+	color: #48952C;
+	font-weight: bold;
+}
+
+.messageQueueSuccessHeader {
+	background: url(/assets/images/icon_confirm.gif) no-repeat 5px 6px;
+	color: #48952C;
+	font-size: 1.1em;
+	font-weight: bold;
+	padding-top: 5px;
+	padding-bottom: 0px;
+}
+
+.messageQueueSuccessText {
+	color: #48952C;
+	font-size: 1.1em;
+	font-weight: bold;
+	padding: 0px 1px 0px 25px;
+}
+
+.messageQueueConfirm {
+	color: #000;
+	background: url(/assets/images/icon_confirm.gif) no-repeat 5px 6px;
+}
+
+.messageQueueInfo {
+	color: #274981;
+	background: url(/assets/images/icon_help.gif) no-repeat 5px 6px;
+}

@@ -1,0 +1,27 @@
+.bg-primary
+{
+    background: #3b90ce !important;
+    color: #fff !important;
+}
+.btn-grey {
+    display: block;
+    width: 200px;
+    margin: 0;
+    text-align: center;
+    background: #eaeaea;
+    color: #0e66c8;
+    border: 1px solid #bbb;
+    font-weight: bold;
+    font-size: 13px;
+    line-height: 30px;
+    padding: 0;
+}
+.entypo-plus-circled:before{
+    content: '\e818';
+}
+.entypo-minus-circled:before{
+    content: '\e81b';
+}
+.strike{
+    text-decoration: line-through !important;
+}

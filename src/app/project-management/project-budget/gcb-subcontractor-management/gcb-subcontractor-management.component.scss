@@ -1,0 +1,29 @@
+.closeBtn{
+    background: #91cef7 !important;
+    border: #4e4f51 !important;
+    margin: 0px  !important;
+    padding: 0.25rem 0.35rem  !important;
+    font-size: 14px  !important;
+    font-weight: bold  !important; 
+    color: #aaaaaa  !important;
+  }
+  
+.closeBtn:hover{
+background: white !important;
+text-decoration: none;
+cursor: pointer !important;
+}
+
+.importCostCodeExcel_dialogcontent_header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+// html, body, div, span, applet, object, iframe{
+//     vertical-align: text-top !important;
+// }
+
+// html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+//     vertical-align: text-top !important;
+// }

@@ -1,0 +1,269 @@
+{
+  "status": true,
+  "code": "Success",
+  "message": "Data retrieved successfully",
+  "body": {
+    "DiscussionItemsByMeetingId": [
+      {
+        "discussion_item_status": "Open",
+        "discussion_item_priority": "Normal",
+        "id": 547,
+        "discussion_item_title": "aaaa",
+        "discussion_item": "asssdsdsdsd",
+        "discussion_item_closed_date": "0000-00-00",
+        "ActionItemsByDiscussionItemIds": [
+          {
+            "email": [
+              "dinesh.kumar@optisolbusiness.com",
+              "dinesh.kumar@optisolbusiness.com",
+              "dinesh.kumar@optisolbusiness.com"
+            ],
+            "first_name": "dinesh",
+            "last_name": "kumar",
+            "action_item_type": "Meeting Minutes",
+            "action_item_status": "Unassigned",
+            "action_item_priority": "Normal",
+            "discussion_item_id": 548,
+            "action_item_id": 1393,
+            "action_item_title": "",
+            "action_item": "xvvvvbvbvbv",
+            "created": "2021-08-02 05:29:59",
+            "action_item_due_date": "2021-08-06",
+            "id": 1393
+          },
+          {
+            "email": [
+              "thodgin@yopmail.com"
+            ],
+            "first_name": "",
+            "last_name": "",
+            "action_item_type": "RFI",
+            "action_item_status": "Unassigned",
+            "action_item_priority": "Normal",
+            "discussion_item_id": 548,
+            "action_item_id": 1388,
+            "action_item_title": "",
+            "action_item": "bgcbgdfgf",
+            "created": "2021-08-02 05:29:01",
+            "action_item_due_date": null,
+            "id": 1388
+          },
+          {
+            "email": [
+              "michaelbuhrley+engineers@yopmail.com"
+            ],
+            "first_name": "Joel",
+            "last_name": "Hodgson",
+            "action_item_type": "RFI",
+            "action_item_status": "Unassigned",
+            "action_item_priority": "Normal",
+            "discussion_item_id": 548,
+            "action_item_id": 1389,
+            "action_item_title": "",
+            "action_item": "fdsfdsfdsf",
+            "created": "2021-08-02 05:29:01",
+            "action_item_due_date": null,
+            "id": 1389
+          },
+          {
+            "email": [
+              "suganthidevi.n@optisolbusiness.com"
+            ],
+            "first_name": "arrow",
+            "last_name": "landscape",
+            "action_item_type": "Submittal",
+            "action_item_status": "Unassigned",
+            "action_item_priority": "Normal",
+            "discussion_item_id": 548,
+            "action_item_id": 1390,
+            "action_item_title": "",
+            "action_item": "good",
+            "created": "2021-08-02 05:29:01",
+            "action_item_due_date": "2018-08-02",
+            "id": 1390
+          },
+          {
+            "email": [
+              "mona@yopmail.com"
+            ],
+            "first_name": "Mona",
+            "last_name": "",
+            "action_item_type": "Submittal",
+            "action_item_status": "Unassigned",
+            "action_item_priority": "Normal",
+            "discussion_item_id": 548,
+            "action_item_id": 1391,
+            "action_item_title": "",
+            "action_item": "2",
+            "created": "2021-08-02 05:29:01",
+            "action_item_due_date": "2018-08-24",
+            "id": 1391
+          },
+          {
+            "email": [
+              "madhankumar.s@yopmail.com",
+              "dinesh.kumar@optisolbusiness.com"
+            ],
+            "first_name": "",
+            "last_name": "",
+            "action_item_type": "Submittal",
+            "action_item_status": "Unassigned",
+            "action_item_priority": "Normal",
+            "discussion_item_id": 548,
+            "action_item_id": 1392,
+            "action_item_title": "",
+            "action_item": "Submitall - create",
+            "created": "2021-08-02 05:29:01",
+            "action_item_due_date": "2018-09-05",
+            "id": 1392
+          }
+        ],
+        "DiscussionItemComments": [
+          {
+            "discussion_comments": "testing",
+            "email": "dinesh.gmail.com",
+            "created": "2021-08-02 05:29:59",
+            "name":"dinesh kumar",
+            "checked": true
+          },
+          {
+            "discussion_comments": "testing",
+            "email": "dinesh.gmail.com",
+            "created": "2021-08-02 05:29:59",
+            "name":"dinesh kumar",
+            "checked": true
+          }
+        ]
+      },
+      {
+        "discussion_item_status": "Open",
+        "discussion_item_priority": "Normal",
+        "id": 548,
+        "discussion_item_title": "aaaa",
+        "discussion_item": "asssdsdsdsd",
+        "discussion_item_closed_date": "0000-00-00",
+        "ActionItemsByDiscussionItemIds": [
+          {
+            "email": [
+              "dinesh.kumar@optisolbusiness.com"
+            ],
+            "first_name": "dinesh",
+            "last_name": "kumar",
+            "action_item_type": "Meeting Minutes",
+            "action_item_status": "Unassigned",
+            "action_item_priority": "Normal",
+            "discussion_item_id": 548,
+            "action_item_id": 1393,
+            "action_item_title": "",
+            "action_item": "xvvvvbvbvbv",
+            "created": "2021-08-02 05:29:59",
+            "action_item_due_date": "2021-08-06",
+            "id": 1393
+          },
+          {
+            "email": [
+              "thodgin@yopmail.com"
+            ],
+            "first_name": "",
+            "last_name": "",
+            "action_item_type": "RFI",
+            "action_item_status": "Unassigned",
+            "action_item_priority": "Normal",
+            "discussion_item_id": 548,
+            "action_item_id": 1388,
+            "action_item_title": "",
+            "action_item": "bgcbgdfgf",
+            "created": "2021-08-02 05:29:01",
+            "action_item_due_date": null,
+            "id": 1388
+          },
+          {
+            "email": [
+              "michaelbuhrley+engineers@yopmail.com",
+              "dinesh.kumar@optisolbusiness.com"
+            ],
+            "first_name": "Joel",
+            "last_name": "Hodgson",
+            "action_item_type": "RFI",
+            "action_item_status": "Unassigned",
+            "action_item_priority": "Normal",
+            "discussion_item_id": 548,
+            "action_item_id": 1389,
+            "action_item_title": "",
+            "action_item": "fdsfdsfdsf",
+            "created": "2021-08-02 05:29:01",
+            "action_item_due_date": null,
+            "id": 1389
+          },
+          {
+            "email": [
+              "suganthidevi.n@optisolbusiness.com"
+            ],
+            "first_name": "arrow",
+            "last_name": "landscape",
+            "action_item_type": "Submittal",
+            "action_item_status": "Unassigned",
+            "action_item_priority": "Normal",
+            "discussion_item_id": 548,
+            "action_item_id": 1390,
+            "action_item_title": "",
+            "action_item": "good",
+            "created": "2021-08-02 05:29:01",
+            "action_item_due_date": "2018-08-02",
+            "id": 1390
+          },
+          {
+            "email": [
+              "mona@yopmail.com"
+            ],
+            "first_name": "Mona",
+            "last_name": "",
+            "action_item_type": "Submittal",
+            "action_item_status": "Unassigned",
+            "action_item_priority": "Normal",
+            "discussion_item_id": 548,
+            "action_item_id": 1391,
+            "action_item_title": "",
+            "action_item": "2",
+            "created": "2021-08-02 05:29:01",
+            "action_item_due_date": "2018-08-24",
+            "id": 1391
+          },
+          {
+            "email": [
+              "madhankumar.s@yopmail.com"
+            ],
+            "first_name": "",
+            "last_name": "",
+            "action_item_type": "Submittal",
+            "action_item_status": "Unassigned",
+            "action_item_priority": "Normal",
+            "discussion_item_id": 548,
+            "action_item_id": 1392,
+            "action_item_title": "",
+            "action_item": "Submitall - create",
+            "created": "2021-08-02 05:29:01",
+            "action_item_due_date": "2018-09-05",
+            "id": 1392
+          }
+        ],
+        "DiscussionItemComments": [
+          {
+            "discussion_comments": "testing",
+            "email": "dinesh.gmail.com",
+            "created": "2021-08-02 05:29:59",
+            "name":"dinesh kumar",
+            "checked": true
+          },
+          {
+            "discussion_comments": "testing",
+            "email": "dinesh.gmail.com",
+            "created": "2021-08-02 05:29:59",
+            "name":"dinesh kumar",
+            "checked": true
+          }
+        ]
+      }
+    ]
+  }
+}

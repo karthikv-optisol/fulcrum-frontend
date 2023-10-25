@@ -1,0 +1,14 @@
+{
+    "status": true,
+    "code": "Success",
+    "message": "Data retrieved successfully",
+    "body": {
+        "meetingIdData": [
+            {
+                "previous" :586,
+                "open": 2,
+                "allitems": 2
+            }
+        ]
+    }
+}

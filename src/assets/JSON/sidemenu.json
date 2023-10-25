@@ -1,0 +1,209 @@
+{
+    "currentlySelectedProjectId": "",
+    "currentlySelectedProjectName": "",
+    "arrActiveProjects": {
+      "active": [
+        {
+          "id": 158,
+          "project_name": "_Network 1"
+        },
+        {
+          "id": 167,
+          "project_name": "_Network 10"
+        },
+        {
+          "id": 159,
+          "project_name": "_Network 2"
+        },
+        {
+          "id": 160,
+          "project_name": "_Network 3"
+        },
+        {
+          "id": 161,
+          "project_name": "_Network 4"
+        },
+        {
+          "id": 162,
+          "project_name": "_Network 5"
+        },
+        {
+          "id": 163,
+          "project_name": "_Network 6"
+        },
+        {
+          "id": 164,
+          "project_name": "_Network 7"
+        },
+        {
+          "id": 165,
+          "project_name": "_Network 8"
+        },
+        {
+          "id": 166,
+          "project_name": "_Network 9"
+        },
+        {
+          "id": 136,
+          "project_name": "AI project 1"
+        },
+        {
+          "id": 211,
+          "project_name": "asb constructions projecct one active"
+        },
+        {
+          "id": 98,
+          "project_name": "Calendula Court-II"
+        },
+        {
+          "id": 45,
+          "project_name": "darring"
+        },
+        {
+          "id": 3,
+          "project_name": "Delta Lane"
+        },
+        {
+          "id": 206,
+          "project_name": "DemoOne"
+        },
+        {
+          "id": 123,
+          "project_name": "Dev php version upgrade"
+        },
+        {
+          "id": 112,
+          "project_name": "Draw Testing"
+        },
+        {
+          "id": 79,
+          "project_name": "Drize"
+        },
+        {
+          "id": 191,
+          "project_name": "ksr trichy project"
+        },
+        {
+          "id": 154,
+          "project_name": "Network 2"
+        },
+        {
+          "id": 156,
+          "project_name": "Network 3"
+        },
+        {
+          "id": 157,
+          "project_name": "Network 4"
+        },
+        {
+          "id": 153,
+          "project_name": "Network1"
+        },
+        {
+          "id": 169,
+          "project_name": "New Draw Above The Line"
+        },
+        {
+          "id": 170,
+          "project_name": "New Draw Below The Line"
+        },
+        {
+          "id": 103,
+          "project_name": "optisol project"
+        },
+        {
+          "id": 198,
+          "project_name": "OptisolR first project"
+        },
+        {
+          "id": 32,
+          "project_name": "Project new"
+        },
+        {
+          "id": 96,
+          "project_name": "RAGAVI 1"
+        },
+        {
+          "id": 131,
+          "project_name": "test new for dcr"
+        },
+        {
+          "id": 4,
+          "project_name": "The Marc"
+        },
+        {
+          "id": 73,
+          "project_name": "thriller"
+        }
+      ]
+    },
+    "currentlySelectedProjectTypeIndex": -1,
+    "arrCompletedProjects": {
+      "completed": [
+        {
+          "id": 192,
+          "project_name": "ksr madurai project new checking"
+        },
+        {
+          "id": 151,
+          "project_name": "Mic City"
+        },
+        {
+          "id": 207,
+          "project_name": "newtesttest"
+        },
+        {
+          "id": 150,
+          "project_name": "Test company"
+        },
+        {
+          "id": 35,
+          "project_name": "trigger tag for testing"
+        }
+      ]
+    },
+    "arrOtherProjects": {
+      "other": [
+        {
+          "id": 97,
+          "project_name": "Calendula Court"
+        },
+        {
+          "id": 80,
+          "project_name": "Demo project"
+        },
+        {
+          "id": 221,
+          "project_name": "FulcrumDemo"
+        },
+        {
+          "id": 152,
+          "project_name": "inactive"
+        },
+        {
+          "id": 193,
+          "project_name": "ksr chennai project"
+        },
+        {
+          "id": 141,
+          "project_name": "new entity"
+        },
+        {
+          "id": 139,
+          "project_name": "Test for owner address"
+        },
+        {
+          "id": 140,
+          "project_name": "test for owner address twonew checking"
+        },
+        {
+          "id": 69,
+          "project_name": "trends"
+        }
+      ]
+    },
+    "arrBiddingProjects": {
+      "7": "UNIVERSITY DOWNS ***"
+    },
+    "showProjectNavBox": true
+  }

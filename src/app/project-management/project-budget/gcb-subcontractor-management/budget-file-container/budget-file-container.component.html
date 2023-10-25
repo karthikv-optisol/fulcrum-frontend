@@ -1,0 +1,181 @@
+<div
+  style="
+    border: 1px solid #ccc;
+    display: inline-block;
+    margin: 0;
+    min-width: 440px;
+    padding: 8px 13px 4px 7px;
+    line-height: 1.4;
+    margin-right: 5px;
+  "
+  
+>
+
+  <table border="0" style="table-layout: inherit;">
+    <caption>
+      &nbsp;
+    </caption>
+    <tbody class="file_container" >
+      <tr>
+        <td
+          class="textAlignLeft verticalAlignMiddle fakeHrefBox colorDarkGray"
+          (click)="showContainer = !showContainer"  
+          
+        >
+          <span
+            id="budgetModalDialogFileContainer_projectBidInvitationsEntypoIcon_3"
+            class="{{showContainer ? 'entypo-minus' : 'entypo-plus-squared'}}"
+            >&nbsp;</span
+          >
+          <span
+            class="displayInlineBlock verticalAlignMiddle bs-tooltip"
+            title=""
+         
+            placement="top" ngbTooltip="{{tooltip}}"
+            ><b [innerHTML]="containerTitle"></b></span
+          >
+        </td>
+        <td
+          class="textAlignLeft verticalAlignMiddle fakeHrefBox colorDarkGray"
+          style = "width: 5%"
+        >
+          &nbsp;
+          <span
+            id="budgetModalDialogFileContainer_projectBidInvitationsFileCount_3"
+            class="displayInlineBlock verticalAlignMiddle"
+            style="display: none"
+            ><b id="project_bid_data">[{{fileList.length}}]</b></span
+          >
+        </td>
+        <td
+          class="textAlignLeft verticalAlignMiddle"
+          style="min-width: 200px; padding: 0 0 0 10px"
+        >
+
+        <!-- <app-drag-and-drop-files
+        [multiple] = "true"
+        [allowed_extensions] = "['.pdf']"
+        [max_files_allowed_at_once] = "10"
+        [min_files_allowed_at_once] = "1"
+        [maxSize_uploaded_at_once] = "100" 
+        [maxFileSize] = "100" 
+        [virtual_file_path] = "virtual_file_path"
+        [fileUploadUrl] = "fileUploadUrl"
+        [methodCall] = "methodCall"
+        [gc_budget_line_item_id] = "gc_budget_line_item_id"
+        (uploadedFilesInfo) = "handleUploadFilesResponse($event)"
+        [append_date_to_filename] = "1"
+        ></app-drag-and-drop-files> -->
+
+        <app-drag-and-drop-files
+        [multiple] = "true"
+        [allowed_extensions] = "['.pdf']"
+        [max_files_allowed_at_once] = "10"
+        [min_files_allowed_at_once] = "1"
+        [maxSize_uploaded_at_once] = "100" 
+        [maxFileSize] = "100" 
+        [virtual_file_path] = "virtual_file_path"
+        [fileUploadUrl] = "fileUploadUrl"
+        [methodCall] = "methodCall"
+        [gc_budget_line_item_id] = "gc_budget_line_item_id"
+        (uploadedFilesInfo) = "handleUploadFilesResponse($event)"
+        [append_date_to_filename] = "1"
+        ></app-drag-and-drop-files>
+        <!-- <app-drag-and-drop-files
+        [multiple] = "true"
+        [allowed_extensions] = "['.pdf']"
+        [max_files_allowed_at_once] = "10"
+        [min_files_allowed_at_once] = "1"
+        [maxSize_uploaded_at_once] = "100" 
+        [maxFileSize] = "100" 
+        [virtual_file_path] = "'/Bidding & Purchasing/Project Bid Invitations/'"
+        [fileUploadUrl] = "'api/project_management/uploadprojectBidInvitations'"
+        (uploadedFilesInfo) = "handleUploadFilesResponse($event)"
+        ></app-drag-and-drop-files> -->
+
+       
+        </td>
+      </tr>
+      <tr>
+        <td
+          colspan="3"
+          id="budgetModalDialogFileContainer_projectBidInvitationsLatestFile"
+          *ngIf = "fileList && (fileList.length > 0)"
+        >
+          <a
+            [href]="fileList[0].cdnFileUrl"
+            class="textAlignLeft verticalAlignMiddle bs-tooltip fakeHref"
+            target="_blank"
+            style="margin: 5px 0 6px 5px"
+            >
+            {{fileList[0].virtual_file_name}}
+            </a
+          >
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="textAlignCenter verticalAlignMiddle"
+          colspan="3"
+          style="padding-left: 10px"
+        >
+          <div
+            id="budgetModalDialogFileContainer_projectBidInvitationsContent"
+            *ngIf="showContainer"
+          >
+            <table border="0" style="table-layout: inherit;">
+              <tbody>
+                <tr *ngIf="fileList.length > 0">
+                  <td
+                    style="float: left; padding-left: 8px"
+                    colspan="2"
+                    [innerHTML]="defaultListingTopicmsg[tableData]"
+                  >
+                  </td>
+                </tr>
+                <tr style="display: none">
+                  <td colspan="2">
+                    <input
+                      type="hidden"
+                      id="prjDefaultBid"
+                      value="22729"
+                    />
+                  </td>
+                </tr>
+                <tr *ngFor="let file of fileList;">
+                  <td class="textAlignLeft verticalAlignMiddle">
+                    <a
+                      [href]="file.cdnFileUrl"
+                      class="textAlignLeft verticalAlignMiddle bs-tooltip fakeHref"
+                      target="_blank"
+                      style="margin: 5px 0 6px 5px"
+                      >
+                      {{file.virtual_file_name}}
+                      </a>
+                    <a
+                      class="bs-tooltip smallerFont entypo-cancel-circled"
+                      title=""
+                      href="javascript:void(0);"
+                      data-original-title="Delete This Project Bid Invitation"
+                      (click)="openConfirmationDialog(file.fileManagerFileId);"
+                      style="color: black;"
+                    ></a>
+                  </td>
+                </tr>
+                <tr *ngIf="fileList.length === 0">
+                    <td class="textAlignCenter verticalAlignMiddle" colspan="3" style="padding-left: 10px;">
+                        <div id="budgetModalDialogFileContainer_projectBidInvitationsContent" class="displayNone" style="display: block;">
+                            <span [innerHTML]="defalutListingmsg[tableData]"></span>
+                        </div>
+                    </td>
+                </tr>
+               
+              </tbody>
+            </table>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+    </table>
+</div>
+

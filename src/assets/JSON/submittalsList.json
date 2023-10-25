@@ -1,0 +1,84 @@
+{
+    "status": true,
+    "code": "Success",
+    "message": "Data retrieved successfully",
+    "body": {
+        "submittalsListData": [
+            {
+                "id": 100,
+                "costCode": "2.45",
+                "spectNo": 2,
+                "submittalTitle": "Test submittal",
+                "plansReference": "page for reference",
+                "dateIssued": "2021-08-02 05:29:59",
+                "dueDate": "2021-08-02 05:29:59",
+                "submittalReceipient": "dinesh.kumar@yopmail.com",
+                "tags": "production",
+                "priority": "high",
+                "approvalDate": "2021-08-02 05:29:59",
+                "status": "closed",
+                "daysOpen": 30
+            },
+            {
+                "id": 101,
+                "costCode": "2.45",
+                "spectNo": 2,
+                "submittalTitle": "Test submittal",
+                "plansReference": "page for reference",
+                "dateIssued": "2021-08-02 05:29:59",
+                "dueDate": "2021-08-02 05:29:59",
+                "submittalReceipient": "dinesh.kumar@yopmail.com",
+                "tags": "production",
+                "priority": "high",
+                "approvalDate": "2021-08-02 05:29:59",
+                "status": "closed",
+                "daysOpen": 30
+            },
+            {
+                "id": 102,
+                "costCode": "2.45",
+                "spectNo": 2,
+                "submittalTitle": "Test submittal",
+                "plansReference": "page for reference",
+                "dateIssued": "2021-08-02 05:29:59",
+                "dueDate": "2021-08-02 05:29:59",
+                "submittalReceipient": "dinesh.kumar@yopmail.com",
+                "tags": "production",
+                "priority": "high",
+                "approvalDate": "2021-08-02 05:29:59",
+                "status": "closed",
+                "daysOpen": 30
+            },
+            {
+                "id": 103,
+                "costCode": "2.45",
+                "spectNo": 2,
+                "submittalTitle": "Test submittal",
+                "plansReference": "page for reference",
+                "dateIssued": "2021-08-02 05:29:59",
+                "dueDate": "2021-08-02 05:29:59",
+                "submittalReceipient": "dinesh.kumar@yopmail.com",
+                "tags": "production",
+                "priority": "high",
+                "approvalDate": "2021-08-02 05:29:59",
+                "status": "closed",
+                "daysOpen": 30
+            },
+            {
+                "id": 104,
+                "costCode": "2.45",
+                "spectNo": 2,
+                "submittalTitle": "Test submittal",
+                "plansReference": "page for reference",
+                "dateIssued": "2021-08-02 05:29:59",
+                "dueDate": "2021-08-02 05:29:59",
+                "submittalReceipient": "dinesh.kumar@yopmail.com",
+                "tags": "production",
+                "priority": "high",
+                "approvalDate": "2021-08-02 05:29:59",
+                "status": "closed",
+                "daysOpen": 30
+            }
+        ]
+    }
+}

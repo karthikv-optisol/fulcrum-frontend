@@ -1,0 +1,224 @@
+@charset "UTF-8";
+
+/*******************************************************************************
+
+[vim]
+vim: set noexpandtab tabstop=4 shiftwidth=4 softtabstop=4:
+
+[emacs]
+Local variables:
+tab-width: 4
+c-basic-offset: 4
+c-hanging-comment-ender-p: nil
+c-indent-level: 4
+indent-tabs-mode: t
+tab-stop-list: '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60)
+End:
+
+*******************************************************************************/
+.treeViewUploader {
+	/*position: absolute;*/
+	top: 0;
+	left: 0;
+	/*width: 100%;*/
+	/*border: 1px solid blue;*/
+	display: none;
+}
+
+.boxViewUploader {
+	position: relative;
+	width: 120px;
+}
+
+.qq-uploader {
+	/*position: relative;*/
+	margin: 0;
+	padding: 0;
+	/*width: 100%;*/
+}
+
+.treeViewUploader .qq-upload-button {
+	display: block;
+	/* block or inline-block */
+	/*width: 100%;*/
+	padding: 2px 0px 2px 22px;
+	margin: 0;
+	background: #fff url(../assets/images/jqueryFileTree/directoryAdd.png) left 2px no-repeat;
+}
+
+.boxViewUploader .qq-upload-button {
+	display: block;
+	/* or inline-block */
+	/*
+	width: 120px;
+	padding: 4px 0;
+	margin: 0;
+	text-align: center;
+	background: white;
+	color: black;
+	border: 1px solid black;
+	*/
+	width: 200px;
+	margin: 0;
+	text-align: center;
+	background: #eaeaea;
+	color: #0e66c8;
+	border: 1px solid #bbb;
+	font-weight: bold;
+	line-height: 30px;
+}
+
+.treeViewUploader .qq-upload-button-hover {
+	/*background: yellow url(/images/jqueryFileTree/directoryAdd.png) left 2px no-repeat;*/
+	background: whitesmoke url(../assets/images/jqueryFileTree/directoryAdd.png) left 2px no-repeat;
+}
+
+.boxViewUploader .qq-upload-button-hover {
+	/*
+	background:#A8A8A8;
+	color: white;
+	*/
+	background: #e1e1e1;
+}
+
+.qq-upload-button-focus {
+	/*outline:1px dotted black;*/
+}
+
+.treeViewUploader .qq-upload-drop-area {
+	/*position: absolute;*/
+	top: 0;
+	left: 0;
+	/*width: 100%;*/
+	padding: 2px 0px 2px 22px;
+	margin: 0;
+	/*border: 1px solid red;*/
+	z-index: 100;
+	background: #fff url(../assets/images/jqueryFileTree/directory.png) left 2px no-repeat;
+}
+
+.boxViewUploader .qq-upload-drop-area {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 120px;
+	/*padding: 4px 0;*/
+	margin: 0;
+	/*
+	background: #A8A8A8;
+	color: white;
+	*/
+	text-align: center;
+	z-index: 100;
+	/*border: 1px solid black;*/
+	background: #ddd;
+	color: #0e66c8;
+	border: 1px solid #bbb;
+	font-weight: bold;
+	line-height: 30px;
+	width: 200px;
+}
+
+.treeViewUploader .qq-upload-drop-area-active {
+	/*background: yellow;*/
+	/*background: yellow url(/images/jqueryFileTree/directoryAdd.png) left 2px no-repeat;*/
+	background: whitesmoke url(../assets/images/jqueryFileTree/directoryAdd.png) left 2px no-repeat;
+	color: black;
+}
+
+.boxViewUploader .qq-upload-drop-area-active {
+	/*
+	background: white;
+	color: black;
+	*/
+	background: #eaeaea;
+	color: #0e66c8;
+}
+
+.qq-upload-list {
+	margin: 10px 22px;
+	padding: 0;
+	list-style: none;
+}
+.qq-upload-list li {
+	position: relative;
+	margin: 0;
+	padding: 5px 0;
+}
+
+.qq-upload-file, .qq-upload-spinner, .qq-upload-size, .qq-upload-cancel, .qq-upload-failed-text {
+	margin-right: 7px;
+}
+
+.qq-upload-spinner {
+	display: inline-block;
+	background: url(../assets/images/ajax-loading.gif);
+	width: 15px;
+	height: 15px;
+	vertical-align: text-bottom;
+}
+
+.qq-upload-failed-text {
+	display: none;
+	color: red;
+}
+
+.qq-upload-fail .qq-upload-failed-text {
+	display: inline;
+	float: right;
+}
+
+.qq-upload-success-text {
+	display: none;
+}
+
+.qq-upload-success .qq-upload-success-text {
+	display: inline;
+	float: right;
+}
+
+div.uploadResult {
+	color: black;
+	/* Must specify colors */
+	background-color: #E0E0E0;
+	/* otherwise transparent! */
+	position: fixed;
+	/* position relative to window */
+	top: 0;
+	/* Stretch to go clear */
+	right: 0;
+	/* across viewport */
+	width: 400px;
+	margin: 0;
+	/* Adjust to suit */
+	padding: 10px 30px;
+	/* with a nice top padding */
+	z-index: 1500;
+	-webkit-border-bottom-left-radius: 7px;
+	-moz-border-radius-bottomleft: 7px;
+	border-bottom-left-radius: 7px;
+	-webkit-box-shadow: 0px 0px 10px 1px #999;
+	-moz-box-shadow: 0px 0px 10px 1px #999;
+	box-shadow: 0px 0px 10px 1px #999;
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	max-height: 85%;
+	overflow: auto;
+	border: 1px solid #ddd;
+	border-top: 0;
+	border-right: 0;
+	background-color: #f5f5f5;
+}
+div.uploadResult h3 {
+	position: relative;
+	margin-top: 0;
+	padding-top: 0;
+	width: 100%;
+}
+div.uploadResult h3 input {
+	float: right;
+}
+
+#uploadProgressErrorMessage {
+	color: red;
+}

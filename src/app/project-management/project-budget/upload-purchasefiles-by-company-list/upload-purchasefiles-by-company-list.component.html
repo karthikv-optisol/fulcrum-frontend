@@ -1,0 +1,30 @@
+<div class="textAlignLeft verticalAlignMiddle">
+  <ul
+    style="list-style: none; margin: 0; padding: 0"
+    id="container--request_for_information_attachments--create-request_for_information-record"
+  >
+    <li *ngFor="let file of fileUrlList" style="margin-bottom: 5px">
+      <a
+        [routerLink]="['/cdn/' + file.file_id]"
+        [queryParams]="{ pid: pid, filename: file.virtual_file_name }"
+        target="_blank"
+        class="bs-tooltip fakeHref filesLink"
+        title="{{ file.virtual_file_name }}"
+        >{{ file.displayedFilename }}</a
+      >&nbsp;
+      <a
+        class="bs-tooltip smallerFont entypo-cancel-circled"
+        title="Delete This Subcontractor Bid Document"
+        href="javascript:void(0);"
+        style="color: black;"
+        (click)="
+          deletePurchaseFile(
+            file.file_id,
+            file.subcontractor_bid_document_id,
+            file.subcontractor_bid_document_type_id
+          )
+        "
+      ></a>
+    </li>
+  </ul>
+</div>

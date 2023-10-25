@@ -1,0 +1,614 @@
+<div class="w-100 float-left mb-3">
+    <ng-template #newCOR let-modal class="tests">
+        <div class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-front ui-dialog-buttons ui-draggable ui-resizable p-2"
+            [style]="{'width':windowWidth}"
+            style="position: absolute; height: auto;  top: 6px; left: -230px; display: block; z-index: 401;background:white;"
+            tabindex="-1" role="dialog" aria-describedby="divModalWindow" aria-labelledby="ui-id-5">
+            <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix ui-draggable-handle">
+                <span id="ui-id-5" class="ui-dialog-title text-capitalize">
+                    {{cid ? "Edit" : "Create"}} Owner Change Order
+                </span>
+                <button type="button" (click)="modal.dismiss('Cross click');getCOR()"
+                    class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close"
+                    role="button" style="float:
+                right; 
+              background: #91cef7 !important;
+              border: #4e4f51 !important;" title="Close">
+                    <span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span>
+                    <span class="ui-button-text">X</span>
+                </button>
+            </div>
+            <form action="" [formGroup]="orderForm" (submit)="handleSubmit($event)">
+                <div id="divModalWindow" class="ui-dialog-content ui-widget-content" [style]="{'height':windowHeight}"
+                    style="width: auto; min-height: 0px; max-height: none;overflow:auto;">
+
+                    <div class="col-md-6 col-lg-6 col-sm-12 float-left bg-light leftcard-section p-0">
+                        <div class="card rounded-0">
+                            <div class="card-header bg-primary pt-3 pb-3 pl-2 pr-2">
+                                <div class="p-0 text-white">
+                                    <h4>Change Order Type [PCO / COR / OCO]: <span class="text-danger">* required</span>
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="card-body bg-light">
+                                <div class="col-md-6 p-0">
+                                    <ng-select [items]="types_options" placeholder="Select Order Type"
+                                        bindLabel="change_order_type" bindValue="id" searchable="true"
+                                        formControlName="change_order_type_id">
+                                    </ng-select>
+                                </div>
+                                <div class="col-md-12 text-danger alert alert-danger mt-2"
+                                    *ngIf="change_order_type_id.invalid && (change_order_type_id.dirty || change_order_type_id.touched)">
+                                    <div *ngIf="change_order_type_id.errors?.['required']">
+                                        Please Select Change Order Type
+                                    </div>
+                                </div>
+                                <div class="col-md-12 text-danger alert alert-danger mt-2"
+                                    *ngIf="isValidFormSubmitted!=null && !isValidFormSubmitted && change_order_type_id.invalid">
+                                    <div *ngIf="change_order_type_id.errors?.['required']">
+                                        Please select recipient
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card rounded-0">
+                            <div class="card-header bg-primary pt-3 pb-3 pl-2 pr-2">
+                                <h4>Optional Change Order Reason:</h4>
+                            </div>
+                            <div class="card-body bg-light">
+                                <ng-select [items]="priority_options" placeholder="Select Reason"
+                                    bindLabel="change_order_priority" bindValue="id" searchable="true"
+                                    formControlName="change_order_priority_id">
+
+                                </ng-select>
+                            </div>
+                        </div>
+
+                        <div class="card rounded-0">
+                            <div class="card-header bg-primary pt-3 pb-3 pl-2 pr-2">
+                                <h4>Optional Change Order Subcontractor:</h4>
+                            </div>
+                            <div class="card-body bg-light">
+                                <ng-select [items]="initiator_options" placeholder="Select Reason"
+                                    groupBy="contact_companies" bindLabel="contactfullname" bindValue="contact_id"
+                                    searchable="true" formControlName="co_initiator_id">
+
+                                </ng-select>
+                            </div>
+                        </div>
+
+                        <div class="card rounded-0">
+                            <div class="card-header bg-primary pt-3 pb-3 pl-2 pr-2">
+                                <h4>Change Order Title: <span class="text-danger">* required</span></h4>
+                            </div>
+                            <div class="card-body bg-light">
+                                <input type="text" class="form-control" name="co_title" id=""
+                                    formControlName="co_title">
+                                <div class="col-md-12 text-danger alert alert-danger mt-2"
+                                    *ngIf="co_title.invalid && (co_title.dirty || co_title.touched)">
+                                    <div *ngIf="co_title.errors?.['required']">
+                                        Please enter change order title
+                                    </div>
+                                </div>
+                                <div class="col-md-12 text-danger alert alert-danger mt-2"
+                                    *ngIf="isValidFormSubmitted!=null && !isValidFormSubmitted && co_title.invalid">
+                                    <div *ngIf="co_title.errors?.['required']">
+                                        Please enter change order title
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="card rounded-0">
+                            <div class="card-header bg-primary pt-3 pb-3 pl-2 pr-2">
+                                <h4>Optional Change Order References:</h4>
+                            </div>
+                            <div class="card-body bg-light">
+                                <input type="text" class="form-control" name="co_plan_page_reference" id=""
+                                    formControlName="co_plan_page_reference">
+                            </div>
+                        </div>
+
+                        <div class="card rounded-0">
+                            <div class="card-header bg-primary pt-3 pb-3 pl-2 pr-2">
+                                <h4>Change Order Description</h4>
+                            </div>
+                            <div class="card-body bg-light">
+                                <textarea name="" class="form-control" name="co_description" id="" cols="30" rows="5"
+                                    formControlName="co_description"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="card rounded-0" *ngIf="co_status==2">
+                            <div class="card-header bg-primary pt-3 pb-3 pl-2 pr-2">
+                                <h4>Change Order Submittal Date:</h4>
+                            </div>
+                            <div class="card-body bg-light">
+                                <div class="datepicker_style_particulars">
+                                    <div class="input-group">
+                                        <input class="form-control" placeholder="yyyy-mm-dd" name="dp"
+                                            [minDate]="limitDate" [id]="limitDate" [markDisabled]="isDisabled"
+                                            formControlName="co_submitted_date" [placeholder]="submitted_date"
+                                            ngbDatepicker #d1="ngbDatepicker" (click)="d1.toggle()" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card rounded-0" *ngIf="cid">
+                            <div class="card-header bg-primary pt-3 pb-3 pl-2 pr-2">
+                                <h4>Change Order Status {{co_status}}</h4>
+                            </div>
+                            <div class="card-body bg-light">
+                                <select class="col-md-4 form-control" formControlName="change_order_status_id">
+                                    <option value="1">Open</option>
+                                    <option value="2">Approved</option>
+                                    <option value="3">Rejected</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="card rounded-0" *ngIf="co_status==2">
+                            <div class="card-header bg-primary pt-3 pb-3 pl-2 pr-2">
+                                <h4>Change Order Approved Date:</h4>
+                            </div>
+                            <div class="card-body bg-light">
+                                <div class="datepicker_style_particulars">
+                                    <div class="input-group">
+                                        <input class="form-control" placeholder="yyyy-mm-dd" name="dp"
+                                            [minDate]="limitDate" [id]="limitDate" [markDisabled]="isDisabled"
+                                            formControlName="co_approved_date" [placeholder]="approved_date"
+                                            ngbDatepicker #d2="ngbDatepicker" (click)="d2.toggle()" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6 col-lg-6 col-sm-12 float-left leftcard-section p-0">
+                        <div class="card rounded-0">
+                            <div class="card-header bg-primary pt-3 pb-3 pl-2 pr-2">
+                                <h4>Change Order Recipient: (To) <span class="text-danger">* required</span></h4>
+                            </div>
+                            <div class="card-body bg-light">
+                                <ng-select [items]="signator_options" formControlName="co_recipient_id"
+                                    placeholder="Select Recipient" groupBy="contact_companies"
+                                    bindLabel="contactfullname" bindValue="contact_id" searchable="true">
+                                </ng-select>
+
+                                <div class="col-md-12 text-danger alert alert-danger mt-2"
+                                    *ngIf="isValidFormSubmitted!=null && !isValidFormSubmitted && co_recipient_id.invalid">
+                                    <div *ngIf="co_recipient_id.errors?.['required']">
+                                        Please select recipient
+                                    </div>
+                                </div>
+                                <div class="col-md-12 text-danger alert alert-danger mt-2"
+                                    *ngIf="co_recipient_id.invalid && (co_recipient_id.dirty || co_recipient_id.touched)">
+                                    <div *ngIf="co_recipient_id.errors?.['required']">
+                                        Please select recipient
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="card rounded-0">
+                            <div class="card-header bg-primary pt-3 pb-3 pl-2 pr-2">
+                                <h4>Change Order Signator: (From)</h4>
+                            </div>
+                            <div class="card-body bg-light">
+                                <ng-select [items]="signator_options" formControlName="co_signator_id"
+                                    placeholder="Select Signator" groupBy="contact_companies"
+                                    bindLabel="contactfullname" bindValue="contact_id" searchable="true">
+
+                                </ng-select>
+                            </div>
+                        </div>
+
+                        <div class="card rounded-0">
+                            <div class="card-header bg-primary pt-3 pb-3 pl-2 pr-2">
+                                <h4>Custom Owner Change Order Number:</h4>
+                            </div>
+                            <div class="card-body bg-light">
+                                <input type="text" name="co_custom_sequence_number"
+                                    formControlName="co_custom_sequence_number" id="" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="card rounded-0">
+                            <div class="card-header bg-primary pt-3 pb-3 pl-2 pr-2">
+                                <h4>Optional Delay Days:</h4>
+                            </div>
+                            <div class="card-body bg-light">
+                                <input type="number" name="co_delay_days" min="0" formControlName="co_delay_days"
+                                    class="form-control" id="">
+                            </div>
+                        </div>
+
+                        <div class="card rounded-0">
+                            <div class="card-header bg-primary pt-3 pb-3 pl-2 pr-2">
+                                <h4>Optional Revised Project Completion Date:</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="datepicker_style_particulars">
+                                    <div class="input-group">
+
+                                        <input class="form-control" placeholder="yyyy-mm-dd" name="dp"
+                                            [minDate]="limitDate" [id]="limitDate" [markDisabled]="isDisabled"
+                                            formControlName="co_completion_date"
+                                            [placeholder]="completion_date ? completion_date : 'Select completion date' " ngbDatepicker #d="ngbDatepicker"
+                                            (click)="d.toggle()" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card rounded-0">
+                            <div class="card-header bg-primary pt-3 pb-3 pl-2 pr-2">
+                                <h4>Select A File To Attach:</h4>
+                            </div>
+                            <div class="card-body bg-light">
+                                <div class="float-left pl-0 col-md-12 p-2">
+                                    <span>
+                                        <input type="file" accept="image/*,application/pdf" multiple
+                                            (change)="fileUpload($event)" class="d-none" name="files" id="files" />
+                                        <label class="btn btn-grey rounded-0 border-1" for="files">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="currentColor" class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5z" />
+                                                <path
+                                                    d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z" />
+                                            </svg>
+                                            Drop or Click Files
+                                        </label>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card rounded-0">
+                            <div class="card-header bg-primary pt-3 pb-3 pl-2 pr-2">
+                                <h4>Attached Files:</h4>
+                            </div>
+                            <div class="card-body bg-light">
+                                <div class="float-left card-body col-md-12 p-0"
+                                    *ngIf="file_array.length>0 || efile_array.length>0">
+                                    <table class="col-md-12 table-striped">
+                                        <tr>
+                                            <td class="d-inline-block">Attachment</td>
+                                        </tr>
+                                        <tbody *ngIf="efile_array.length>0">
+                                            <tr *ngFor="let attachment of efile_array">
+                                                <td class="d-inline-block">
+                                                    <img src="assets/images/sortbars.png" />
+                                                    <button type="button" (click)="removeCORfiles(attachment)"
+                                                        class="btn btn-sm"><small>&times;</small></button>
+                                                    <a target="_blank"
+                                                        [href]="IMAGE_URL+attachment.files.virtual_file_name.url">
+                                                        {{attachment.files.virtual_file_name.name}}
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tbody *ngIf="file_array.length>0">
+                                            <tr *ngFor="let attachment of file_array">
+                                                <td class="d-inline-block">
+                                                    <img src="assets/images/sortbars.png" />
+                                                    <button type="button" (click)="removeAttachment(i)"
+                                                        class="btn btn-sm"><small>&times;</small></button>
+                                                    <a *ngIf="attachment.virtual_file_name" target="_blank"
+                                                        [href]="attachment.url">{{attachment.virtual_file_name}}</a>
+                                                </td>
+
+                                            </tr>
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="card-body p-0" *ngIf="file_array.length==0 && efile_array.length == 0">
+                                <div class="col-md-12 p-1">
+                                    <p class="paragraph-p">No Files Attached</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-lg-12 col-sm-12 float-left leftcard-section p-0">
+
+                        <div class="card rounded-0">
+                            <div class="card-header bg-primary pt-3 pb-3 pl-2 pr-2">
+                                <h4>Cost Analysis Breakdown</h4>
+                            </div>
+                            <div class="card-body bg-light">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        COSTCODE
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <span>DESCRIPTION</span>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <span>SUB</span>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        REF #
+                                    </div>
+                                    <div class="col-sm-2">
+                                        COST in $
+                                    </div>
+                                </div>
+                                <div formArrayName="costcode">
+                                    <div class="cost-codes" *ngFor="
+                                      let codes of orderForm.controls.costcode?.controls;
+                                      let i = index;trackBy: trackByFn">
+                                        <div class="row mt-2" [formGroupName]="i">
+                                            <input type="hidden" name="" formControlName="cc_id">
+                                            <div class="col-sm-3">
+                                                <ng-select [items]="cost_codes_options" formControlName="cost_code"
+                                                    [placeholder]="cost_code ? cost_code : 'Select Cost Code'"
+                                                    groupBy="groupname" bindLabel="label" [className]="cost_code"
+                                                    bindValue="value" searchable="true">
+                                                </ng-select>
+                                                <div *ngIf="isValidFormSubmitted!=null && !isValidFormSubmitted && codes.get('cost_code').errors && codes.get('cost_code').hasError('required')"
+                                                    class="alert alert-danger text-danger mt-2">* required</div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control" formControlName="desc">
+                                                <div *ngIf="isValidFormSubmitted!=null && !isValidFormSubmitted && codes.get('desc').errors && codes.get('desc').hasError('required')"
+                                                    class="alert alert-danger text-danger mt-2">* required</div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control" formControlName="sub">
+
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control" formControlName="ref">
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control" (keypress)="validateNo($event)"
+                                                    (change)="subTotal()" formControlName="total">
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <span (click)="addForm1()" *ngIf="i==0"
+                                                    class="px-2 entypo-plus-circled"></span>
+                                                <span (click)="delForm1(i,codes)" [id]="'del'+i" *ngIf="i>0"
+                                                    class="px-2 entypo-minus-circled"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-2">
+                                    <div class="col-sm-7">
+                                        &nbsp;
+                                    </div>
+                                    <div class="col-sm-2 text-right mt-2">
+                                        Update Subtotal : $
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <input type="text" class="disabled form-control" formControlName="co_sub_total">
+                                    </div>
+                                </div>
+
+                                <div class="cost-codes mt-2" formArrayName="other_code" *ngFor="
+                                let others of orderForm.controls.other_code?.controls;
+                                let i = index;">
+                                    <div class="row mt-2" [formGroupName]="i">
+                                        <input type="hidden" name="" formControlName="cc_id">
+                                        <div class="col-sm-3">
+                                            <!-- <input type="text" formControlName="cost_code" /> -->
+                                            <ng-select [items]="cost_codes_options"
+                                                [placeholder]="cost_code ? cost_code : 'Select Cost Code'"
+                                                formControlName="cost_code" placeholder="Select Cost Code"
+                                                groupBy="groupname" bindLabel="label" bindValue="value"
+                                                [className]="cost_code" searchable="true">
+
+                                            </ng-select>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" formControlName="desc">
+                                        </div>
+                                        <div class="col-sm-1 text-center">
+                                            %
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" (change)="costAmount(i)"
+                                                (keypress)="validateNo($event)" formControlName="percentage">
+                                        </div>
+                                        <div class="col-sm-1 text-center">
+                                            OR
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <input type="text" [name]="'total'+i" (keypress)="validateNo($event)"
+                                                (change)="overTotal(i)" class="form-control" formControlName="total">
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <span (click)="addForm2()" *ngIf="i==0"
+                                                class="px-2 entypo-plus-circled"></span>
+                                            <span (click)="delForm2(i,others)" *ngIf="i>0"
+                                                class="px-2 entypo-minus-circled"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-2">
+                                    <div class="col-sm-7">
+                                        &nbsp;
+                                    </div>
+                                    <div class="col-sm-2 text-right mt-2">
+                                        Total : $
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <input type="text" formControlName="co_total" class="disabled form-control"
+                                            name="total" id="total">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="ui-dialog-buttonpane ui-dialog-content">
+                    <div class="ui-dialog-buttonset">
+                        <button type="button" *ngIf="cid" (click)="viewPdf()"
+                            class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only btn-cmn mr-2">
+                            View CO PDF
+                        </button>
+                        <button type="submit" name="submit"
+                            class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only btn-cmn mr-2">
+                            Save Change Order
+                        </button>
+                        <button type="button"
+                            class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only btn-cmn"
+                            role="button" (click)="modal.dismiss('Cross click');getCOR();">
+                            <span class="ui-button-text">Close</span>
+                        </button>
+
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </ng-template>
+    <div class="col-sm-12 col-md-12 mt-2">
+        <div class="row">
+            <div class="col-sm-12 col-md-2">
+                <input (click)="createCOR(newCOR)" type="button" value="Create New Change Order">
+            </div>
+            <div class="col-sm-12 col-md-1 text-center">
+                <p class="m-0">OR</p>
+            </div>
+            <div class="col-sm-12 col-md-4">
+                <ng-select [items]="Options" bindLabel="value" bindValue="id" name="Options" searchable="true"
+                    [(ngModel)]="selectOptions" placeholder="Select some options" (change)="CORrenderPDF()">
+                </ng-select>
+            </div>
+            <div class="col-sm-12 col-md-3">
+                <div class="form-check">
+                    <input class="form-check-input d-block" (click)="changeStatus($event)" type="checkbox" value=""
+                        id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        Show rejected
+                    </label>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-12 mt-3">
+                <div class="table-responsive">
+                    <table class="table table-border">
+                        <thead class="bg-primary text-white">
+                            <th>Custom #</th>
+                            <th>Co #</th>
+                            <th>Type</th>
+                            <th>Title</th>
+                            <th>Reason</th>
+                            <th>Amount</th>
+                            <th>Days</th>
+                            <th>Date Created</th>
+                            <th>Status</th>
+                            <th>References</th>
+                            <th>Executed</th>
+                        </thead>
+                        <tbody *ngIf="PCO && PCO.data && PCO.data.length>0">
+                            <tr class="bg-light">
+                                <td colspan="5">PCO Created</td>
+                                <td colspan="6">Estimated</td>
+                            </tr>
+                            <tr *ngFor="let pco of PCO.data" (click)="editCOR(newCOR,pco)">
+                                <td>{{pco.co_custom_sequence_number ? pco.co_custom_sequence_number : pco.id}}</td>
+                                <td>{{pco.co_sequence_number}}</td>
+                                <td>PCO</td>
+                                <td>{{pco.co_title}}</td>
+                                <td>{{pco.co_priority ? pco.co_priority.change_order_priority : "&nbsp;"}}</td>
+                                <td [className]="pco.change_order_status_id==3 ? 'strike' : ''">
+                                    {{pco.co_total | currency}}
+                                </td>
+                                <td>
+                                    <span
+                                        *ngIf="pco.co_delay_days == 0 || pco.co_delay_days">{{pco.co_delay_days}}</span>
+                                    <span *ngIf="!pco.co_delay_days && pco.co_delay_days!= 0">TBD</span>
+                                </td>
+                                <td>{{pco.created}}</td>
+                                <td>{{pco.co_status ? pco.co_status.change_order_status : "&nbsp;"}}</td>
+                                <td>{{pco.co_plan_page_reference}}</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">&nbsp;</td>
+                                <td><b>Total Amount</b></td>
+                                <td>{{PCO.total_amount | currency}}</td>
+                                <td>{{PCO.total_days}} day(s)</td>
+                                <td colspan="4">&nbsp;</td>
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="COR && COR.data && COR.data.length>0">
+                            <tr class="bg-light">
+                                <td colspan="5">COR Submitted</td>
+                                <td colspan="6">Estimated</td>
+                            </tr>
+                            <tr *ngFor="let cor of COR.data" (click)="editCOR(newCOR,cor)">
+                                <td>{{cor.co_custom_sequence_number ? cor.co_custom_sequence_number : cor.id}}</td>
+                                <td>{{cor.co_type_prefix}}</td>
+                                <td>COR</td>
+                                <td>{{cor.co_title}}</td>
+                                <td>{{cor.co_priority ? cor.co_priority.change_order_priority : "&nbsp;"}}</td>
+                                <td>{{cor.co_total | currency}}</td>
+                                <td>
+                                    <span
+                                        *ngIf="cor.co_delay_days == 0 || cor.co_delay_days">{{cor.co_delay_days}}</span>
+                                    <span *ngIf="!cor.co_delay_days && cor.co_delay_days!= 0">TBD</span>
+                                </td>
+                                <td>{{cor.created}}</td>
+                                <td>{{cor.co_status ? cor.co_status.change_order_status : "&nbsp;"}}</td>
+                                <td>{{cor.co_plan_page_reference}}</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">&nbsp;</td>
+                                <td><b>Total Amount</b></td>
+                                <td>{{COR.total_amount | currency}}</td>
+                                <td>{{COR.total_days }} day(s)</td>
+                                <td colspan="4">&nbsp;</td>
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="COA && COA.data && COA.data.length>0">
+                            <tr class="bg-light">
+                                <td colspan="5">Approved</td>
+                                <td colspan="6">Estimated</td>
+                            </tr>
+                            <tr *ngFor="let coa of COA.data" (click)="editCOR(newCOR,coa)">
+                                <td>{{coa.co_custom_sequence_number ? coa.co_custom_sequence_number : coa.id}}</td>
+                                <td>{{coa.co_type_prefix}}</td>
+                                <td>COR</td>
+                                <td>{{coa.co_title}}</td>
+                                <td>{{coa.co_priority ? coa.co_priority.change_order_priority : "&nbsp;"}}</td>
+                                <td>{{coa.co_total | currency}}</td>
+                                <td>
+                                    <span
+                                        *ngIf="coa.co_delay_days == 0 || coa.co_delay_days">{{coa.co_delay_days}}</span>
+                                    <span *ngIf="!coa.co_delay_days && coa.co_delay_days!= 0">TBD</span>
+                                </td>
+                                <td>{{coa.created}}</td>
+                                <td>{{coa.co_status ? coa.co_status.change_order_status : "&nbsp;"}}</td>
+                                <td>{{coa.co_plan_page_reference}}</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">&nbsp;</td>
+                                <td><b>Total Amount</b></td>
+                                <td>{{COA.total_amount | currency}}</td>
+                                <td>{{COA.total_days}} day(s)</td>
+                                <td colspan="4">&nbsp;</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

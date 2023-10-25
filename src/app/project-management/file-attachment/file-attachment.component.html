@@ -1,0 +1,51 @@
+<div class="float-left card-body col-md-12 p-0" *ngIf="file_array.length>0 || efile_array.length>0">
+    <table class="col-md-8 table-striped">
+        <tr>
+            <td class="d-inline-block col-lg-2 col-md-2"><input class="d-block" type="checkbox" /></td>
+            <td class="d-inline-block col-lg-6 col-md-6">Attachment</td>
+            <td class="d-inline-block col-lg-4 col-md-4">Creator</td>
+        </tr>
+        <tbody *ngIf="efile_array.length>0">
+            <tr *ngFor="let attachment of efile_array">
+                <td class="d-inline-block col-lg-2 col-md-2">
+                    <input (change)="formSubmit($event)" class="d-block"
+                        [checked]="attachment.is_added=='y' ? true : false" type="checkbox" />
+                </td>
+                <td class="d-inline-block col-lg-6 col-md-6">
+                    <img src="assets/images/sortbars.png" />
+                    <button class="btn btn-sm"><small>&times;</small></button>
+                    <a target="_blank" [href]="IMAGE_URL+attachment.links.virtual_file_name.url">
+                        {{attachment.links.virtual_file_name.name}}
+                    </a>
+                </td>
+                <td class="d-inline-block col-lg-4 col-md-4">
+                    {{attachment.links.contacts.contactfullname}}
+                </td>
+            </tr>
+        </tbody>
+        <tbody *ngIf="file_array.length>0">
+            <tr *ngFor="let attachment of file_array">
+                <td class="d-inline-block col-lg-2 col-md-2">
+                    <input type="checkbox" />
+                </td>
+                <td class="d-inline-block col-lg-6 col-md-6">
+                    <img src="assets/images/sortbars.png" />
+                    <button class="btn btn-sm"><small>&times;</small></button>
+                    <a *ngIf="attachment.virtual_file_name" target="_blank"
+                        [href]="IMAGE_URL+attachment.virtual_file_name.url">{{attachment.virtual_file_name.name}}</a>
+                </td>
+                <td class="d-inline-block col-lg-4 col-md-4">
+                    &nbsp;
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
+</div>
+
+<div class="card-body p-0" *ngIf="file_array.length==0">
+    <div class="float-left col-md-12 p-1">
+        <p class="paragraph-p">No Files Attached</p>
+    </div>
+</div>
+No files attached

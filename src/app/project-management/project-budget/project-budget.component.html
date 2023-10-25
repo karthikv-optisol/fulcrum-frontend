@@ -1,0 +1,2803 @@
+      <div *ngIf="this.userrole != 'global_admin'">
+        <div
+          *ngIf="
+            (this.userCanViewbudget == 0 && this.userCanManagebudget == 0) ||
+            (this.userCanManagebudget == 0 && this.userCanViewbudget == 0)
+          "
+        >
+          <div id="softwareModuleHeadline">
+            {{ currentlySelectedProjectName }}: Project Budget
+          </div>
+          <div class="messageQueueErrorBlockContainer">
+            <div class="messageQueueErrorHeader">Permission denied.</div>
+          </div>
+        </div>
+      </div>
+
+      <table
+        *ngIf="this.projectbudgetdata != undefined"
+        align="left"
+        border="0"
+        cellpadding="0"
+        cellspacing="0"
+        width="100%"
+      >
+        <tbody>
+          <tr>
+            <td align="left">
+              <table
+                align="left"
+                border="0"
+                cellpadding="0"
+                cellspacing="0"
+                width="100%"
+              >
+                <tbody>
+                  <tr>
+                    <td>
+                      <div id="softwareModuleHeadline">
+                        {{ currentlySelectedProjectName }}: Project Budget
+                      </div>
+                      <div id="messageDiv" class="userMessage"></div>
+
+                      <div id="gcBudgetLineItemsFormContainer">
+                        <table
+                          border="0"
+                          cellpadding="0"
+                          cellspacing="0"
+                          width="100%"
+                          style="margin-bottom: 15px; table-layout: inherit"
+                        >
+                          <tbody>
+                            <tr class="top_textalign">
+                              <th
+                                align="left"
+                                nowrap
+                                style="padding-left: 0px !important"
+                              >
+                                Actions:
+                              </th>
+                              <th
+                                align="left"
+                                nowrap
+                                style="padding-left: 0px !important"
+                              >
+                                Filter By:
+                              </th>
+                              <th colspan="3"></th>
+                            </tr>
+                            <tr>
+                              <td nowrap style="width: 25%">
+                                <span
+                                  (click)="toggleMenu($event)"
+                                  class="dropdown"
+                                >
+                                  <button
+                                    class="btn btn-default dropdown-toggle"
+                                    type="button"
+                                    id="dropdownMenu1"
+                                    data-toggle="dropdown"
+                                    style="
+                                      padding: 5px 2px;
+                                      background: #fff;
+                                      border: 1px solid #bbb;
+                                      border-radius: 3px;
+                                    "
+                                  >
+                                    What are you going to do ?
+                                    <span class="caret"></span>
+                                  </button>
+                                  <ul
+                                    *ngIf="isMenuOpen"
+                                    style="display: block"
+                                    id="MenuList"
+                                    class="dropdown-menu"
+                                    role="menu"
+                                    aria-labelledby="dropdownMenu1"
+                                  >
+                                    <li role="presentation">
+                                      <a
+                                        (click)="
+                                          loadImportCostCodesIntoBudgetDialog(
+                                            contentrfi
+                                          )
+                                        "
+                                        role="menuitem"
+                                        tabindex="-1"
+                                        href="javascript:void(0)"
+                                        data-toggle="modal"
+                                        data-target="#contentrfi"
+                                      >
+                                        Import Cost Codes Into Current Budget
+                                      </a>
+                                    </li>
+                                    <li role="presentation">
+                                      <a
+                                     (click)="
+                                     loadManageMasterCodeListDialogContent(
+                                            MasterCodeList
+                                          )
+                                        "
+                                        role="menuitem"
+                                        tabindex="-1"
+                                        href="javascript:void(0)"
+                                        data-toggle="modal"
+                                        data-target="#MasterCodeList"
+                                      >
+                                        Manage Master Cost Code Lists
+                                      </a>
+                                    </li>
+                                    <li role="presentation">
+                                      <a
+                                        (click)="
+                                          loadImportBiddersDialog(importbidders)
+                                        "
+                                        role="menuitem"
+                                        tabindex="-1"
+                                        href="javascript:void(0)"
+                                        data-toggle="modal"
+                                        data-target="#importbidders"
+                                      >
+                                        Import Bidders
+                                      </a>
+                                    </li>
+                                    <li role="presentation">
+                                      <a
+                                        role="menuitem"
+                                        tabindex="-1"
+                                        href="javascript:void(0)"
+                                        (click)="
+                                          loadRequestBudgetNumberDialog(
+                                            requestbudgetnumber
+                                          )
+                                        "
+                                        data-toggle="modal"
+                                        data-target="#requestbudgetnumber"
+                                      >
+                                        Request Budget Numbers from One or More
+                                        Potentials
+                                      </a>
+                                    </li>
+                                    <!-- <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="showInviteAllBidders('Add your comments to the bid invitation email . . .'); return false;">Invite One or More Potential Bidders to Bid</a></li> -->
+                                    <li role="presentation">
+                                      <a
+                                        role="menuitem"
+                                        tabindex="-1"
+                                        href="javascript:void(0)"
+                                        (click)="
+                                          loadUploadFilesByCompanyDialog(
+                                            uploadfilesbycompany
+                                          )
+                                        "
+                                        data-toggle="modal"
+                                        data-target="#uploadfilesbycompany"
+                                      >
+                                        Upload Files By Company
+                                      </a>
+                                    </li>
+                                    <li role="presentation">
+                                      <a
+                                        role="menuitem"
+                                        tabindex="-1"
+                                        [routerLink]="[
+                                          '/project-management/modules-purchasing-bidder-list-report'
+                                        ]"
+                                        [queryParams]="{ pid: pid }"
+                                        target="_blank"
+                                      >
+                                        Bid List Report
+                                      </a>
+                                    </li>
+                                    <li role="presentation">
+                                      <a
+                                        role="menuitem"
+                                        tabindex="-1"
+                                        href="javascript:void(0)"
+                                        (click)="
+                                          loadsendBitInviteDialog(
+                                            sendBitInvite
+                                          )
+                                        "
+                                        data-toggle="modal"
+                                        data-target="#sendBitInvite"
+                                      >
+                                        Send Bid Invite
+                                      </a>
+                                    </li>
+                                    <li role="presentation">
+                                      <a
+                                        role="menuitem"
+                                        tabindex="-1"
+                                        href="#"
+                                        onclick="BiddersModalDialog(); return false;"
+                                      >
+                                        Email Bidders
+                                      </a>
+                                    </li>
+                                    <li role="presentation">
+                                      <a
+                                        role="menuitem"
+                                        tabindex="-1"
+                                        href="#"
+                                        onclick="EmailProjectContactsModalDialog(); return false;"
+                                      >
+                                        Email Project Contacts
+                                      </a>
+                                    </li>
+                                    <li role="presentation">
+                                      <a
+                                        role="menuitem"
+                                        tabindex="-1"
+                                        href="#"
+                                        onclick="loadImportCostCodesFromExcel(); return false;"
+                                      >
+                                        Import New Cost Codes Into Master List
+                                      </a>
+                                    </li>
+                                  </ul>
+                                </span>
+                              </td>
+                              <td
+                                nowrap
+                                style="width: 25%"
+                                class="scheduled_values-only"
+                              >
+                                <input
+                                  type="hidden"
+                                  id="order_by_attribute"
+                                  value="-1"
+                                />
+                                <input
+                                  type="hidden"
+                                  id="order_by_direction"
+                                  value="ASC"
+                                />
+                                <div style="display: flex; margin-bottom: 3px">
+                                  <input
+                                    id="scheduledValuesOnly"
+                                    type="checkbox"
+                                    [checked]="
+                                      this.scheduledValuesOnlyOption ==
+                                      'checked'
+                                    "
+                                    (change)="filterGcBudgetLineItems()"
+                                    style="margin-right: 3px"
+                                  />
+                                  <label
+                                    for="scheduledValuesOnly"
+                                    style="float: none"
+                                    >Scheduled Values Only?</label
+                                  >
+                                </div>
+                                <!-- <br> -->
+                                <div style="display: flex; margin-bottom: 3px">
+                                  <input
+                                    id="needsBuyOutOnly"
+                                    [checked]="
+                                      this.needsBuyOutOnlyOption == 'checked'
+                                    "
+                                    type="checkbox"
+                                    (change)="filterGcBudgetLineItems()"
+                                    style="margin-right: 3px"
+                                  />
+                                  <label
+                                    for="needsBuyOutOnly"
+                                    style="float: none"
+                                  >
+                                    Needing Buy Out Only?
+                                  </label>
+                                </div>
+                                <!-- <br> -->
+                                <div style="display: flex">
+                                  <input
+                                    id="needsSubValue"
+                                    [checked]="
+                                      this.needsSubValueOption == 'checked'
+                                    "
+                                    type="checkbox"
+                                    (change)="filterGcBudgetLineItems()"
+                                    style="margin-right: 3px"
+                                  />
+                                  <label
+                                    for="needsSubValue"
+                                    style="float: none"
+                                  >
+                                    Subcontract value only
+                                  </label>
+                                </div>
+                              </td>
+                              <td
+                                nowrap
+                                style="width: 7%; vertical-align: bottom"
+                                class="scheduled_values-only"
+                              >
+                                <label
+                                  style="
+                                    float: none;
+                                    padding: 0;
+                                    margin: 0px;
+                                    cursor: pointer;
+                                    display: flex;
+                                  "
+                                >
+                                  <input
+                                    [checked]="isChecked"
+                                    (change)="onCheckboxChange($event)"
+                                    type="checkbox"
+                                    name="subtotal"
+                                    id="subtotalview"
+                                    style="margin-right: 3px"
+                                  />
+                                  Sub total
+                                </label>
+                              </td>
+                              <td colspan="2" style="vertical-align: bottom">
+                                <a
+                                  href="javascript:loadPermissionModal('11_Y', '3');"
+                                  style="margin-right: 20px"
+                                >
+                                  Budget Permissions
+                                </a>
+                                <a
+                                  href="javascript:loadPermissionModal('15_Y', '3');"
+                                >
+                                  Purchasing Permissions
+                                </a>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <input id="companyName" type="hidden" value="Advent" />
+                        <form
+                          action="/modules-gc-budget-form-submit.php"
+                          method="post"
+                          name="frmTabularData"
+                        >
+                          <input
+                            id="activeGcBudgetLineItem"
+                            type="hidden"
+                            value
+                          />
+                          <input id="tdCellOffset" type="hidden" value="0" />
+                          <input
+                            id="current_project_id"
+                            type="hidden"
+                            value="170"
+                          />
+                          <table id="tblTabularData" class="DC_budget-form">
+                            <thead>
+                              <tr class="permissionTableMainHeader">
+                                <th
+                                  *ngIf="
+                                    (projectbudgetdata.scheduledValue ==
+                                      'false' &&
+                                      projectbudgetdata.needsBuyValue ==
+                                        'false') ||
+                                      (projectbudgetdata.scheduledValue == '' &&
+                                        projectbudgetdata.needsBuyValue == '');
+                                    else DCRCntAllFalse
+                                  "
+                                  style="text-align: center"
+                                >
+                                  DCR<br />
+                                  <span
+                                    id="entypo-edit-icon-dcr"
+                                    style="width: 40px; display: block"
+                                  >
+                                    <input
+                                      type="checkbox"
+                                      id="attach_all_copy_text"
+                                      class="dcr-text"
+                                      [checked]="projectbudgetdata.isAllDcrFlag"
+                                      disabled
+                                      style="
+                                        float: left;
+                                        margin-right: 10px;
+                                        margin-top: 5px;
+                                        margin-bottom: 5px;
+                                      "
+                                    />
+                                    <img
+                                      src="assets/images/edit-icon.png"
+                                      data-toggle="tooltip"
+                                      title="Edit"
+                                      class="entypo-click"
+                                      (click)="allowToUserEditPrimeDcr(true)"
+                                      style="float: left; margin-top: 2px"
+                                    />
+                                  </span>
+                                  <span
+                                    id="entypo-lock-icon-dcr"
+                                    style="width: 40px; display: none"
+                                  >
+                                    <input
+                                      type="checkbox"
+                                      id="attach_all_copy_lock"
+                                      (click)="updateAllIsDcrFlag(pid)"
+                                      class="bs-tooltip"
+                                      data-original-title="Check/Uncheck will affect subcontractors in the cost code from being listed in the Daily Log Manpower list."
+                                      [checked]="projectbudgetdata.isAllDcrFlag"
+                                      style="
+                                        float: left;
+                                        margin-right: 3px;
+                                        margin-top: 5px;
+                                        margin-bottom: 5px;
+                                      "
+                                    />
+                                    <span
+                                      class="entypo-lock"
+                                      data-toggle="tooltip"
+                                      title="Lock"
+                                      class="entypo-lock"
+                                      (click)="allowToUserEditPrimeDcr(false)"
+                                      style="float: left; margin-top: 2px"
+                                    ></span>
+                                  </span>
+                                </th>
+                                <ng-template #DCRCntAllFalse>
+                                  <th style="text-align: center">
+                                    DCR<br />
+                                    <span
+                                      id="entypo-edit-icon-dcr"
+                                      style="width: 40px; display: block"
+                                    >
+                                      <img
+                                        src="assets/images/edit-icon.png"
+                                        data-toggle="tooltip"
+                                        title="Edit"
+                                        class="entypo-click"
+                                        (click)="allowToUserEditPrimeDcr(true)"
+                                        style="margin-top: 2px"
+                                      />
+                                    </span>
+                                    <span
+                                      id="entypo-lock-icon-dcr"
+                                      style="width: 40px; display: none"
+                                    >
+                                      <span
+                                        class="entypo-lock"
+                                        data-toggle="tooltip"
+                                        title="Lock"
+                                        class="entypo-lock"
+                                        (click)="allowToUserEditPrimeDcr(false)"
+                                        style="margin-top: 2px"
+                                      ></span>
+                                    </span>
+                                  </th>
+                                </ng-template>
+                                <th>Cost Code</th>
+                                <th>Cost Code Description</th>
+                                <th>
+                                  <span
+                                    class="bs-tooltip"
+                                    data-original-title="Prime Contract Scheduled Value"
+                                  >
+                                    PCSV
+                                  </span>
+                                  <br />
+                                  <span
+                                    id="entypo-edit-icon"
+                                    data-toggle="tooltip"
+                                    title="Edit"
+                                    class="entypo-click"
+                                    style="display: block"
+                                    onclick="allowToUserEditPrimeValue(true);"
+                                  >
+                                    <img src="assets/images/edit-icon.png" />
+                                    <!-- <span class="btn entypo-click entypo-pencil popoverButton" style="position: relative; top: -5px; left: -22px;"></span> -->
+                                  </span>
+                                  <span
+                                    data-toggle="tooltip"
+                                    title="Lock"
+                                    id="entypo-lock-icon"
+                                    class="entypo-click"
+                                    style="display: none"
+                                    onclick="allowToUserEditPrimeValue(false);"
+                                  >
+                                    <span class="entypo-lock"></span>
+                                  </span>
+                                </th>
+                                <th *ngIf="projectbudgetdata.aboveorbelw == 2">
+                                  Owner Change
+                                  <br />
+                                  Order
+                                </th>
+
+                                <th>
+                                  Forecasted
+                                  <br />
+                                  Expenses
+                                </th>
+                                <th>
+                                  Buyout
+                                  <br />
+                                  Forecast
+                                </th>
+                                <th>
+                                  Subcontract
+                                  <br />
+                                  Actual Value
+                                </th>
+                                <th>Variance</th>
+                                <th class="subcontract_vendor">
+                                  Subcontractor
+                                  <br />
+                                  (Vendor)
+                                </th>
+                                <th>
+                                  Subcontract
+                                  <br />
+                                  Details
+                                </th>
+                                <th>
+                                  Invited
+                                  <br />
+                                  Bidders
+                                </th>
+                                <th>
+                                  Active
+                                  <br />
+                                  Bidders
+                                </th>
+                                <th>Notes</th>
+                                <th>
+                                  Purchasing Target
+                                  <br />
+                                  Date
+                                </th>
+                                <th>
+                                  Cost Per
+                                  <br />
+                                  Sq. Ft
+                                </th>
+                                <th>
+                                  Cost Per
+                                  <br />
+                                  Unit
+                                </th>
+                                <th>&nbsp;</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <ng-container
+                                *ngFor="let budget of ProjectBudgetData"
+                              >
+                                <tr
+                                  *ngIf="budget.costCode != null"
+                                  id="record_container--manage-gc_budget_line_item-record--gc_budget_line_items--sort_order--22176"
+                                  class
+                                >
+                                  <td style="vertical-align: top">
+                                    <ng-container
+                                      *ngFor="
+                                        let subcontractcheck of budget.subcontractCheckBoxHtml
+                                      "
+                                    >
+                                      <span
+                                        class="dcr-text"
+                                        style="display: block"
+                                      >
+                                        <input
+                                          type="checkbox"
+                                          class="checkAllDcrText"
+                                          [checked]="subcontractcheck.isDcrFlag"
+                                          disabled
+                                          id="attach_copy_{{
+                                            subcontractcheck.tmp_subcontract_id
+                                          }}"
+                                          style="margin-bottom: 5px"
+                                        />
+                                      </span>
+                                      <span
+                                        class="dcr-edit bs-tooltip"
+                                        data-original-title="Check/Uncheck will affect subcontractors in the cost code from being listed in the Daily Log Manpower list."
+                                        style="display: none"
+                                      >
+                                        <input
+                                          type="checkbox"
+                                          [disabled]="
+                                            subcontractcheck.DcrDisabled
+                                          "
+                                          [checked]="subcontractcheck.isDcrFlag"
+                                          class="checkAllDcrEdit"
+                                          data-original-title="Check/Uncheck will affect subcontractors in the cost code from being listed in the Daily Log Manpower list."
+                                          id="attach_{{
+                                            subcontractcheck.tmp_subcontract_id
+                                          }}"
+                                          (click)="
+                                            updateIsDcrFlag(
+                                              subcontractcheck.tmp_subcontract_id
+                                            )
+                                          "
+                                        />
+                                        {{
+                                          subcontractcheck.tmp_subcontract_sequence_number
+                                        }}
+                                      </span>
+                                    </ng-container>
+                                  </td>
+                                  <td class>
+                                    <div style="display: flex">
+                                      <div style="width: 55px">
+                                        <span
+                                          class="fakeHref bs-tooltip"
+                                          onclick="loadGcBudgetLineItemSubcontractorBidManagementModalDialog('22176');"
+                                          data-original-title="View Bid Invite"
+                                        >
+                                          <span
+                                            id="gc_budget_line_items--cost_codes--cost_code--16133"
+                                            data-origin-id="cost_codes--cost_code--16133"
+                                          >
+                                            {{ budget.costCode }}
+                                          </span>
+                                        </span>
+                                      </div>
+
+                                      <div
+                                        *ngIf="budget.SubmittalVData == '1'"
+                                        (click)="
+                                          loadSubmittalDelayDATA(
+                                            budget.cost_code_id,
+                                            budget.project_id,
+                                            budget.id
+                                          )
+                                        "
+                                        id="prime-text-280"
+                                        class="prime_contract_scheduled_value sco_cont bs-tooltip"
+                                        data-original-title="View Submittal"
+                                        style="display: block"
+                                      >
+                                        <input
+                                          type="button"
+                                          value="i"
+                                          style="padding: 1px 3px"
+                                        />
+                                      </div>
+                                    </div>
+                                    <div
+                                      id="submittalitem_{{ budget.id }}"
+                                      class="dropdown-content"
+                                      style="right: 485px"
+                                    >
+                                      <div class="realocationCont-main">
+                                        <div class="modal-header">
+                                          <b>{{ cost_code_abb }}</b>
+                                          <span
+                                            (click)="
+                                              closesubmittalPopover(budget.id)
+                                            "
+                                            style="line-height: 17px"
+                                            class="close"
+                                          >
+                                            ×
+                                          </span>
+                                        </div>
+                                        <table
+                                          width="400"
+                                          border="0"
+                                          class="drop-inner"
+                                        >
+                                          <tbody>
+                                            <tr>
+                                              <th width="200">Title</th>
+                                              <th width="100">priority</th>
+                                              <th width="100">Status</th>
+                                            </tr>
+                                            <tr
+                                              *ngFor="
+                                                let su of SubmittalDelaydatas
+                                              "
+                                            >
+                                              <td>{{ su.su_title }}</td>
+                                              <td>
+                                                {{ su.submittal_priority }}
+                                              </td>
+                                              <td>
+                                                {{ su.submittal_status }}
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td
+                                    data-origin-id="cost_codes--cost_code_description--16133"
+                                    class
+                                  >
+                                    <a
+                                      href="/modules-purchasing-bid-spread.php?gc_budget_line_item_id=22176&amp;pID=MTcw"
+                                      id="gc_budget_line_items--cost_codes--cost_code_description--16133"
+                                      target="_blank"
+                                      class="bs-tooltip"
+                                      data-original-title="View Bid Spread"
+                                    >
+                                      {{ budget.escaped_cost_code_description }}
+                                    </a>
+                                  </td>
+                                  <td style="position: relative">
+                                    <span
+                                      id="prime-text-22176"
+                                      class="input-scheduled pscvtotal{{
+                                        budget.id
+                                      }}  {{ budget.reallocationcls }}"
+                                      style="display: block"
+                                      onclick="loadReallocationDATA(16133,170,22176)"
+                                    >
+                                      {{ budget.updtedPSCV }}
+                                    </span>
+                                    <div
+                                      id="realocateitem_22176"
+                                      class="dropdown-content realocationCont"
+                                    ></div>
+                                    <input
+                                      (change)="
+                                        Gc_Budget__ScheduleValueUpdate(
+                                          $event.target.value
+                                        )
+                                      "
+                                      id="manage-gc_budget_line_item-record--gc_budget_line_items--prime_contract_scheduled_value--22176"
+                                      class="pcsvSubFld{{ budget.ioput }} {{
+                                        budget.primeContractScheduledValueClass
+                                      }} pcsvSubFld{{ budget.ioput }}-{{
+                                        budget.ioputIn
+                                      }} input-scheduled autosum-pcsv gc_budget_line_items--22176 prime_contract_scheduled_value-edit"
+                                      type="hidden"
+                                      value="$1,100.00"
+                                      tabindex="100"
+                                    />
+
+                                    <input
+                                      type="hidden"
+                                      id="prev_schedule_val"
+                                      value="1100"
+                                    />
+                                  </td>
+                                  <td
+                                    *ngIf="projectbudgetdata.aboveorbelw == 2"
+                                    class="input-scheduled ocototal{{
+                                      budget.id
+                                    }}"
+                                    data-value="2"
+                                    id="manage-gc_budget_line_item-record--gc_budget_line_items--ocoValue--280"
+                                  >
+                                    {{ budget.formattedtotalBreakdownAmount }}
+                                  </td>
+                                  <td>
+                                    <input
+                                      (change)="
+                                        Gc_Budget__updateGcBudgetLineItem(
+                                          budget.id,
+                                          $event.target.value,
+                                          'forecasted_expenses',
+                                          budget.ioput,
+                                          budget.ioputIn
+                                        )
+                                      "
+                                      id="manage-gc_budget_line_item-record--gc_budget_line_items--forecasted_expenses--22176"
+                                      class="updateforecasted_expenses_{{
+                                        budget.id
+                                      }} fetotal{{ budget.id }} feSubFld{{
+                                        budget.ioput
+                                      }} feSubFld{{ budget.ioput }}-{{
+                                        budget.ioputIn
+                                      }} input-forecasted autosum-fe {{
+                                        budget.forecastedExpensesClass
+                                      }} gc_budget_line_items--22176"
+                                      type="text"
+                                      value="{{ budget.forecasted_expenses }}"
+                                      tabindex="200"
+                                      style="width: 120px"
+                                    />
+                                  </td>
+                                  <td>
+                                    <input
+                                      (change)="
+                                        Gc_Budget__updateGcBudgetLineItem(
+                                          budget.id,
+                                          $event.target.value,
+                                          'buyout_forecasted_expenses',
+                                          budget.ioput,
+                                          budget.ioputIn
+                                        )
+                                      "
+                                      id="manage-gc_budget_line_item-record--gc_budget_line_items--buyout_forecasted_expenses--22176"
+                                      class="updatebuyout_forecasted_expenses_{{
+                                        budget.id
+                                      }} bfetotal{{ budget.id }} beSubFld{{
+                                        budget.ioput
+                                      }} beSubFld{{ budget.ioput }}-{{
+                                        budget.ioputIn
+                                      }} input-buyout autosum-be{{
+                                        budget.buyout_forecasted_expensesClass
+                                      }} gc_budget_line_items--22176"
+                                      type="text"
+                                      value="{{
+                                        budget.buyout_forecasted_expenses
+                                      }}"
+                                      tabindex="200"
+                                      style="width: 120px"
+                                    />
+                                  </td>
+                                  <td>
+                                    <table class="nestedTable">
+                                      <tbody>
+                                        <input
+                                          class="subcontractCount{{
+                                            budget.id
+                                          }}"
+                                          type="hidden"
+                                          value="{{ budget.subcontractCount }}"
+                                        />
+
+                                        <tr
+                                          *ngFor="
+                                            let subcontract of budget.subcontractActualValueHtml;
+                                            let i = index
+                                          "
+                                        >
+                                          <td>
+                                            <span
+                                              style="
+                                                border: 0px solid red;
+                                                display: inline-block;
+                                                width: 30px;
+                                              "
+                                              >#{{ i + 1 }})</span
+                                            >
+                                            <span
+                                              style="
+                                                border: 0px solid red;
+                                                display: inline-block;
+                                                text-align: right;
+                                                float: right;
+                                              "
+                                              >{{ subcontract }}</span
+                                            >
+                                          </td>
+                                        </tr>
+
+                                        <tr>
+                                          <td>
+                                            <div
+                                              style="
+                                                border: 0px solid black;
+                                                clear: right;
+                                                float: right;
+                                              "
+                                              id="manage-gc_budget_line_item-record--gc_budget_line_items--subcontract_actual_value--22176"
+                                              class="input-subcontracted savrawtotal{{
+                                                budget.id
+                                              }} autosum-sav {{
+                                                budget.subcontractActualValueClass
+                                              }}{{ budget.ioput }}-{{
+                                                budget.ioputIn
+                                              }} gc_budget_line_items--22176"
+                                            >
+                                              {{
+                                                budget.subcontract_actual_value
+                                              }}
+                                            </div>
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </td>
+                                  <td
+                                    class="GcVariance"
+                                    style="text-align: right"
+                                  >
+                                    <span
+                                      id="manage-gc_budget_line_item-record--gc_budget_line_items--variance--22176"
+                                      class="bs-tooltip autosum-variance vSubFld{{
+                                        budget.ioput
+                                      }} variance{{ budget.id }} vSubFld{{
+                                        budget.ioput
+                                      }}-{{ budget.ioputIn }} {{
+                                        budget.gcBudgetLineItemVarianceClass
+                                      }} alignRight gc_budget_line_items--22176"
+                                      data-original-title="Prime contract Schedule Value - (Forecast expense + Buyout expense + Subcontract Actual Value)"
+                                    >
+                                      {{ budget.gcBudgetLineItemVariance }}
+                                    </span>
+                                  </td>
+                                  <td
+                                    class="verticalAlignTopImportant"
+                                    id="gc_budget_line_items--vendorList--{{
+                                      budget.id
+                                    }}"
+                                    [attr.data-vendorcount]="
+                                      budget.vendorList.length
+                                    "
+                                    style="max-width: 180px; min-width: 180px"
+                                  >
+                                    <span (click)="loadSubcontractCODATA(budget.cost_code_id,budget.project_id,
+                                    budget.id,vendor.tmp_subcontract_id);" [ngClass]="{'sco_cont dropbtn_': vendor.subSignal === '1'}"
+                                      *ngFor="let vendor of budget.vendorList"
+                                      style="line-height: 1.4"
+                                    >
+                                      {{ vendor.vendor }}
+                                      <br />
+                                    </span>
+                                    <ng-container *ngFor="let vendor of budget.vendorList">
+                                      <div id="suborderitem_{{vendor.tmp_subcontract_id}}" class="dropdown-content subBudgetCont"><div class=""> 
+                                        <div class="modal-header">
+                                          <b class="poptitle{{vendor.tmp_subcontract_id}}">{{poptitle}}</b>
+                                          <span style="line-height: 17px;" class="close" (click)="closescoPopover(vendor.tmp_subcontract_id);">×</span></div>
+                                        <table width="650" border="0" class="drop-inner">
+                                        <tbody><tr><th colspan="2" width="50%">Cost Code &amp; Description</th>
+                                        <th>Prime Contract <br>Schedule Value</th>
+                                        <th>Forecasted <br> Expenses</th>
+                                        <th>Subcontractor <br>Actual Value</th>
+                                    
+                                        </tr><tr>
+                                          <td class="cosmalink_section" colspan="2">{{poptitle}}</td>
+                                        <td class="textAlignRight">{{scheduled_value}}</td>
+                                        <td class="textAlignRight">{{foreExp}}</td>
+                                        <td class="textAlignRight">
+                                          <p class="textAlignLeft" *ngFor="let sco of Budget_sco">
+                                            <span>{{sco.k}}</span><span style="float:right;">{{sco.subAmt}}</span></p>
+                                        </td>
+                                    
+                                       
+                                        </tr><tr><th width="10%">SCO</th>
+                                        <th width="40%">Title</th>
+                                        <th>Description</th>
+                                        <th>Potential CO</th>
+                                        <th>SCO Approved Value</th>
+                                        
+                                       
+                                        </tr>
+                                        <tr *ngFor="let scodata of subOrderData">
+                                          <td class="textAlignCenter">{{scodata.sequence_number}}</td>
+                                              <td>{{scodata.title}}</td>
+                                              <td>{{scodata.description}}</td>
+                                              <td class="textAlignRight" style="color:#009DD9;">{{scodata.otherAmt}}</td>
+                                              <td class="textAlignRight" style="color:#009DD9;">{{scodata.appAmt}}</td>
+                                              </tr>
+                                              
+                                              <tr><td colspan="2"></td><td><b> SCO Total</b> </td>
+                                                <td class="textAlignRight" style="color:#009DD9;">{{pot_estimate}} </td>
+                                                <td class="textAlignRight" style="color:#009DD9;">{{tot_estimate}} </td>
+                                                <td></td></tr></tbody></table></div></div>
+                                    </ng-container>
+                                    
+                                  </td>
+                                  <td align="center">
+                                    <a href="#">Subcontract</a>
+                                  </td>
+                                  <td align="center">
+                                    {{ budget.invitedBiddersCount }}
+                                  </td>
+                                  <td align="center">
+                                    {{ budget.activeBiddersCount }}
+                                  </td>
+                                  <td
+                                    align="center"
+                                    style="
+                                      position: relative;
+                                      vertical-align: middle;
+                                    "
+                                  >
+                                    <span
+                                      *ngIf="budget.notes != ''; else notesadd"
+                                      (click)="AddorEditnotes(budget.id)"
+                                      id="btnAddNotesPopover_{{ budget.id }}"
+                                      class="btnAddNotesPopover btn entypo entypo-click entypo-doc-text popoverButton"
+                                      data-toggle="popover"
+                                      style="margin-left: 7px"
+                                      data-original-title
+                                      title
+                                    ></span>
+                                    <ng-template #notesadd>
+                                      <span
+                                        (click)="AddorEditnotes(budget.id)"
+                                        id="btnAddNotesPopover_{{ budget.id }}"
+                                        class="btnAddNotesPopover btn entypo entypo-click entypo-plus-circled popoverButton"
+                                        data-toggle="popover"
+                                        style="margin-left: 7px"
+                                        data-original-title
+                                        title
+                                      ></span>
+                                    </ng-template>
+                                    <!-- <ng-template #popContent> -->
+                                    <div
+                                      id="CreateNotesdiv_{{ budget.id }}"
+                                      class="hidden popupover_edit"
+                                      style="
+                                        position: absolute;
+                                        z-index: 999;
+                                        margin-left: 20px;
+                                        top: -35px;
+                                        left: 50px;
+                                      "
+                                    >
+                                      <div class="popover-titlebar">
+                                        <h3 class="popover-title">
+                                          Add/Edit Notes
+                                        </h3>
+                                        <a
+                                          (click)="HideNotes(budget.id)"
+                                          class="close-button"
+                                        >
+                                          x
+                                        </a>
+                                      </div>
+                                      <div
+                                        id="record_creation_form--create-prelim-record"
+                                      >
+                                        <div class="records_creation-forms">
+                                          <textarea
+                                            rows="3"
+                                            column="150"
+                                            class="notestext_{{ budget.id }}"
+                                            id="manage-gc_budget_line_item-record--gc_budget_line_items--notes--{{
+                                              budget.id
+                                            }}"
+                                          >
+																						{{ budget.notes }}
+																					</textarea
+                                          >
+                                          <input
+                                            (click)="closenotes(budget.id)"
+                                            type="button"
+                                            value="save Notes"
+                                            style="
+                                              width: 150px;
+                                              padding: 4px;
+                                              padding-top: 10px;
+                                            "
+                                          />
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <!-- </ng-template> -->
+                                  </td>
+                                  <td
+                                    align="center"
+                                    class="verticalAlignTopImportant"
+                                  >
+                                    <div
+                                      class="datepicker_style_custom test2"
+                                      style="display: block"
+                                    >
+                                      <input
+                                        id="bdate"
+                                        placeholder="{{
+                                          budget.formattedPurchasingTargetDate
+                                        }}"
+                                        type="text"
+                                        (click)="
+                                          d7.toggle();
+                                          d7.navigateTo({
+                                            year: budget.year,
+                                            month: budget.month,
+                                            day: budget.date
+                                          });
+                                          openDatepicker(d7)
+                                        "
+                                        (dateSelect)="
+                                          onDateSelect_other($event, budget.id)
+                                        "
+                                        format="mm/dd/YYYY"
+                                        value="{{
+                                          budget.formattedPurchasingTargetDate
+                                        }}"
+                                        ngbDatepicker
+                                        #d7="ngbDatepicker"
+                                        [style.color]="
+                                          budget.css == '1' ? 'red' : 'black'
+                                        "
+                                        class="bcus_date cus_date_report purchasing_target{{
+                                          budget.id
+                                        }} hasDatepicker"
+                                      />
+                                    </div>
+
+                                    <!-- <ngb-datepicker #dp1  [startDate]="budget.formattedPurchasingTargetDate" (navigate)="date = $event.next"></ngb-datepicker> -->
+
+                                    <input
+                                      class="purchasingtargetdate-{{
+                                        budget.id
+                                      }}"
+                                      type="hidden"
+                                      value="{{
+                                        budget.formattedPurchasingTargetDate
+                                      }}"
+                                    />
+                                    <input
+                                      id="subcontractCount-{{ budget.id }}"
+                                      type="hidden"
+                                      value="{{ budget.subcontractCount }}"
+                                    />
+                                  </td>
+                                  <td
+                                    style="max-width: 130px; min-width: 130px"
+                                  >
+                                    <table class="nestedTable">
+                                      <tbody>
+                                        <tr
+                                          *ngFor="
+                                            let CPSFValue of budget.CPSFValueHtml;
+                                            let i = index
+                                          "
+                                        >
+                                          <td
+                                            style="
+                                              border: 0px solid #fff !important;
+                                              margin: 0 !important;
+                                              padding: 0 !important;
+                                            "
+                                          >
+                                            <span
+                                              style="
+                                                border: 0px solid red;
+                                                float: left;
+                                                padding-right: 5px;
+                                              "
+                                              >#{{ i + 1 }})</span
+                                            >
+                                            <span
+                                              style="
+                                                border: 0px solid red;
+                                                float: right;
+                                              "
+                                              >{{ CPSFValue }}</span
+                                            >
+                                          </td>
+                                        </tr>
+
+                                        <tr>
+                                          <td>
+                                            <div
+                                              style="
+                                                border: 0px solid black;
+                                                clear: right;
+                                                float: right;
+                                              "
+                                              id="manage-gc_budget_line_item-record--gc_budget_line_items--cc_per_sf_value--22176"
+                                              class="input-subcontracted autosum-sav gc_budget_line_items--22176"
+                                            >
+                                              {{
+                                                budget.cc_per_sf_ft_value_html
+                                              }}
+                                            </div>
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </td>
+                                  <td
+                                    style="max-width: 130px; min-width: 130px"
+                                  >
+                                    <table class="nestedTable">
+                                      <tbody>
+                                        <tr
+                                          *ngFor="
+                                            let CCPSFValue of budget.CCPSFValueHtml;
+                                            let i = index
+                                          "
+                                        >
+                                          <td>
+                                            <span
+                                              style="
+                                                border: 0px solid red;
+                                                float: left;
+                                                padding-right: 5px;
+                                              "
+                                              >#{{ i + 1 }})</span
+                                            >
+                                            <span
+                                              style="
+                                                border: 0px solid red;
+                                                display: inline-block;
+                                                text-align: right;
+                                                float: right;
+                                              "
+                                              >{{ CCPSFValue }}</span
+                                            >
+                                          </td>
+                                        </tr>
+
+                                        <tr>
+                                          <td>
+                                            <div
+                                              style="
+                                                border: 0px solid black;
+                                                clear: right;
+                                                text-align: right;
+                                              "
+                                              id="manage-gc_budget_line_item-record--gc_budget_line_items--cc_per_sf_unit_value--22176"
+                                              class="input-subcontracted autosum-sav  {{
+                                                budget.CCPSFClass
+                                              }} gc_budget_line_items--22176"
+                                            >
+                                              {{
+                                                budget.cc_per_sf_unit_value_html
+                                              }}
+                                            </div>
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </td>
+                                  <td
+                                    style="max-width: 60px; min-width: 40px"
+                                    class="textAlignCenter"
+                                  >
+                                    <a
+                                      class="bs-tooltip"
+                                      (click)="
+                                        Gc_Budget__deleteGcBudgetLineItem(
+                                          budget.id,
+                                          '',
+                                          budget.deleteGcBudgetLineItemDesc
+                                        )
+                                      "
+                                      title
+                                      data-original-title="Delete 00-001"
+                                    >
+                                      x
+                                    </a>
+                                  </td>
+                                </tr>
+
+                                <ng-container *ngIf="isChecked == true">
+                                  <tr
+                                    *ngIf="
+                                      budget.valueCheck !== undefined &&
+                                      budget.valueCheck != null
+                                    "
+                                    id="subtotal_rows"
+                                    class="bottom-content subtotal-row"
+                                  >
+                                    <td></td>
+                                    <td class="subtotal">
+                                      {{ budget.valueCheck }}
+                                    </td>
+                                    <td>
+                                      <section class="subtotal">
+                                        Sub total
+                                      </section>
+                                    </td>
+                                    <td>
+                                      <section
+                                        class="subtotal input-scheduled-subtotal"
+                                        id="pcsvSubtotal{{ budget.ioput }}"
+                                      >
+                                        {{ budget.pcsvcs }}
+                                      </section>
+                                    </td>
+                                    <td
+                                      *ngIf="projectbudgetdata.aboveorbelw == 2"
+                                    >
+                                      <section
+                                        class="subtotal input-OCO-subtotal"
+                                        style="text-align: right"
+                                      >
+                                        {{ budget.formattedOCO_raw }}
+                                      </section>
+                                    </td>
+                                    <td>
+                                      <section
+                                        class="subtotal input-scheduled-subtotal {{
+                                          budget.fecssclass
+                                        }}"
+                                        id="feSubtotal{{ budget.ioput }}"
+                                      >
+                                        {{ budget.fecs }}
+                                      </section>
+                                    </td>
+                                    <td>
+                                      <section
+                                        class="subtotal input-scheduled-subtotal"
+                                        id="beSubtotal{{ budget.ioput }}"
+                                      >
+                                        {{ budget.buyout }}
+                                      </section>
+                                    </td>
+                                    <td>
+                                      <section
+                                        class="subtotal input-scheduled-subtotal"
+                                      >
+                                        {{ budget.savcs }}
+                                      </section>
+                                    </td>
+                                    <td>
+                                      <section
+                                        class="subtotal input-scheduled-subtotal {{
+                                          budget.vcsclass
+                                        }}"
+                                        id="vSubtotal{{ budget.ioput }}"
+                                      >
+                                        {{ budget.vcs }}
+                                      </section>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>
+                                      <section
+                                        class="subtotal input-scheduled-subtotal"
+                                      >
+                                        {{ budget.cpsfunit }}
+                                      </section>
+                                    </td>
+                                    <td>
+                                      <section
+                                        class="subtotal input-scheduled-subtotal"
+                                      >
+                                        {{ budget.csfunit }}
+                                      </section>
+                                    </td>
+                                    <td></td>
+                                  </tr>
+                                </ng-container>
+                              </ng-container>
+
+                              <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td
+                                  class="input-total alignRight"
+                                  style="font-weight: bold"
+                                >
+                                  Total
+                                </td>
+                                <td class="alignRight">
+                                  <input
+                                    id="primeContractScheduledValuesTotal"
+                                    class="input-scheduled input-total alignRight {{
+                                      projectbudgetdata.primeContractScheduledValueTotalClass
+                                    }}"
+                                    type="text"
+                                    value="{{
+                                      projectbudgetdata.primeContractScheduledValueTotal
+                                    }}"
+                                    readonly
+                                    style="width: 120px; font-weight: bold"
+                                  />
+                                </td>
+
+                                <td
+                                  *ngIf="projectbudgetdata.aboveorbelw == 2"
+                                  class="input-total alignRight"
+                                >
+                                  {{ projectbudgetdata.formattedOCO_total }}
+                                </td>
+
+                                <td class="alignRight">
+                                  <input
+                                    id="forecastedExpensesTotal"
+                                    class="input-forecasted input-total {{
+                                      projectbudgetdata.forecastedExpensesTotalClass
+                                    }} alignRight"
+                                    type="text"
+                                    value="{{
+                                      projectbudgetdata.forecastedExpensesTotal
+                                    }}"
+                                    readonly
+                                    style="width: 120px; font-weight: bold"
+                                  />
+                                </td>
+                                <td class="alignRight">
+                                  <input
+                                    id="buyoutExpensesTotal"
+                                    class="input-forecasted input-total alignRight {{
+                                      projectbudgetdata.buyoutExpensesTotalClass
+                                    }}"
+                                    type="text"
+                                    value="{{
+                                      projectbudgetdata.buyoutExpensesTotal
+                                    }}"
+                                    readonly
+                                    style="width: 120px; font-weight: bold"
+                                  />
+                                </td>
+                                <td class="alignRight" align="right">
+                                  <input
+                                    id="subcontractActualValuesTotal"
+                                    class="input-subcontracted input-total input-subcontracted-value alignRight {{
+                                      projectbudgetdata.subcontractActualValueTotalClass
+                                    }}"
+                                    type="text"
+                                    value="{{
+                                      projectbudgetdata.subcontractActualValueTotal
+                                    }}"
+                                    readonly
+                                    style="width: 120px; font-weight: bold"
+                                  />
+                                </td>
+                                <td class="alignRight">
+                                  <input
+                                    id="varianceTotal"
+                                    class="input-variance input-total {{
+                                      projectbudgetdata.varianceTotalClass
+                                    }} alignRight"
+                                    type="text"
+                                    value="{{
+                                      projectbudgetdata.varianceTotal
+                                    }}"
+                                    readonly
+                                    style="width: 120px; font-weight: bold"
+                                  />
+                                </td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td class="alignRight" align="right">
+                                  <input
+                                    id="costCodePerSFValueTotal"
+                                    class="input-subcontracted input-total alignRight"
+                                    type="text"
+                                    value="{{
+                                      projectbudgetdata.costCodePerSFValueTotal
+                                    }}"
+                                    readonly
+                                    style="width: 120px; font-weight: bold"
+                                  />
+                                </td>
+
+                                <td class="alignRight" align="right">
+                                  <input
+                                    id="costCodePSFValueTotal"
+                                    class="input-subcontracted input-total alignRight {{
+                                      projectbudgetdata.costCodePSFValueTotalClass
+                                    }}"
+                                    type="text"
+                                    value="{{
+                                      projectbudgetdata.costCodePSFValueTotal
+                                    }}"
+                                    readonly
+                                    style="width: 120px; font-weight: bold"
+                                  />
+                                </td>
+                                <td>&nbsp;</td>
+                              </tr>
+                              <tr
+                                *ngIf="
+                                  ProjectBudgetCORData != '' &&
+                                  ProjectBudgetCORData != undefined
+                                "
+                                class="budgetCR"
+                              >
+                                <td></td>
+                                <td align="center">
+                                  <b>Custom #</b>
+                                </td>
+                                <td align="center">
+                                  <b>COR</b>
+                                </td>
+                                <td align="center">
+                                  <b>Title</b>
+                                </td>
+                                <td align="center">
+                                  <b>Amount</b>
+                                </td>
+                                <td align="center">
+                                  <b>Created Date</b>
+                                </td>
+                                <td align="center">
+                                  <b>Days</b>
+                                </td>
+                                <td colspan="10">
+                                  <b>Reason</b>
+                                </td>
+                              </tr>
+                              <tr
+                                *ngFor="let cor of ProjectBudgetCORData"
+                                id="record_container--manage-change_order-record--change_orders--499"
+                                class="budgetCR_datas"
+                              >
+                                <td>&nbsp;</td>
+                                <td align="middle">
+                                  {{ cor.co_custom_sequence_number }}
+                                </td>
+                                <td align="middle">
+                                  {{ cor.co_type_prefix }}
+                                </td>
+                                <td>
+                                  {{ cor.escaped_co_title }}
+                                </td>
+                                <td class="autosum-cosv" align="right">
+                                  {{ cor.co_total }}
+                                </td>
+                                <td align="middle">
+                                  {{ cor.formattedCoCreatedDate }}
+                                </td>
+
+                                <td align="center" style="padding-right: 22px">
+                                  {{ cor.co_delay_days }}
+                                </td>
+                                <td colspan="10">
+                                  {{ cor.change_order_priority }}
+                                </td>
+                              </tr>
+
+                              <tr
+                                *ngIf="
+                                  ProjectBudgetCORData != '' &&
+                                  ProjectBudgetCORData != undefined
+                                "
+                                id="record_container--manage-change_order-record--change_orders--342"
+                                class="bottom-content subtotal-row"
+                              >
+                                <td colspan="4" align="center">
+                                  <b> Approved Change Orders Total </b>
+                                </td>
+                                <td align="right">
+                                  <b>
+                                    {{ projectbudgetdata.sum_co_total }}
+                                  </b>
+                                </td>
+                                <td colspan="12"></td>
+                              </tr>
+                              <tr
+                                *ngIf="
+                                  ProjectBudgetCORData != '' &&
+                                  ProjectBudgetCORData != undefined
+                                "
+                                id="record_container--manage-change_order-record--change_orders--342"
+                                class="bottom-content subtotal-row"
+                              >
+                                <td colspan="4" align="center">
+                                  <b> Revised budget Total </b>
+                                </td>
+                                <td align="right">
+                                  <b>
+                                    {{ projectbudgetdata.budget_total }}
+                                  </b>
+                                </td>
+                                <td colspan="12"></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </form>
+                        <input
+                          id="currentSoftwareModule"
+                          type="hidden"
+                          value="gc_budget"
+                        />
+                        <input
+                          id="aboveorbelw"
+                          type="hidden"
+                          value="{{ projectbudgetdata.aboveorbelw }}"
+                        />
+                        <input
+                          id="currentlySelectedProjectId"
+                          type="hidden"
+                          value="'.3.'"
+                        />
+                        <input
+                          id="currentlySelectedGcBudgetLineItemId"
+                          type="hidden"
+                          value="-1"
+                        />
+
+                        <div
+                          class="modal warning-modal"
+                          tabindex="-1"
+                          [ngStyle]="{ display: displayStyle }"
+                        >
+                          <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title">Warning</h5>
+                                <button
+                                  type="button"
+                                  (click)="closePopup()"
+                                  class="close"
+                                  data-dismiss="modal"
+                                  aria-label="Close"
+                                >
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                <p class="my-2 modal-para">
+                                  <span
+                                    style="color: #3b90ce"
+                                    id="dialog-confirm"
+                                  ></span>
+                                  contains a subcontractor so it cannot be
+                                  deleted from this budget
+                                </p>
+                              </div>
+                              <div class="modal-footer">
+                                <button
+                                  (click)="closePopup()"
+                                  type="button"
+                                  class="btn"
+                                >
+                                  OK
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- warning modal-->
+                        <!-- delete modal -->
+                        <div
+                          class="modal warning-modal delete-modal"
+                          tabindex="-1"
+                          [ngStyle]="{ display: displayStyleGc }"
+                        >
+                          <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title">Confirm Delete</h5>
+                                <button
+                                  type="button"
+                                  (click)="closePopupGC()"
+                                  class="close"
+                                  data-dismiss="modal"
+                                  aria-label="Close"
+                                >
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                <p class="my-2 modal-para mb-4">
+                                  Are you sure you want to delete
+                                  <span
+                                    style="color: #3b90ce"
+                                    id="dialog-confirm1"
+                                  ></span>
+                                  from this budget ? It would delete the
+                                  bidspread, bidItems and subcontracts
+                                  Associated with this costcode
+                                </p>
+                              </div>
+                              <input
+                                type="hidden"
+                                class="selected_gc_id"
+                                value=""
+                              />
+                              <div class="modal-footer">
+                                <button
+                                  (click)="DeleteGcBudget()"
+                                  type="button"
+                                  class="btn mr-2"
+                                >
+                                  Delete
+                                </button>
+                                <button
+                                  type="button"
+                                  (click)="closePopupGC()"
+                                  class="btn mr-1"
+                                  data-dismiss="modal"
+                                >
+                                  Cancel
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <ng-template #contentrfi let-modal class="tests">
+                          <div
+                            class="modal-content modal_popup contentrfi_modal"
+                          >
+                            <div class="modal-header">
+                              <h3>Import Cost Codes Into Current Budget</h3>
+                              <span
+                                (click)="modal.dismiss('Cross click')"
+                                class="close"
+                              >
+                                ×
+                              </span>
+                            </div>
+                            <div
+                              [ngStyle]="styleObject(ViewOpenRFI)"
+                              class="modal-body"
+                              style="
+                                overflow-y: scroll;
+                                overflow-x: hidden;
+                                height: 500px;
+                                border-bottom: 1px solid #bbb;
+                              "
+                            >
+                              <div class="tableview">
+                                <table
+                                  width="100%"
+                                  cellpadding="5"
+                                  cellspacing="0"
+                                  style="
+                                    margin-bottom: 10px;
+                                    table-layout: inherit;
+                                  "
+                                >
+                                  <tbody>
+                                    <tr>
+                                      <th
+                                        class="textAlignLeft"
+                                        style="
+                                          font-size: 0.9em;
+                                          text-align: left;
+                                        "
+                                      >
+                                        Import Cost Codes:
+                                      </th>
+                                      <td align="textAlignLeft">
+                                        <select
+                                          (change)="
+                                            loadImportCostCodesIntoBudgetDialogChanges()
+                                          "
+                                          id="ddlImportProjectList"
+                                          style="margin-top: 7px"
+                                        >
+                                          <option
+                                            *ngFor="
+                                              let costcodes of arrDropDownList
+                                                | keyvalue
+                                            "
+                                            value="{{ costcodes.key }}"
+                                          >
+                                            {{ costcodes.value }}
+                                          </option>
+                                        </select>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+
+                                <table
+                                  id="tblImportCostCodes"
+                                  cellpadding="3px"
+                                  cellspacing="0"
+                                  border="0"
+                                  width="100%"
+                                  style="
+                                    margin-bottom: 0px;
+                                    table-layout: inherit;
+                                  "
+                                >
+                                  <tbody>
+                                    <tr>
+                                      <th
+                                        width="30px"
+                                        style="vertical-align: middle"
+                                      >
+                                        <input
+                                          (click)="checkAllImportItems()"
+                                          id="chkImportDefault"
+                                          type="checkbox"
+                                        />
+                                      </th>
+                                      <th
+                                        class="textAlignLeft"
+                                        style="
+                                          font-size: 0.9em;
+                                          text-align: left;
+                                        "
+                                      >
+                                        Import ALL {{ importHeadline }}
+                                      </th>
+                                    </tr>
+                                    <ng-container
+                                      *ngFor="
+                                        let projectcostcodes of arrCostCodes
+                                      "
+                                    >
+                                      <tr>
+                                        <th
+                                          colspan="2"
+                                          align="left"
+                                          class="borderBottom"
+                                          style="
+                                            padding: 15px 0 0 0 !important;
+                                            font-size: 0.9em;
+                                            text-align: left;
+                                          "
+                                        >
+                                          Division
+                                          {{
+                                            projectcostcodes.division_info
+                                              .division_number
+                                          }}
+                                          -
+                                          {{
+                                            projectcostcodes.division_info
+                                              .division
+                                          }}
+                                        </th>
+                                      </tr>
+                                      <div style="height: 12px"></div>
+                                      <tr
+                                        *ngFor="
+                                          let cc of projectcostcodes.cost_codes
+                                        "
+                                        class="div-number"
+                                      >
+                                        <td
+                                          class="textAlignCenter"
+                                          style="
+                                            padding-top: 14px;
+                                            padding-left: 8px;
+                                          "
+                                        >
+                                          <input
+                                            id="chkImport_{{ cc.cost_code_id }}"
+                                            class="input-import-checkbox"
+                                            type="checkbox"
+                                            value="{{ cc.cost_code_id }}"
+                                          />
+                                        </td>
+                                        <td
+                                          style="
+                                            padding-top: 10px;
+                                            padding-left: 5px;
+                                          "
+                                        >
+                                          <label
+                                            for="chkImport_{{
+                                              cc.cost_code_id
+                                            }}"
+                                            style="
+                                              float: none;
+                                              text-align: left;
+                                            "
+                                          >
+                                            {{
+                                              projectcostcodes.division_info
+                                                .division_number
+                                            }}-{{ cc.cost_code }}
+                                            {{ cc.cost_code_description }}
+                                          </label>
+                                        </td>
+                                      </tr>
+                                    </ng-container>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                            <div class="myPopover hidden" id="pop_data"></div>
+                            <div class="modal-footer">
+                              <button
+                                (click)="importCostCodesIntoBudget()"
+                                class="buttonClose"
+                              >
+                                Import Selected Items
+                              </button>
+                              <button
+                                (click)="modal.dismiss('Cross click')"
+                                class="buttonClose"
+                              >
+                                Close
+                              </button>
+                            </div>
+                          </div>
+                        </ng-template>
+
+                        <div id="divModalWindow" class></div>
+
+                        <div id="divModalWindow2"></div>
+                        <div id="dialog-confirm"></div>
+                        <div id="divsignature" class></div>
+                        <div
+                          id="divPermissionModal"
+                          title="Advent — Delta Lane — Budget Permissions"
+                        ></div>
+                      </div>
+                      <div
+                        id="uploadProgressWindow"
+                        class="uploadResult"
+                        style="display: none"
+                      >
+                        <h3>
+                          FILE UPLOAD PROGRESS:
+                          <input
+                            type="button"
+                            value="Close File Progress Window"
+                            onclick="document.getElementById('uploadProgressWindow').style.display='none';"
+                          />
+                        </h3>
+                        <ul id="UL-FileList" class="qq-upload-list"></ul>
+                        <span id="uploadProgressErrorMessage"></span>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+<ng-template #importbidders let-modal class="tests">
+  <div
+    class="modal-content modal_popup importbidders_modal"
+    style="
+      position: absolute;
+      height: auto;
+      width: 1010.4px;
+      top: 0px;
+      display: block;
+      z-index: 401;
+    "
+    tabindex="-1"
+    role="dialog"
+    aria-describedby="divModalWindow"
+    aria-labelledby="ui-id-1"
+  >
+    <div
+      class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix ui-draggable-handle"
+    >
+      <span id="ui-id-1" class="ui-dialog-title">
+        Import All Bidders Or A Subset From A Project Or Bid List
+      </span>
+      <button
+        type="button"
+        class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close"
+        role="button"
+        title="Close"
+      >
+        <span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span>
+
+        <span (click)="modal.dismiss('Cross click')" class="ui-button-text">
+          Close
+        </span>
+      </button>
+    </div>
+    <div
+      id="divModalWindow"
+      class="ui-dialog-content ui-widget-content"
+      style="width: auto; min-height: 0px; max-height: none; height: 468px"
+    >
+      <select
+        (change)="updateImportOptions($event.target.value)"
+        id="ddlImportList"
+      >
+        <option value="0">
+          Please Select A Project, Bid List, Or Other Option Below
+        </option>
+        <optgroup label="IMPORT FROM PROJECT">
+          <option
+            *ngFor="let project of projects"
+            value="project|{{ project.id }}"
+          >
+            {{ project.project_name }}
+          </option>
+        </optgroup>
+
+        <optgroup label="IMPORT FROM ALL PROJECTS">
+          <option value="allprojects|1">All Bidders Across All Projects</option>
+        </optgroup>
+
+        <optgroup label="IMPORT FROM BID LIST">
+          <option
+            *ngFor="let bidList of bidLists"
+            value="bidlist|{{ bidList.id }}"
+          >
+            {{ bidList.bid_list_name }}
+          </option>
+        </optgroup>
+        <optgroup label="IMPORT FROM ALL BID LISTS">
+          <option value="allsubsbytrade|1">
+            All Subs Categorized By Trade
+          </option>
+        </optgroup>
+        <optgroup label="IMPORT FROM ALL DATA SOURCES">
+          <option value="alldatasources|1">
+            All Bidders Across All Projects &amp; All Subs Categorized By Trade
+          </option>
+        </optgroup>
+      </select>
+
+      <div *ngIf="arrPotentialBidders.length == 0 && isresponse">
+        <p>No Bidders Available To Import</p>
+      </div>
+
+      <div *ngIf="arrPotentialBidders.length > 0">
+        <table width="100%" cellpadding="5">
+          <tbody>
+            <tr class="permissionTableMainHeader">
+              <td title="Check / Uncheck All">
+                <input
+                  (click)="checkBiddersToImport($event, '0')"
+                  type="checkbox"
+                  style="display: block"
+                  class="inputCheckbox allcheck"
+                />
+              </td>
+              <td colspan="4">Check The Bidders To Import</td>
+            </tr>
+          </tbody>
+        </table>
+        <div *ngIf="arrGcBudgetLineItems.length > 0">
+          <ng-template *ngFor="let arrGcBudgetLineItem of arrGcBudgetLineItems">
+            <!-- <ng-template *ngFor="let row of arrPotentialBidders[cost_code_id];"> -->
+            <tr
+              class="oddRow"
+              style="border-top: 1px solid black; cursor: default"
+            >
+              <td title="Check / Uncheck All In This Cost Code">
+                <input
+                  id="group_{{ arrGcBudgetLineItem.cost_code }}"
+                  class="{{ arrGcBudgetLineItem.cost_code }} inputCheckbox"
+                  type="checkbox"
+                  onclick="checkBiddersToImport($event, arrGcBudgetLineItem.cost_code);"
+                />
+              </td>
+              <td nowrap>
+                {{ arrGcBudgetLineItem.division_number }}{{ costCodeDividerType
+                }}{{ arrGcBudgetLineItem.cost_code }}
+              </td>
+              <td nowrap>
+                {{ arrGcBudgetLineItem.cost_code_description }}
+              </td>
+              <td colspan="2">&nbsp;</td>
+            </tr>
+            <tr>
+              <td>
+                <input
+                  id="chk_{{ arrGcBudgetLineItem.gc_budget_line_item_id }}_{{
+                    arrGcBudgetLineItem.contact_id
+                  }}'"
+                  type="checkbox"
+                  class="{{ arrGcBudgetLineItem.cost_code }}' inputCheckbox"
+                  value="{{ arrGcBudgetLineItem.gc_budget_line_item_id }}_{{
+                    arrGcBudgetLineItem.contact_id
+                  }}"
+                />
+              </td>
+              <td>&nbsp;</td>
+              <td nowrap>
+                {{ arrGcBudgetLineItem.company }}
+              </td>
+              <td nowrap width="100%">
+                {{ arrGcBudgetLineItem.first_name }}
+              </td>
+              <td nowrap>
+                {{ arrGcBudgetLineItem.subcontractor_bid_status }}
+              </td>
+            </tr>
+            <!-- </ng-template> -->
+          </ng-template>
+        </div>
+
+        <div *ngIf="arrNonMatchingBudgetItems.length > 0">
+          <div style="margin-top: 30px">
+            These bidders are unavailable due to the below cost codes not being
+            included in current project\'s budget
+          </div>
+          <table width="100%" cellpadding="5">
+            <tbody>
+              <div
+                class="repeated_div"
+                *ngFor="
+                  let arrNonMatchingBudgetItem of arrNonMatchingBudgetItems
+                "
+              >
+                <tr
+                  class="oddRow"
+                  style="border-top: 1px solid black"
+                  *ngIf="
+                    checkDisplay(arrNonMatchingBudgetItem.cost_code_id, last)
+                  "
+                >
+                  <td>&nbsp;</td>
+                  <td nowrap>
+                    {{
+                      arrSelectedGcBudgetLineItems[
+                        arrNonMatchingBudgetItem.cost_code_id
+                      ].division_number
+                    }}-{{
+                      arrSelectedGcBudgetLineItems[
+                        arrNonMatchingBudgetItem.cost_code_id
+                      ].cost_code
+                    }}
+                  </td>
+                  <td nowrap>
+                    {{
+                      arrSelectedGcBudgetLineItems[
+                        arrNonMatchingBudgetItem.cost_code_id
+                      ].cost_code_description
+                    }}
+                  </td>
+                  <td colspan="2">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                  <td nowrap>
+                    {{ arrNonMatchingBudgetItem.company }}
+                  </td>
+                  <td nowrap width="100%">
+                    {{ arrNonMatchingBudgetItem.first_name }}
+                    {{ arrNonMatchingBudgetItem.last_name }}
+                  </td>
+                  <td nowrap>
+                    {{ arrNonMatchingBudgetItem.subcontractor_bid_status }}
+                  </td>
+                </tr>
+                <input
+                  type="hidden"
+                  [model]="last"
+                  value="{{ arrNonMatchingBudgetItem.cost_code_id }}"
+                />
+              </div>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="divImportableBidders" style="margin: 5px"></div>
+    </div>
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+      <div class="ui-dialog-buttonset">
+        <button
+          (click)="importSelectedBidders()"
+          type="button"
+          class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+          role="button"
+        >
+          <span class="ui-button-text"> Import Checked Bidders </span>
+        </button>
+        <button
+          (click)="modal.dismiss('Cross click')"
+          type="button"
+          class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+          role="button"
+        >
+          <span class="ui-button-text">Cancel</span>
+        </button>
+      </div>
+    </div>
+    <div class="ui-resizable-handle ui-resizable-n" style="z-index: 90"></div>
+    <div class="ui-resizable-handle ui-resizable-e" style="z-index: 90"></div>
+    <div class="ui-resizable-handle ui-resizable-s" style="z-index: 90"></div>
+    <div class="ui-resizable-handle ui-resizable-w" style="z-index: 90"></div>
+    <div
+      class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se"
+      style="z-index: 90"
+    ></div>
+    <div class="ui-resizable-handle ui-resizable-sw" style="z-index: 90"></div>
+    <div class="ui-resizable-handle ui-resizable-ne" style="z-index: 90"></div>
+    <div class="ui-resizable-handle ui-resizable-nw" style="z-index: 90"></div>
+  </div>
+</ng-template>
+
+<ng-template #requestbudgetnumber let-modal class="tests">
+  <div
+    class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-front ui-dialog-buttons ui-draggable ui-resizable"
+    style="
+      background: white;
+      height: auto;
+      width: 600px;
+      top: 39px;
+      left: 328px;
+      display: block;
+      z-index: 401;
+    "
+    tabindex="-1"
+    role="dialog"
+    aria-describedby="divModalWindow"
+    aria-labelledby="ui-id-3"
+  >
+    <div
+      class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix ui-draggable-handle"
+    >
+      <span id="ui-id-3" class="ui-dialog-title">Request Budget Numbers</span>
+      <button
+        type="button"
+        class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close"
+        role="button"
+        title="Close"
+        (click)="modal.dismiss('Cross click')"
+      >
+        <span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span
+        ><span class="ui-button-text">Close</span>
+      </button>
+    </div>
+
+    <div
+      id="divModalWindow"
+      class="ui-dialog-content ui-widget-content"
+      style="width: auto; min-height: 0px; max-height: none; height: 368px"
+    >
+      <div *ngIf="arrRequestBidderList.length == 0 && isrequestresponse">
+        There Are Currently No Potential Budget Number Providers.
+      </div>
+      <div *ngIf="rowGcBudgetLineItemss.length > 0">
+        <input id="activeProjectId" type="hidden" value="{{ project_id }}" />
+        <table width="100%" cellpadding="5" style="margin-bottom: 20px">
+          <tr class="permissionTableMainHeader">
+            <td class="textAlignLeft">Budget Numbers Request Email Verbage</td>
+          </tr>
+          <tr>
+            <td style="padding-top: 5px">
+              "We cordially invite you to submit a budget number for the
+              {{ project_name }} project. Please see the attached document for
+              more information regarding the project."
+            </td>
+          </tr>
+          <tr>
+            <th class="textAlignLeft">
+              Budget Numbers Request - Additional Email Comments:
+            </th>
+          </tr>
+          <tr>
+            <td>
+              <textarea
+                id="additionalNotes"
+                name="additionalNotes"
+                style="width: 99%"
+                rows="4"
+                title="Add your comments to the Budget Numbers Request email . . ."
+                class="auto-hint"
+              ></textarea>
+            </td>
+          </tr>
+        </table>
+        <table width="100%" cellpadding="5">
+          <tr class="permissionTableMainHeader">
+            <td align="center" title="Check / Uncheck All">
+              <input
+                type="checkbox"
+                class="allinvitecheck inviteCheckBox"
+                style="display: block"
+                (click)="checkBiddersToInvite($event, 0)"
+              />
+            </td>
+            <td colspan="4">
+              Check The Budget Number Requestees That You Would Like To Request
+              a Budget Number From
+            </td>
+          </tr>
+          <div *ngFor="let rowGcBudgetLineItem of rowGcBudgetLineItems">
+            <tr
+              class="oddRow"
+              style="border-top: 1px solid black; cursor: default"
+              *ngIf="checkDisplay(rowGcBudgetLineItem.cost_code, last)"
+            >
+              <div
+                *ngIf="
+                  arrCodesCheckable &&
+                  arrCodesCheckable.cost_code &&
+                  arrCodesCheckable.cost_code == 1
+                "
+              >
+                <td
+                  align="center"
+                  title="Check / Uncheck All In This Cost Code"
+                >
+                  <input
+                    id="group_{{ rowGcBudgetLineItem.cost_code }}"
+                    class="{{ rowGcBudgetLineItem.cost_code }} inviteCheckBox"
+                    style="display: block"
+                    type="checkbox"
+                    (click)="
+                      checkBiddersToInvite(
+                        $event,
+                        rowGcBudgetLineItem.cost_code
+                      )
+                    "
+                  />
+                </td>
+              </div>
+              <div *ngIf="!arrCodesCheckable.cost_code">
+                <td>&nbsp;</td>
+              </div>
+              <td nowrap>
+                {{ rowGcBudgetLineItem.division_number
+                }}{{ rowGcBudgetLineItem.costCodeDividerType
+                }}{{ rowGcBudgetLineItem.cost_code }}
+              </td>
+              <td nowrap>{{ rowGcBudgetLineItem.cost_code_description }}</td>
+              <td colspan="2">&nbsp;</td>
+            </tr>
+            <tr>
+              <div *ngIf="rowGcBudgetLineItem.contact_email">
+                <td align="center">
+                  <input
+                    id="chk_{{ rowGcBudgetLineItem.subcontractor_bid_id }}_{{
+                      rowGcBudgetLineItem.contact_id
+                    }}"
+                    style="display: block"
+                    type="checkbox"
+                    class="'{{ rowGcBudgetLineItem.cost_code }} inviteCheckBox"
+                    value="{{ rowGcBudgetLineItem.subcontractor_bid_id }}"
+                  />
+                </td>
+              </div>
+              <div *ngIf="!rowGcBudgetLineItem.contact_email">
+                <td align="center" nowrap style="color: red">No Email</td>
+              </div>
+              <td>&nbsp;</td>
+              <td nowrap>{{ rowGcBudgetLineItem.company }}</td>
+              <td nowrap width="100%">
+                {{ rowGcBudgetLineItem.first_name }}" "{{
+                  rowGcBudgetLineItem.last_name
+                }}
+              </td>
+              <td nowrap>{{ rowGcBudgetLineItem.subcontractor_bid_status }}</td>
+            </tr>
+          </div>
+        </table>
+      </div>
+    </div>
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+      <div class="ui-dialog-buttonset">
+        <button
+          type="button"
+          class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+          role="button"
+        >
+          <span class="ui-button-text"
+            >Request Budget Numbers From Selected Potentials</span
+          >
+        </button>
+        <button
+          (click)="modal.dismiss('Cross click')"
+          type="button"
+          class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+          role="button"
+        >
+          <span class="ui-button-text">Cancel</span>
+        </button>
+      </div>
+    </div>
+    <div class="ui-resizable-handle ui-resizable-n" style="z-index: 90"></div>
+    <div class="ui-resizable-handle ui-resizable-e" style="z-index: 90"></div>
+    <div class="ui-resizable-handle ui-resizable-s" style="z-index: 90"></div>
+    <div class="ui-resizable-handle ui-resizable-w" style="z-index: 90"></div>
+    <div
+      class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se"
+      style="z-index: 90"
+    ></div>
+    <div class="ui-resizable-handle ui-resizable-sw" style="z-index: 90"></div>
+    <div class="ui-resizable-handle ui-resizable-ne" style="z-index: 90"></div>
+    <div class="ui-resizable-handle ui-resizable-nw" style="z-index: 90"></div>
+  </div>
+</ng-template>
+
+<ng-template #uploadfilesbycompany let-modal class="tests">
+  <div
+    class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-front ui-draggable ui-resizable"
+    style="
+      position: absolute;
+      height: auto;
+      width: 800px;
+      background: white;
+      display: block;
+      z-index: 401;
+    "
+    tabindex="-1"
+    role="dialog"
+    aria-describedby="divModalWindow"
+    aria-labelledby="ui-id-3"
+  >
+    <div
+      class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix ui-draggable-handle"
+    >
+      <span id="ui-id-3" class="ui-dialog-title"
+        >Upload Purchasing Files By Bidding Company</span
+      >
+      <button
+        type="button"
+        (click)="modal.dismiss('Cross click')"
+        class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close"
+        role="button"
+        title="Close"
+      >
+        <span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span>
+        <span class="ui-button-text">Close</span>
+      </button>
+    </div>
+    <div
+      id="divModalWindow"
+      class="ui-dialog-content ui-widget-content"
+      style="width: auto; min-height: 0px; max-height: none; height: 288px"
+    >
+      <select
+        id="ddlBiddersByCompany"
+        (change)="
+          updateSubcontractorBidDocumentFileUploaderModalDialog(
+            $event.target.value
+          )
+        "
+        style="margin-bottom: 20px"
+      >
+        <option
+          *ngFor="let biddersByCompany of biddersByCompanies"
+          value="{{ ddlValue(biddersByCompany) }}"
+        >
+          {{ ddlDisplay(biddersByCompany) }}
+        </option>
+      </select>
+      <table cellpadding="5">
+        <tbody>
+          <tr>
+            <th class="textAlignLeft">Company Name:</th>
+            <td id="divBidderByCompanyName">{{ companyName }}</td>
+          </tr>
+          <tr>
+            <th class="textAlignLeft">Budget Item:</th>
+            <td id="divBidderByCompanyBudget">{{ budgetName }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div id="divUploadFiles">&nbsp;</div>
+    </div>
+    <div class="ui-resizable-handle ui-resizable-n" style="z-index: 90"></div>
+    <div class="ui-resizable-handle ui-resizable-e" style="z-index: 90"></div>
+    <div class="ui-resizable-handle ui-resizable-s" style="z-index: 90"></div>
+    <div class="ui-resizable-handle ui-resizable-w" style="z-index: 90"></div>
+    <div
+      class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se"
+      style="z-index: 90"
+    ></div>
+    <div class="ui-resizable-handle ui-resizable-sw" style="z-index: 90"></div>
+    <div class="ui-resizable-handle ui-resizable-ne" style="z-index: 90"></div>
+    <div class="ui-resizable-handle ui-resizable-nw" style="z-index: 90"></div>
+  </div>
+</ng-template>
+
+<ng-template #sendBitInvite
+let-modal
+class="tests">
+	<div class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-front ui-dialog-buttons ui-draggable ui-resizable" style="position: absolute; height: auto; width: 1136.7px; top: 6px; left: 60px; display: block; z-index: 401;background:white;" tabindex="-1" role="dialog" aria-describedby="divModalWindow" aria-labelledby="ui-id-4">
+		<div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix ui-draggable-handle">
+			<span id="ui-id-4" class="ui-dialog-title">Invite All Potential Bidders</span>
+			<button type="button" (click)="modal.dismiss('Cross click')" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close" role="button" title="Close">
+				<span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span><span class="ui-button-text">Close</span>
+			</button></div>
+			<div id="divModalWindow" class="ui-dialog-content ui-widget-content" style="width: auto; min-height: 0px; max-height: none; height: 434.44px;">
+		<table width="100%" cellpadding="3" border="0">
+			<tbody><tr valign="top">
+				<th class="textAlignLeft" style="width: 225px;">Filter On Status:</th>
+				<th class="textAlignLeft" style="width: 450px;" nowrap="">Email Body:</th>
+				<th class="textAlignLeft" style="width: 250px;" nowrap="">Email Attachments:</th>
+			</tr>
+			<tr valign="top">
+				<td nowrap="" *ngIf="getSubcontractorBidLists.length">
+					<select id="ddl_subcontractor_bid_status_id" multiple="true" style="height:125px;" (change)="updateBidderEmailList();">
+						<option *ngFor="let item of getSubcontractorBidLists" value="{{item.id}}">{{item.subcontractor_bid_status}}</option>
+					</select>
+					<br>
+					<span style="font-size:10px;">(Ctrl/Command Click To Select Multiple)</span>
+					<br>
+					<!--input class="colorLightGray smallButton" onclick="renderSimpleEmailBiddersModalDialog();" type="button" value="[Reset Filter]"-->
+					<span class="colorMediumGray fakeHref test" onclick="renderSimpleEmailBiddersModalDialog();">[Reset Filter]</span>
+				</td>
+				<td><textarea id="additionalNotes" style="margin-top:5px; margin-bottom:5px; width:95%;" rows="8" title="Email body . . ." class="auto-hint"></textarea></td>
+				<td nowrap="">
+					<div id="emailAttachment_" class="boxViewUploader uploaderInitialized" folder_id="" project_id="" virtual_file_path="/Purchasing/Bid Invites/" virtual_file_name="" action="/modules-purchasing-file-uploader-ajax.php" method="emailAttachment" allowed_extensions="pdf" drop_text_prefix="" style="margin-top:5px;" post_upload_js_callback="emailAttachmentUploaded(arrFileManagerFiles, 'ulEmailAttachments');"><div class="qq-uploader"><div class="qq-upload-drop-area" style="display: none;"><img src="/images/icons/file-upload.png" alt="" width="15" height="17">Drop Here</div><div class="qq-upload-button" style="position: relative; overflow: hidden; direction: ltr;"><img src="/images/icons/file-upload.png" alt="" width="15" height="17">Drop or Click Files<input multiple="multiple" type="file" name="file" style="position: absolute; right: 0px; top: 0px; font-family: Arial; font-size: 118px; margin: 0px; padding: 0px; cursor: pointer; opacity: 0;"></div></div></div>
+					<ul id="ulEmailAttachments" style="margin:10px 0 0 0; padding:0; list-style:none; font-size:0.8em;"></ul>
+				</td>
+			</tr>
+		</tbody></table>
+		<div id="divBidderLog" style="margin-top: 20px; width:100%;">
+					
+			0 Bidders
+			<input id="currentDialog" type="hidden" value="emailBidders">
+			<table style="margin-bottom: 150px;" width="100%" cellspacing="0" cellpadding="4" border="0">
+				<tbody>
+					<tr class="permissionTableMainHeader">
+						<td title="Check / Uncheck All" align="center"><input type="checkbox" class="inviteCheckBox allinvitecheck" (click)="checkBiddersToSendInvite(this, '0');"></td>
+						<td colspan="5">Check The Bidders That You Would Like To Email</td>
+					</tr>		
+				</tbody>
+			</table>
+				</div></div>
+				<div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+					<div class="ui-dialog-buttonset">
+						<button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button"><span class="ui-button-text">Invite Checked Bidders</span></button>
+						<button type="button" (click)="modal.dismiss('Cross click')" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button"><span class="ui-button-text">Cancel</span></button>
+					</div>
+				</div>
+				<div class="ui-resizable-handle ui-resizable-n" style="z-index: 90;"></div>
+				<div class="ui-resizable-handle ui-resizable-e" style="z-index: 90;"></div>
+				<div class="ui-resizable-handle ui-resizable-s" style="z-index: 90;"></div>
+				<div class="ui-resizable-handle ui-resizable-w" style="z-index: 90;"></div>
+				<div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se" style="z-index: 90;"></div>
+				<div class="ui-resizable-handle ui-resizable-sw" style="z-index: 90;"></div>
+				<div class="ui-resizable-handle ui-resizable-ne" style="z-index: 90;"></div>
+				<div class="ui-resizable-handle ui-resizable-nw" style="z-index: 90;"></div>
+	</div>
+</ng-template>
+
+<ng-template #MasterCodeList let-modal class="tests">
+  <div class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-front ui-dialog-buttons ui-draggable ui-resizable"
+    style="position: absolute; height: auto; width: 1136.7px; top: 6px; left: -230px; display: block; z-index: 401;background:white;"
+    tabindex="-1" role="dialog" aria-describedby="divModalWindow" aria-labelledby="ui-id-5">
+    <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix ui-draggable-handle">
+      <span id="ui-id-5" class="ui-dialog-title">Advent - Master Cost Codes List</span>
+      <button type="button" (click)="modal.dismiss('Cross click')"
+        class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close"
+        role="button" style="float:
+        right; 
+      background: #91cef7 !important;
+      border: #4e4f51 !important;" title="Close">
+        <span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span>
+        <span class="ui-button-text">X</span>
+      </button>
+    </div>
+    <div id="divModalWindow" class="ui-dialog-content ui-widget-content"
+      style="width: auto; min-height: 0px; max-height: none; height: 434.44px;overflow:auto;">
+      <table class="custom_table" cellpadding="5" cellspacing="0" style="margin-bottom:10px;">
+        <tbody>
+          <tr>
+            <th colspan="6" style="text-align: left;">
+              Manage Cost Codes:
+              <select id="ddlCostCodeTypeId" [(ngModel)]="manageCostCodeId" (ngModelChange)="manageCostCodeSelection(); isShowManagementForm = false; isShowCostCodeForm = false">
+                <option value="-1">Select Advent Codes</option>
+                <option *ngFor="let costCodes of costCodeList" value="{{costCodes.id}}">Advent Codes ::
+                  {{costCodes.cost_code_type}}</option>
+              </select>
+              <input id="createNewCostCodes" style="margin-left: 5px; margin-right: 5px" name="createNewCostCodes"
+                type="button" value="Show / Hide Cost Code Management Forms"
+                (click)="isShowManagementForm = !isShowManagementForm">
+              <input style="margin-right: 5px" id="createOwnerCostCodes" name="createOwnerCostCodes" type="button"
+                value="Create Owner Cost code" (click)="isShowCostCodeForm = !isShowCostCodeForm">
+              <input id="refreshCreateNewCostCodes" name="refreshCreateNewCostCodes" type="button" value="Refresh" (click)="manageCostCodeSelection(); isShowManagementForm = false; isShowCostCodeForm = false; divisionForm.reset(); costCodeForm.reset();divisionDefaultValue()">
+              <div id="createOwnerCostCodesContainer" *ngIf="isShowCostCodeForm">
+                <table class="noBorder" id="tblownercost" border="0" cellpadding="5" cellspacing="0" style="margin-bottom:10px;"
+                  width="100%">
+                  <tbody>
+                    <tr>
+                      <th colspan="6" style="text-align: left;">
+                        Select Company :
+                        <select id="ddlCompanylist" class="ddlCompanylist" [(ngModel)]="selectedCompanyId">
+                          <option value="">Select Company</option>
+                          <option *ngFor="let company of companyList" value="{{company.id}}">
+                            {{company.company}}</option>
+                        </select>
+                      </th>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div id="createNewCostCodesContainer" *ngIf="isShowManagementForm">
+                <br>
+                <form>
+                  <!-- <input type="hidden" value="5"> -->
+                  <table class="dotted_table" cellpadding="2" cellspacing="2" style="border: 1px #ccc dashed;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2">[Delete or Disable a Division]</td>
+                      </tr>
+                      <tr>
+                        <td align="right">Division: </td>
+                        <td>
+                          <select style="margin: 0px;" [(ngModel)]="selectedDivisionId" (ngModelChange)="changeDivision($event)">
+                            <option value="">Please Select a Division To Delete Or Disable</option>
+                            <option *ngFor="let divisionCode of costCodeDivisionList" [ngValue]="divisionCode.id">
+                              {{divisionCode.division_number}}_{{divisionCode.division_code_heading}}&nbsp;{{divisionCode.division}}&nbsp;—&nbsp;{{divisionCode.disabled_flag == "N" ? "Enabled" : "Disabled"}}
+                            </option>
+                          </select>                       
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="right" colspan="2">
+                          <input type="reset" value="Reset" (click)="selectedDivision=''">&nbsp;
+                          <input type="button" value="Toggle Enabled/Disabled" (click)="isToggleDivision ? toggleDivision(selectedDivisionData) : ''">&nbsp;
+                          <input type="button" value="Delete This Division" (click)="deleteCostCodeDivision(selectedDivisionData)">
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </form>
+                <br>
+                <form>
+                  <!-- <input  type="hidden" value="5"> -->
+                  <table class="dotted_table" cellpadding="2" cellspacing="2" style="border: 1px #ccc dashed;">
+                    <tbody [formGroup]="divisionForm">
+                      <tr>
+                        <td colspan="2">[Create a New Division]</td>
+                      </tr>
+                      <tr>
+                        <td align="right">Division Number: </td>
+                        <td>
+                          <input class="numbers-only" type="text" formControlName="cost_code_type_id" hidden>
+                          <input class="numbers-only" type="text" formControlName="division_number">
+                          <div class="has-error" *ngIf="!divisionForm.controls.division_number.valid && divisionForm.controls.division_number.touched">
+                            <div *ngIf="divisionForm.get('division_number').errors.required">Division number is required</div>
+                            <div *ngIf="divisionForm.get('division_number').errors.maxlength">Division number can only be two characters</div>
+                            <div *ngIf="divisionForm.get('division_number').errors.pattern">Division number can only accept number</div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="right">Division Code Heading Number: </td>
+                        <td>
+                          <input class="numbers-only" type="text" formControlName="division_code_heading" value="000">
+                          <div class="has-error" *ngIf="!divisionForm.controls.division_code_heading.valid && divisionForm.controls.division_code_heading.touched">
+                            <div *ngIf="divisionForm.get('division_code_heading').errors.required">Division code heading number is required</div>
+                            <div *ngIf="divisionForm.get('division_code_heading').errors.pattern">Division code heading can only accept number</div>
+
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="right">Division Name: </td>
+                        <td>
+                          <input type="text" formControlName="division">
+                          <div class="has-error" *ngIf="!divisionForm.controls.division.valid && divisionForm.controls.division.touched">
+                            <div *ngIf="divisionForm.get('division').errors.required">Division name is required</div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="right">Division Abbreviation: </td>
+                        <td>
+                          <input type="text" formControlName="division_abbreviation">
+                          <div class="has-error" *ngIf="!divisionForm.controls.division_abbreviation.valid && divisionForm.controls.division_abbreviation.touched">
+                            <div *ngIf="divisionForm.get('division_abbreviation').errors.required">Division abbreviation is required</div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="right" colspan="2">
+                          <input type="reset" value="Reset" (click)="divisionForm.reset();divisionDefaultValue()">&nbsp;
+                          <input type="button" value="Create New Cost Code Division" (click)="divisionFormSubmit()">
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </form>
+                <br>
+                <form>
+                  <table class="dotted_table" cellpadding="2" cellspacing="2" style="border: 1px #ccc dashed;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2">[Set Cost Code Divider]</td>
+                      </tr>
+                      <tr>
+                        <td align="right">Cost Code Divider: </td>
+                        <td>
+                          <select style="margin: 0px;" [(ngModel)]="selectedDividerId" (ngModelChange)="changeDivider($event)">
+                            <option value="">Please Select a Divider</option>
+                            <option *ngFor="let divider of costCodeDividerList" value="{{divider.id}}">{{divider.divider_type}}</option>
+                          </select>
+                          <!-- <input type="hidden"> -->
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="right" colspan="2">
+                          <input type="button" value="Save Cost Code Divider" (click)="saveCostCodeDivider()">
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2">
+                          <span style="font-weight: normal;font-size: 11px;">
+                            Note: This will change the divider <span id="cost-code-divider-example">(eg : 00{{selectedDivider.length ? selectedDivider[0].divider : '_'}}000)</span>
+                            <br> across all cost codes in all projects, modules, reports, etc.
+                          </span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </form>
+
+                <br>
+
+                <form>
+                  <table class="dotted_table" cellpadding="2" cellspacing="2" style="border: 1px #ccc dashed;">
+                    <tbody  [formGroup]="costCodeForm">
+                      <tr>
+                        <td colspan="2">[Create a New Cost Code]</td>
+                      </tr>
+                      <tr>
+                        <td align="right">Division: </td>
+                        <td>
+
+                          <select style="margin: 0px;" formControlName="cost_code_division_id">
+                            <option value="">Please Select a Division</option>
+                            <option *ngFor="let divisionCode of costCodeDivisionList" value="{{divisionCode.id}}">
+                              {{divisionCode.division_number}}_{{divisionCode.division_code_heading}}&nbsp;{{divisionCode.division}}
+                            </option>
+                          </select>
+                          <div class="has-error" *ngIf="!costCodeForm.controls.cost_code_division_id.valid && costCodeForm.controls.cost_code_division_id.touched">
+                            <div *ngIf="costCodeForm.get('cost_code_division_id').errors.required">Division is required</div>
+                          </div>
+                          <!-- <input type="hidden"> -->
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="right">Cost Code: </td>
+                        <td>
+                          <input type="text" formControlName="cost_code">
+                          <div class="has-error" *ngIf="!costCodeForm.controls.cost_code.valid && costCodeForm.controls.cost_code.touched">
+                            <div *ngIf="costCodeForm.get('cost_code').errors.required">Cost code is required</div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="right">Cost Code Description: </td>
+                        <td>
+                          <input type="text" formControlName="cost_code_description">
+                          <div class="has-error" *ngIf="!costCodeForm.controls.cost_code_description.valid && costCodeForm.controls.cost_code_description.touched">
+                            <div *ngIf="costCodeForm.get('cost_code_description').errors.required">Cost code description is required</div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="right">Cost Code Description Abbreviation: </td>
+                        <td>
+                          <input type="text" formControlName="cost_code_description_abbreviation">
+                          <div class="has-error" *ngIf="!costCodeForm.controls.cost_code_description_abbreviation.valid && costCodeForm.controls.cost_code_description_abbreviation.touched">
+                            <div *ngIf="costCodeForm.get('cost_code_description_abbreviation').errors.required">Cost code description abbreviation is required</div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="right" colspan="2">
+                          <input type="reset" value="Reset" (click)="costCodeForm.reset()">&nbsp;
+                          <input type="button" value="Create New Cost Code" (click)="costCodeFormSubmit()">
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </form>
+                <br>
+              </div>
+            </th>
+          </tr>
+          <tr>
+            <th width="2%">&nbsp;</th>
+            <th style="text-align: right;" width="10%;">Division Number</th>
+            <th style="text-align: left;" width="10%;">Cost Code</th>
+            <th style="text-align: left;" width="25%;">Cost Code Description</th>
+            <th style="text-align: left;" width="25%;">Cost Code Description Abbreviation</th>
+            <th style="text-align: left; display: table-cell;" width="25%" class="owner_data" *ngIf="isShowCostCodeForm">Owner Cost Code
+            </th>
+        </tr>
+          <ng-container *ngFor="let data of manageMasterCostcodeList">         
+          <tr style="background: #D2DF9A;">
+            <th colspan="6" align="left">
+                <a style="font-weight: normal;">X</a>
+                Division
+                <input class="numbers-only" style="margin: 0 3px 0 10px; text-align: right; width: 40px;"
+                    type="number" value="{{data.start}}">-<input class="numbers-only"
+                    style="margin: 0 20px 0 3px; text-align: left; width: 40px;" type="number" value="{{data.end}}">
+                <input style="width: 250px; margin-right: 10px;" type="text" value="{{data.first}}">
+                <input style="width: 210px; margin-right: 10px;" type="text" value="{{data.second}}">( No Cost Code Mapping )
+                <span>Group -
+                    <select  [(ngmodel)]="data.group">
+                        <option value="">Select a Group</option>
+                        <option value="1">GENERAL CONDITIONS</option>
+                        <option value="2">SITEWORK COSTS</option>
+                        <option value="3">BUILDING COSTS</option>
+                        <option value="4">SOFT COSTS</option>
+                    </select>
+                </span>
+            </th>
+        </tr>   
+          <tr class="value_tr" *ngFor="let subData of data.code_mapping">
+            <td class="textAlignCenter" width="3%"><a>X</a>
+            </td>
+            <td align="right">{{subData.Division_number}}</td>
+            <td>
+                <input type="text" value="{{subData.Cost_code}}" class="input-costCode">
+            </td>
+            <td>
+                <input style="width: 96%;" type="text" value="{{subData.Cost_code_description}}" class="input-lineItem">
+            </td>
+            <td>
+                <input style="width: 96%;" type="text" value="{{subData.Abbreviation}}" class="input-lineItem">
+            </td>
+            <td class="owner_data" style="display: table-cell;" *ngIf="isShowCostCodeForm">
+                <input style="width: 96%;" type="text" value="{{subData.Abbreviation}}" class="input-lineItem owner_ccode">
+            </td>
+        </tr>
+          </ng-container>      
+        </tbody>
+      </table>
+    </div>
+      <div class="ui-dialog-buttonpane ui-dialog-content">
+        <div class="ui-dialog-buttonset">
+          <button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only btn-cmn"
+            role="button" (click)="modal.dismiss('Cross click')"><span class="ui-button-text">Close</span></button>
+        </div>
+      </div>
+  </div>
+</ng-template>

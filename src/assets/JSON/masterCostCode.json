@@ -1,0 +1,129 @@
+{
+    "status": "true",
+    "code": "Success",
+    "message": "Data retrieved successfully",
+    "body": {
+        "cost_code_divisions": [
+            {
+                "start": 1,
+                "end": 1,
+                "first": "test",
+                "second": "test1",
+                "group": "group 1",
+                "code_mapping": [
+                    {
+                        "Division_number": 1,
+                        "Cost_code": 2,
+                        "Cost_code_description": "test",
+                        "Abbreviation": "SMS"
+                    },
+                    {
+                        "Division_number": 1,
+                        "Cost_code": 2,
+                        "Cost_code_description": "test",
+                        "Abbreviation": "SMS"
+                    },
+                    {
+                        "Division_number": 1,
+                        "Cost_code": 2,
+                        "Cost_code_description": "test",
+                        "Abbreviation": "SMS"
+                    }
+                ]
+            },
+            {
+                "start": 1,
+                "end": 1,
+                "first": "test",
+                "second": "test1",
+                "group": "group 1",
+                "code_mapping": [
+                    {
+                        "Division_number": 1,
+                        "Cost_code": 2,
+                        "Cost_code_description": "test",
+                        "Abbreviation": "SMS"
+                    },
+                    {
+                        "Division_number": 1,
+                        "Cost_code": 2,
+                        "Cost_code_description": "test",
+                        "Abbreviation": "SMS"
+                    },
+                    {
+                        "Division_number": 1,
+                        "Cost_code": 2,
+                        "Cost_code_description": "test",
+                        "Abbreviation": "SMS"
+                    }
+                ]
+            },
+            {
+                "start": 1,
+                "end": 1,
+                "first": "test",
+                "second": "test1",
+                "group": "group 1",
+                "code_mapping": [
+                    {
+                        "Division_number": 1,
+                        "Cost_code": 2,
+                        "Cost_code_description": "test",
+                        "Abbreviation": "SMS"
+                    }
+                ]
+            },
+            {
+                "start": 1,
+                "end": 1,
+                "first": "test",
+                "second": "test1",
+                "group": "group 1",
+                "code_mapping": [
+                    {
+                        "Division_number": 1,
+                        "Cost_code": 2,
+                        "Cost_code_description": "test",
+                        "Abbreviation": "SMS"
+                    },
+                    {
+                        "Division_number": 1,
+                        "Cost_code": 2,
+                        "Cost_code_description": "test",
+                        "Abbreviation": "SMS"
+                    },
+                    {
+                        "Division_number": 1,
+                        "Cost_code": 2,
+                        "Cost_code_description": "test",
+                        "Abbreviation": "SMS"
+                    },
+                    {
+                        "Division_number": 1,
+                        "Cost_code": 2,
+                        "Cost_code_description": "test",
+                        "Abbreviation": "SMS"
+                    },
+                    {
+                        "Division_number": 1,
+                        "Cost_code": 2,
+                        "Cost_code_description": "test",
+                        "Abbreviation": "SMS"
+                    },
+                    {
+                        "Division_number": 1,
+                        "Cost_code": 2,
+                        "Cost_code_description": "test",
+                        "Abbreviation": "SMS"
+                    },
+                    {
+                        "Division_number": 1,
+                        "Cost_code": 2,
+                        "Cost_code_description": "test",
+                        "Abbreviation": "SMS"
+                    }
+                ]
+            }
+        ]
+    }
+}

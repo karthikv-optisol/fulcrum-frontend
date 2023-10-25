@@ -1,0 +1,46 @@
+input[type=checkbox] {
+    display: inline-block;
+    margin-right: 4px;
+    vertical-align: baseline;
+}
+input[type=checkbox], input[type=radio] {
+    box-sizing: border-box;
+    padding: 0;
+    height: 13px;
+    width: 13px;
+}
+.fs-wrap {
+    display: inline-block;
+    cursor: pointer;
+    line-height: 1;
+}
+.fs-label-wrap {
+    position: relative;
+    background-color: #fff;
+    border: 1px solid #a9a9a9;
+    cursor: default;
+}
+
+.fs-label-wrap .fs-label {
+    padding: 6px 10px 6px 8px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    font-weight: normal;
+}
+.fs-arrow {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #333;
+    position: absolute;
+    top: 0;
+    right: 5px;
+    bottom: 0;
+    margin: auto;
+}
+.hidden {
+    display: none !important;
+    visibility: hidden;
+}

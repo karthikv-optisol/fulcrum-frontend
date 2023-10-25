@@ -1,0 +1,844 @@
+ 
+        <div *ngIf="!loading && global_admin_content">
+            <div id="softwareModuleHeadline"> {{currentlySelectedProjectName}}:
+                Dashboard</div>
+            <div id="messageDiv" class="userMessage"></div>
+            <input id="userRole" type="hidden" value="global_admin">
+
+            <ng-template #content let-modal>
+                <div class="modal-content modal_popup">
+                    <div class="modal-header">
+                        <h3>Open Submittal Index</h3>
+                        <span class="close" (click)="modal.dismiss('Cross click')">×</span>
+                    </div>
+                    <div class="modal-body"   [ngStyle]="styleObject(viewallsubmtl)" style="overflow-y:scroll;overflow-x:hidden;">
+                        <div class="tableview">
+                            <table class="UserViews" width="100%" cellpadding="5">
+                                <thead>
+                                    <tr>
+                                        <td width="10%">No</td>
+                                        <td width="60%">Projects
+                                        </td>
+                                        <td width="30%">No of
+                                            Item Open</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="" *ngFor="let view_all_submtal of viewallsubmtl">
+                                        <td>{{view_all_submtal.no}}
+                                        </td>
+                                        <td><span data-toggle="tooltip" title="{{view_all_submtal.company}}"
+                                                data-original-title="{{view_all_submtal.company}}">{{view_all_submtal.project_name}}</span>
+                                        </td>
+                                        <td style="position:relative;" class="{{view_all_submtal.class}}">
+                                            <span id="prj_sub_{{view_all_submtal.project_id}}"
+                                                class="dropbtn_{{view_all_submtal.project_id}} tooltip-user hyperdown"
+                                                (click)="load_openSubmital(view_all_submtal.project_id)">{{view_all_submtal.count}}</span>
+                                            <div id="submittalOpenItem_{{view_all_submtal.project_id}}"
+                                                [ngClass]="{'show_cont':view_all_submtal.project_id===show_cont_class}"
+                                                class="dropdown-content">
+                                                <ul style="list-style:none; margin:0; padding:0">
+                                                    <li>
+                                                        <span class="dropcont"><b>Index</b></span>
+                                                        <span class="dropcont"><b>Title</b></span>
+                                                    </li>
+                                                    <li class="drop-inner"
+                                                        *ngFor="let loadopenSubmital of loadopenSubmital">
+                                                        <span class="dropcont"
+                                                            style="float:left">{{loadopenSubmital.su_sequence_number}}</span><span
+                                                            class="drop-title">
+                                                            {{loadopenSubmital.su_title}}</span>
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="myPopover hidden" id="pop_data">
+                    </div>
+                    <div class="modal-footer">
+                        <button class="buttonClose" (click)="modal.dismiss('Cross click')">Close</button>
+                    </div>
+                </div>
+
+            </ng-template>
+
+            <ng-template #contentrfi let-modal>
+                <div class="modal-content modal_popup">
+                    <div class="modal-header">
+                        <h3>Open RFI Index</h3>
+                        <span class="close" (click)="modal.dismiss('Cross click')">×</span>
+                    </div>
+                    <div class="modal-body"  [ngStyle]="styleObject(ViewOpenRFI)" style="overflow-y:scroll;overflow-x:hidden;">
+                        <div class="tableview">
+                            <table class="UserViews" width="100%" cellpadding="5">
+                                <thead>
+                                    <tr>
+                                        <td width="10%">No</td>
+                                        <td width="60%">Projects
+                                        </td>
+                                        <td width="30%">No of
+                                            Item Open</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="" *ngFor="let view_all_rfi of ViewOpenRFI">
+                                        <td>{{view_all_rfi.no}}
+                                        </td>
+                                        <td><span data-toggle="tooltip" title="{{view_all_rfi.company}}"
+                                                data-original-title="{{view_all_rfi.company}}">{{view_all_rfi.project_name}}</span>
+                                        </td>
+                                        <td style="position:relative;" class="{{view_all_rfi.class}}">
+                                            <span id="prj_sub_{{view_all_rfi.project_id}}"
+                                                class="dropbtn_{{view_all_rfi.project_id}} tooltip-user hyperdown"
+                                                (click)="load_openRFI(view_all_rfi.project_id)">{{view_all_rfi.count}}</span>
+
+
+                                            <div id="submittalOpenItem_{{view_all_rfi.project_id}}"
+                                                [ngClass]="{'show_cont':view_all_rfi.project_id===show_cont_class}"
+                                                class="dropdown-content">
+                                                <ul style="list-style:none; margin:0; padding:0">
+                                                    <li>
+                                                        <span class="dropcont"><b>Index</b></span>
+                                                        <span class="dropcont"><b>Title</b></span>
+                                                    </li>
+                                                    <li class="drop-inner" *ngFor="let loadopenRfi of loadopenRfi">
+                                                        <span class="dropcont"
+                                                            style="float:left">{{loadopenRfi.rfi_sequence_number}}</span>
+                                                        <span class="drop-title">
+                                                            {{loadopenRfi.rfi_title}}</span>
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="myPopover hidden" id="pop_data">
+                    </div>
+                    <div class="modal-footer">
+                        <button class="buttonClose" (click)="modal.dismiss('Cross click')">Close</button>
+                    </div>
+                </div>
+
+            </ng-template>
+
+            <ng-template #contentallusers let-modal>
+                <div class="modal-content modal_popup">
+                    <div class="modal-header">
+                        <h3>User Index</h3>
+                        <span class="close" (click)="modal.dismiss('Cross click')">×</span>
+                    </div>
+                    <div class="modal-body" [ngStyle]="styleObject(Viewalluserslist)" style="overflow-y:scroll;overflow-x:hidden;">
+                        <div class="tableview">
+                            <table class="UserViews" width="100%" cellpadding="5">
+                                <thead>
+                                    <tr>
+                                        <td width="10%">No</td>
+                                        <td width="60%">General
+                                            Contractor</td>
+                                        <td width="30%">Active
+                                            Users</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="load" *ngFor="let Viewallusers of Viewalluserslist">
+                                        <td>{{Viewallusers.intValue}}
+                                        </td>
+                                        <td>{{Viewallusers.company}}
+                                        </td>
+                                        <td>
+                                            <span id="comp_{{Viewallusers.company_id}}" class="tooltip-user hyperdown"
+                                                (click)="load_user(Viewallusers.company_id)">{{Viewallusers.count}}</span>
+                                        </td>
+
+
+
+                                        <div id="submittalOpenItem_{{Viewallusers.company_id}}"
+                                            [ngClass]="{'show_cont':Viewallusers.company_id===show_cont_class}"
+                                            class="dropdown-content">
+                                            <ul style="list-style:none; margin:0; padding:0">
+                                                <li>
+                                                    <span class="dropcont"><b>No</b></span>
+                                                    <span class="dropcont"><b>Screen
+                                                            Name</b></span>
+                                                </li>
+                                                <li class="drop-inner" *ngFor="let load_user of loaduser">
+                                                    <span class="dropcont" style="float:left">{{load_user.no}}</span>
+                                                    <span class="drop-title">
+                                                        {{load_user.screen_name}}
+                                                        -
+                                                        {{load_user.email}}</span>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="myPopover hidden" id="pop_data">
+                    </div>
+                    <div class="modal-footer">
+                        <button class="buttonClose" (click)="modal.dismiss('Cross click')">Close</button>
+                    </div>
+                </div>
+
+            </ng-template>
+
+            <ng-template #contentallclosedsubmittalindex let-modal>
+                <div class="modal-content modal_popup">
+                    <div class="modal-header">
+                        <h3>Closed Submittal Index</h3>
+                        <span class="close" (click)="modal.dismiss('Cross click')">×</span>
+                    </div>
+                    <div class="modal-body" [ngStyle]="styleObject(closedsub)" style="overflow-y:scroll;overflow-x:hidden;">
+                        <div class="tableview">
+                            <table class="UserViews" width="100%" cellpadding="5">
+                                <thead>
+                                    <tr>
+                                        <td width="10%">No</td>
+                                        <td width="60%">Projects
+                                        </td>
+                                        <td width="30%">No of
+                                            Items Closed</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let closedsub of closedsub">
+                                        <td>{{closedsub.intValue}}
+                                        </td>
+                                        <td class="">
+                                            <span data-toggle="tooltip" title="{{closedsub.labelTextSubC}}"
+                                                data-original-title="{{closedsub.labelTextSubC}}">{{closedsub.projectName}}</span>
+                                        </td>
+                                        <td class="">
+                                            {{closedsub.countSubC}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="myPopover hidden" id="pop_data">
+                    </div>
+                    <div class="modal-footer">
+                        <button class="buttonClose" (click)="modal.dismiss('Cross click')">Close</button>
+                    </div>
+                </div>
+
+            </ng-template>
+
+            <ng-template #contentallclosedrfiindex let-modal>
+                <div class="modal-content modal_popup">
+                    <div class="modal-header">
+                        <h3>Closed RFI Index</h3>
+                        <span class="close" (click)="modal.dismiss('Cross click')">×</span>
+                    </div>
+                    <div class="modal-body" [ngStyle]="styleObject(closedrfi)" style="overflow-y:scroll;overflow-x:hidden;">
+                        <div class="tableview">
+                            <table class="UserViews" width="100%" cellpadding="5">
+                                <thead>
+                                    <tr>
+                                        <td width="10%">No</td>
+                                        <td width="60%">Projects
+                                        </td>
+                                        <td width="30%">No of
+                                            Items Closed</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let closedrfi of closedrfi">
+                                        <td>{{closedrfi.intValue}}
+                                        </td>
+                                        <td class="">
+                                            <span data-toggle="tooltip" title="{{closedrfi.labelTextSubC}}"
+                                                data-original-title="{{closedrfi.labelTextSubC}}">{{closedrfi.projectName}}</span>
+                                        </td>
+                                        <td class="">
+                                            {{closedrfi.countSubC}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="myPopover hidden" id="pop_data">
+                    </div>
+                    <div class="modal-footer">
+                        <button class="buttonClose" (click)="modal.dismiss('Cross click')">Close</button>
+                    </div>
+                </div>
+
+            </ng-template>
+
+            <div class="CoverDiv row m-0 w-100">
+                <div class="splitcenter row m-0 w-100">
+                    <div class="tableCheck">
+                        <div id="bloc1" class="TopCheck" (click)="ProjectsORBusinessview('operational')">
+                            <input type="radio" value="operational" name="dashboardkpi" [checked]="operate"
+                                class="radioLable">
+                            <span class="DCRtext pl-2">Projects</span>
+                        </div>
+                        <div id="bloc2" class="TopCheck" (click)="ProjectsORBusinessview('business')">
+                            <input type="radio" value="business" name="dashboardkpi" [checked]="busines"
+                                class="radioLable">
+                            <span class="DCRtext pl-2">Business</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-100">
+                    <div *ngIf="busines" class="busines row">
+                        <div *ngIf="busines" class="busines col-sm-4">
+                            <div class="FirstSlide slides">
+                                <div class="FirstInTop TopSlide">
+                                    <div class="SlideHeader">
+                                        <div class="Splitleft">
+                                            Signup Index
+                                        </div>
+                                        <div class="Splitright" style="
+                                        width: 22%;
+                                    ">
+                                            <label class="Slidelabel">
+                                                <input type="radio" value="MonthTill" (click)="signupindex('MonthTill')"
+                                                    name="signup" class="radioLable">
+                                                MTD
+                                            </label>
+                                            <label class="Slidelabel">
+                                                <input type="radio" value="QuatorTill"
+                                                    (click)="signupindex('QuatorTill')" name="signup"
+                                                    class="radioLable">
+                                                QTD
+                                            </label>
+                                            <label class="Slidelabel">
+                                                <input type="radio" value="YearTill" (click)="signupindex('YearTill')"
+                                                    name="signup" class="radioLable" [checked]="true">
+                                                YTD
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="DownSlide FirstInDown mt-2" id="SignupAdd">
+                                    <div class="SlideContent FirstInTop">
+                                        <div class="CountNo">
+                                            {{CompaniesCount}}
+                                        </div>
+                                        <div class="DaysCount">
+                                            <table class="DaysTable" *ngIf="signupitemsname?.length != 0">
+                                                <tbody>
+                                                    <tr>
+                                                        <td *ngFor="let signupitemsname of signupitemsname"
+                                                            class="TdFont">
+                                                            {{signupitemsname}}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="SlideContentSec FirstInDown">
+                                        <div class="IndexContent">
+                                            SignUp
+                                        </div>
+                                        <div class="DaysCount">
+                                            <table *ngIf="signupitemscount?.length != 0" class="DaysTableDown">
+                                                <tbody>
+                                                    <tr>
+                                                        <td *ngFor="let signupitemscount of signupitemscount"
+                                                            class="TdFont">
+                                                            {{signupitemscount}}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="busines" class="busines col-sm-4">
+                            <div class="SecSlide slides">
+                                <div class="SecInTop TopSlide">
+                                    <div class="SlideHeader">
+                                        <div class="Splitleft">
+                                            Project
+                                            Index
+                                        </div>
+                                        <div class="Splitright" style="
+                                        width: 22%;
+                                    ">
+                                            <label class="Slidelabel">
+                                                <input type="radio" class="radioLable" name="project" id="pmtd"
+                                                    (click)="projectmonthly('monthly')" value="pmtd">
+                                                MTD
+                                            </label>
+                                            <label class="Slidelabel">
+                                                <input type="radio" class="radioLable" name="project" id="pqtd"
+                                                    value="pqtd" (click)="projectmonthly('quarter')">
+                                                QTD
+                                            </label>
+                                            <label class="Slidelabel">
+                                                <input type="radio" class="radioLable" name="project" id="pytd"
+                                                    value="pytd" [checked]="true" (click)="projectmonthly('yearly')">
+                                                YTD
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="DownSlide SecInDown mt-2" id="SignupAdd">
+                                    <div class="SlideContent SecInTop">
+                                        <div class="CountNo" id="project_data">
+                                            {{projectCount}}
+                                        </div>
+                                        <div class="DaysCount projectshow">
+                                            <table class="DaysTable" *ngIf="projectmonthlyitemsname?.length != 0">
+                                                <tbody>
+                                                    <tr>
+                                                        <td id="ptab1" class="TdFont" align="center"
+                                                            *ngFor="let projectmonthlyitemsname of projectmonthlyitemsname">
+                                                            {{projectmonthlyitemsname}}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="SlideContentSec SecInDown">
+                                        <div class="IndexContent">
+                                            New Project
+                                        </div>
+                                        <div class="DaysCount projectshow">
+                                            <table class="DaysTableDown" *ngIf="projectmonthlyitemscount?.length != 0">
+                                                <tbody>
+                                                    <tr>
+                                                        <td id="pweek1" class="TdFont" align="center"
+                                                            *ngFor="let projectmonthlyitemscount of projectmonthlyitemscount">
+                                                            {{projectmonthlyitemscount}}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="operate row" *ngIf="operate">
+                        <div class="operate col-sm-4" *ngIf="operate">
+                            <div class="submittalmanager slides card border-0">
+                                <div class="ThrdInTop card-body pl-2 pr-2 pt-2 pb-0 border-0">
+                                    <div class="" style="width:160px;font-size:14px;margin-bottom: 10px;">
+                                        <b>Open
+                                            Submittal
+                                            Index</b>
+                                    </div>
+                                    <div class="splitthrdleft">
+
+                                        <div class=" bottomAlign">
+                                            {{subcount}}
+                                        </div>
+                                    </div>
+                                    <div class="splitthrdright">
+                                        <table cellpadding="5" class="full_width_table1" width="100%">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="thAlign">
+                                                        Projects
+                                                    </td>
+                                                    <td class="thAlign">
+                                                        Open
+                                                        Submtl
+                                                    </td>
+                                                </tr>
+                                                <tr *ngFor="let closed_submittal of topProject">
+                                                    <td class="tdAlign dashbrd-tooltip">
+
+                                                        <span class="tdAlign" data-toggle="tooltip" placement="top"
+                                                            ngbTooltip="{{closed_submittal.labelText}}"
+                                                            data-original-title="{{closed_submittal.labelText}}">{{closed_submittal.projectName}}</span>
+                                                    </td>
+                                                    <td class="tdAlign">
+                                                        {{closed_submittal.count}}
+                                                    </td>
+                                                </tr>
+                                                <!-- <tr><td class="tdAlign dashbrd-tooltip"><span class="tdAlign" data-toggle="tooltip" title="" data-original-title="OPTISOL (Newz Company)">OPTISOL</span></td><td class="tdAlign">56</td></tr><tr><td class="tdAlign dashbrd-tooltip"><span class="tdAlign" data-toggle="tooltip" title="" data-original-title="trigger tag for testing (Advent)">trigger tag for testing</span></td><td class="tdAlign">44</td></tr> -->
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="ThrdInDown card-footer border-0">
+                                    <div class="splitthrdleftdown total_user text-left justify-content-left">
+                                        in
+                                        Fulcrum
+                                    </div>
+                                    <div class="splitthrdrightdown">
+                                        <button class="view_all_btn" id="openModalButton" data-toggle="modal"
+                                            data-target="#ViewUser" (click)="viewallsubmtals(content)">View
+                                            All</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="operate col-sm-4" *ngIf="operate">
+                            <div class="rfiSlide slides card border-0">
+                                <div class="ThrdInTop card-body pl-2 pr-2 pt-2 pb-0 border-0">
+                                    <div class="" style="width:160px;font-size:14px;margin-bottom: 10px;">
+                                        <b>Open
+                                            RFI
+                                            Index</b>
+                                    </div>
+                                    <div class="splitthrdleft">
+                                        <div class=" bottomAlign">
+                                            {{rfiCount}}
+                                        </div>
+                                    </div>
+                                    <div class="splitthrdright">
+                                        <table cellpadding="5" class="full_width_table1" width="100%">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="thAlign">
+                                                        Projects
+                                                    </td>
+                                                    <td class="thAlign">
+                                                        Open
+                                                        RFI
+                                                    </td>
+                                                </tr>
+                                                <tr *ngFor="let open_rfi of rfitopProject">
+                                                    <td class="tdAlign dashbrd-tooltip">
+                                                        <span class="tdAlign" data-toggle="tooltip" placement="top"
+                                                            ngbTooltip="{{open_rfi.labelTextRfi}}"
+                                                            data-original-title="{{open_rfi.labelTextRfi}}">{{open_rfi.projectNameRfi}}</span>
+                                                    </td>
+                                                    <td class="tdAlign">
+                                                        {{open_rfi.countRfi}}
+                                                    </td>
+                                                </tr>
+                                                <!-- <tr><td class="tdAlign dashbrd-tooltip"><span class="tdAlign" data-toggle="tooltip" title="" data-original-title="OPTISOL (Newz Company)">OPTISOL</span></td><td class="tdAlign">62</td></tr><tr><td class="tdAlign dashbrd-tooltip"><span class="tdAlign" data-toggle="tooltip" title="" data-original-title="project one construction (OPTISOL REPORT TESTING)">project one construction</span></td><td class="tdAlign">42</td></tr> -->
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="ThrdInDown card-footer border-0">
+                                    <div style="text-align: left;padding-left: 0px;"
+                                        class="splitthrdleftdown total_user">
+                                        in
+                                        Fulcrum
+                                    </div>
+                                    <div class="splitthrdrightdown">
+                                        <button class="view_all_btn" data-toggle="modal" data-target="#ViewUserrfi"
+                                            (click)="viewallrfi(contentrfi)">View
+                                            All</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="operate col-sm-4" *ngIf="operate">
+                            <div class="ThrdSlide slides card border-0">
+                                <div class="ThrdInTop card-body pl-2 pr-2 pt-2 pb-0 border-0">
+                                    <div class="mb-2">
+                                        <b>User
+                                            Index</b>
+                                    </div>
+                                    <div class="splitthrdleft">
+
+                                        <div class=" bottomAlign">
+                                            {{totalUsers}}
+                                        </div>
+                                    </div>
+                                    <div class="splitthrdright">
+                                        <table cellpadding="5" class="full_width_table1" width="100%">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="thAlign">
+                                                        General
+                                                        Contractor
+                                                    </td>
+                                                    <td class="thAlign">
+                                                        Users
+                                                    </td>
+                                                </tr>
+                                                <tr *ngFor="let user_company of user_company">
+                                                    <td class="tdAlign">
+                                                        {{user_company.company}}
+                                                    </td>
+                                                    <td class="tdAlign">
+                                                        {{user_company.count}}
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="ThrdInDown card-footer border-0">
+                                    <div style="text-align: left;padding-left: 0px;"
+                                        class="splitthrdleftdown total_user">
+                                        Active Users in
+                                        Fulcrum
+                                    </div>
+                                    <div class="splitthrdrightdown">
+                                        <button class="view_all_btn m-0" data-toggle="modal"
+                                            (click)="view_allUsers(contentallusers)">View
+                                            All</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="operate row">
+                        <div class="operate col-sm-4" *ngIf="operate">
+                            <div class="closesubmittalSlide slides card border-0">
+                                <div class="ThrdInTop card-body pl-2 pr-2 pt-2 pb-0 border-0">
+                                    <div class="" style="font-size:14px;margin-bottom: 10px;">
+                                        <div style="float: left;">
+                                            <b>Closed
+                                                Submtl
+                                                Index</b>
+                                        </div>
+                                        <div style="float: right;">
+                                            <label class="Slidelabel">
+                                                <input type="radio" value="MonthTill" name="sub_closed"
+                                                    class="radioLable" (click)="closedsubmitaldataindex('MonthTill')"
+                                                    [checked]="true">
+                                                MTD
+                                            </label>
+                                            <label class="Slidelabel">
+                                                <input type="radio" value="QuatorTill" name="sub_closed"
+                                                    class="radioLable" (click)="closedsubmitaldataindex('QuatorTill')">
+                                                QTD
+                                            </label>
+                                            <label class="Slidelabel" style="margin-right: 0;">
+                                                <input type="radio" value="YearTill" name="sub_closed"
+                                                    class="radioLable" (click)="closedsubmitaldataindex('YearTill')">
+                                                YTD
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div id="closedsubmittaldata">
+                                        <div class="splitthrdleft">
+                                            <div class=" bottomAlign" *ngIf="closedsubmitalcount; else showdots">
+                                                {{closedsubmitalcount}}
+                                            </div>
+                                            <ng-template #showdots>
+                                                <div class=" bottomAlign">
+                                                    ..
+                                                </div>
+                                            </ng-template>
+                                        </div>
+                                        <div class="splitthrdright">
+                                            <table cellpadding="5" class="full_width_table1" width="100%">
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="thAlign">
+                                                            Projects
+                                                        </td>
+                                                        <td class="thAlign">
+                                                            Closed
+                                                            Submtl
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr *ngFor="let closedsubmitaldatas of closedsubmitaldatas">
+                                                        <td class="tdAlign dashbrd-tooltip">
+                                                            <span class="tdAlign" data-toggle="tooltip" placement="top"
+                                                                ngbTooltip="{{closedsubmitaldatas.labelTextSubC}}"
+                                                                data-original-title="{{closedsubmitaldatas.labelTextSubC}}">
+                                                                {{closedsubmitaldatas.projectName}}</span>
+                                                        </td>
+                                                        <td class="tdAlign">
+                                                            {{closedsubmitaldatas.countSubC}}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ThrdInDown card-footer border-0">
+                                    <div style="text-align: left;padding-left: 0px;"
+                                        class="splitthrdleftdown total_user">
+                                        in Fulcrum
+                                    </div>
+                                    <div class="splitthrdrightdown">
+                                        <button class="view_all_btn"
+                                            (click)="view_allclosedSubmittal(contentallclosedsubmittalindex)">View
+                                            All</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="operate col-sm-4" *ngIf="operate">
+                            <div class="closedrfiSlide slides card border-0">
+                                <div class="ThrdInTop card-body pl-2 pr-2 pt-2 pb-0 border-0">
+                                    <div class="" style="font-size:14px;margin-bottom: 10px;">
+                                        <div style="float: left;">
+                                            <b>Closed
+                                                RFI
+                                                Index</b>
+                                        </div>
+                                        <div style="float: right;">
+                                            <label class="Slidelabel">
+                                                <input type="radio" value="MonthTill" name="rfi_closed"
+                                                    (click)="closedrfidataindex('MonthTill')" class="radioLable"
+                                                    [checked]="true">
+                                                MTD
+                                            </label>
+                                            <label class="Slidelabel">
+                                                <input type="radio" value="QuatorTill" name="rfi_closed"
+                                                    (click)="closedrfidataindex('QuatorTill')" class="radioLable">
+                                                QTD
+                                            </label>
+                                            <label class="Slidelabel" style="margin-right: 0;">
+                                                <input type="radio" value="YearTill" name="rfi_closed"
+                                                    (click)="closedrfidataindex('YearTill')" class="radioLable">
+                                                YTD
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div id="closedrfidata">
+                                        <div class="splitthrdleft">
+                                            <div class=" bottomAlign" *ngIf="closedrficount; else showdotsrfi">
+                                                {{closedrficount}}
+                                            </div>
+                                            <ng-template #showdotsrfi>
+                                                <div class=" bottomAlign">
+                                                    ..
+                                                </div>
+                                            </ng-template>
+                                        </div>
+                                        <div class="splitthrdright">
+                                            <table cellpadding="5" class="full_width_table1" width="100%">
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="thAlign">
+                                                            Projects
+                                                        </td>
+                                                        <td class="thAlign">
+                                                            Closed
+                                                            RFI
+                                                        </td>
+                                                    </tr>
+                                                    <tr *ngFor="let closedrfidatas of closedrfidatas">
+                                                        <td class="tdAlign dashbrd-tooltip">
+                                                            <span class="tdAlign" data-toggle="tooltip" placement="top"
+                                                                ngbTooltip="{{closedrfidatas.labelTextSubC}}"
+                                                                data-original-title="{{closedrfidatas.labelTextSubC}}">
+                                                                {{closedrfidatas.projectName}}</span>
+                                                        </td>
+                                                        <td class="tdAlign">
+                                                            {{closedrfidatas.countSubC}}
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ThrdInDown card-footer border-0">
+                                    <div style="text-align: left;padding-left: 0px;"
+                                        class="splitthrdleftdown total_user">
+                                        in Fulcrum
+                                    </div>
+                                    <div class="splitthrdrightdown">
+                                        <button class="view_all_btn"
+                                            (click)="view_allclosedRFI(contentallclosedrfiindex)">View
+                                            All</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chartDiv cus_health_index row mx-0">
+                        <div *ngIf="busines" class="busines col-sm-12 col-md-12 col-lg-6 px-1 my-3">
+                            <div id="DCRChartDivs" class="DCRChartDiv">
+                                <div class="cus_health_inner_new">
+                                    <div id="customerhealthcharts" class="DCRChart activeChart col-lg-10 col-sm-12">
+                                    </div>
+                                    <input type="hidden" id="type_det" value="active">
+                                    <div class="ChartSplitright col-lg-2 col-sm-12 px-0">
+                                        <label class="Slidelabel customerlab">
+
+                                            <input type="radio" class="radioLable" name="proActive" id="pamtd"
+                                                value="MonthTill" (click)="activecustomer('MonthTill')">
+                                            MTD
+                                        </label>
+                                        <label class="Slidelabel customerlab"><input type="radio" class="radioLable"
+                                                name="proActive" id="pamtd" value="QuarterTill"
+                                                (click)="activecustomer('QuarterTill')">
+                                            QTD</label>
+                                        <label class="Slidelabel customerlab"><input type="radio" class="radioLable"
+                                                name="proActive" id="pamtd" value="YearTill" [checked]="true"
+                                                (click)="activecustomer('YearTill')">
+                                            YTD</label>
+                                    </div>
+                                </div>
+                                <div class="mainlabel mainlabeltable">
+                                    <table align="center" id="customer_reports" class="mx-auto w-auto">
+                                        <tbody>
+                                            <tr class="customer_health_rprt">
+                                                <td class="" [ngClass]="{'actgen': customertype==='active'}"
+                                                    id="active">
+                                                    <a (click)="setCont('active')" class="activeHref">
+                                                        Active
+                                                        General
+                                                        Contractors</a>
+                                                </td>
+                                                <td class="px-2">|</td>
+                                                <td id="dormant" [ngClass]="{'actgen': customertype==='dormant'}">
+                                                    <a (click)="setCont('dormant')" class="activeHref">Dormant
+                                                        General
+                                                        Contractors</a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="operate" class="operate col-sm-12 col-md-12 col-lg-6 px-1">
+                            <div id="DCRChartDiv" class="DCRChartDiv cus_health_inner_new">
+                                <div id="DCRChartd" class="DCRChartd col-lg-10 col-sm-12">
+                                    <div id="dcrchartsprojects" class="DCRChart">
+                                    </div>
+                                </div>
+                                <div class="ChartSplitright col-lg-2 col-sm-12 px-0">
+                                    <label class="Slidelabel customerlab">
+                                        <input type="radio" (click)="dcrchart('MonthTill')" value="MonthTill"
+                                            name="dcrchart" class="radioLable">
+                                        MTD
+                                    </label>
+                                    <label class="Slidelabel customerlab">
+                                        <input type="radio" (click)="dcrchart('QuatorTill')" value="QuatorTill"
+                                            name="dcrchart" class="radioLable">
+                                        QTD
+                                    </label>
+                                    <label class="Slidelabel customerlab">
+                                        <input type="radio" (click)="dcrchart('YearTill')" value="YearTill"
+                                            name="dcrchart" class="radioLable" [checked]="true">
+                                        YTD</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end of global admin div -->
+
+        <div *ngIf="!global_admin_content" class="CoverDiv"> User Dashboard In progress </div>
+    <!-- <app-footer></app-footer> -->

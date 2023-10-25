@@ -1,0 +1,56 @@
+#toast-container {
+  width: 90%;
+  left: 0px;
+  right: 0px;
+  margin: auto;
+  top: 15px;
+  .toast-success {
+      color: #4f8a10;
+      background-color: #dff2bf;
+      border: 1px solid #4f8a10;
+      background-image: url("../../../assets/images/buttons/button-checkmark-green.png");
+      background-size: 30px;
+      width: 100%;
+      border-radius: 0px;
+  }
+  .toast-error {
+      color: #d8000c;
+      background-color: #ffbaba;
+      border: 1px solid #d8000c;
+      background-image: url("../../../assets/images/buttons/button-cancel.png");
+      background-size: 30px;
+      width: 100%;
+      border-radius: 0px;
+  }
+  .toast-info {
+      color: #00529b;
+      background-color: #bde5f8;
+      border: 1px solid #00529b;
+      background-image: url("../../../assets/images/buttons/button-info.png");
+      background-size: 30px;
+      width: 100%;
+      border-radius: 0px;
+  }
+  .toast-warning {
+      color: #9f6000;
+      background-color: #feefb3;
+      border: 1px solid #9f6000;
+      background-image: url("../../../assets/images/buttons/button-exclamation-point-green.png");
+      background-size: 30px;
+  }
+  .toast-title {
+      padding-left: 12px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-style: normal;
+      font-weight: 800;
+      font-size: 20px;
+      line-height: 28px;
+  }
+  .toast-message {
+      padding-left: 12px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-style: normal;
+      font-size: 14px;
+      line-height: 18px;
+  }
+}

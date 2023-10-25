@@ -1,0 +1,291 @@
+// @import url('https://fulcrumnew.optisolbusiness.com/assets/styles.css');
+@import url("../../assets/styles.css");
+@import url("../../assets/modules-jobsite-daily-logs.css");
+@import url("../../assets/modules-daily-construction-report.css");
+@import url("https://fulcrumnew.optisolbusiness.com/assets/styles.css");
+@import url("https://fulcrumnew.optisolbusiness.com/assets/modules-file-manager-file-browser.css");
+@import url("https://fulcrumnew.optisolbusiness.com/assets/rightclick-menu-entypo.css");
+@import url("../../assets/entypo.css");
+@import url("../../assets/fSelect.css");
+
+.hidden {
+  display: none !important;
+  visibility: hidden;
+}
+
+.DC_budget-form {
+  table-layout: inherit !important;
+}
+
+[class^="entypo-"]:before,
+[class*=" entypo-"]:before {
+  font-family: "entypo";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: 0.2em;
+  text-align: center;
+  /* opacity: .8; */
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1em;
+  margin-left: 0.2em;
+  font-size: 120%;
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+
+.entypo-lock:before {
+  content: "\e825";
+}
+
+.DC_budget-form th {
+  word-break: inherit !important;
+}
+
+.open > .dropdown-menu,
+.DC_budget-form input[type="checkbox"],
+.scheduled_values-only input[type="checkbox"],
+#tblImportCostCodes input[type="checkbox"] {
+  display: block;
+}
+
+.permissionTableMainHeader th {
+  vertical-align: bottom;
+}
+
+.budgetCR_datas td,
+.bottom-content.subtotal-row td {
+  padding: 7px 4px !important;
+}
+
+tr.budgetCR td {
+  padding: 10px 4px !important;
+}
+
+a#gc_budget_line_items--cost_codes--cost_code_description--16133,
+.nestedTable tr td {
+  line-height: 1.4;
+}
+
+.top_textalign th {
+  text-align: left !important;
+}
+
+.dropdown-menu > li > a {
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: normal;
+  line-height: 1.42857143;
+  color: #333 !important;
+  white-space: nowrap;
+  font-size: 14px;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  float: left;
+  min-width: 160px;
+  padding: 5px 0;
+  margin: 2px 0 0;
+  font-size: 14px;
+  text-align: left;
+  list-style: none;
+  background-color: #fff;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  -webkit-box-shadow: 0 6px 12px rgb(0 0 0 / 18%);
+  box-shadow: 0 6px 12px rgb(0 0 0 / 18%);
+}
+
+.contentrfi_modal {
+  padding: 0.2em !important;
+}
+
+.contentrfi_modal .modal-header h3 {
+  margin-block-start: 0.5em !important;
+  margin-block-end: 0.5em !important;
+  font-size: 1em !important;
+  line-height: 1.4 !important;
+}
+
+.modal_popup.contentrfi_modal .modal-header {
+  border: 1px solid #8b8e90 !important;
+  background: #3b90ce !important;
+  color: #ffffff !important;
+  font-weight: bold !important;
+  border-radius: 2px !important;
+}
+
+body.modal-open .modal_popup.contentrfi_modal .modal-header .close {
+  margin: 0.5rem -0.3rem -0.5rem auto !important;
+  background: #56c0eac2 !important;
+  color: #22222287 !important;
+  border: 1px solid #21abe1 !important;
+  padding: 0px 4px !important;
+  font-size: 19px !important;
+}
+
+.popupover_edit {
+  text-align: left;
+}
+
+.popover-titlebar {
+  padding: 8px 14px;
+  margin: 0;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 18px;
+  background-color: #f7f7f7;
+  border-bottom: 1px solid #ebebeb;
+  border-radius: 5px 5px 0 0;
+  padding-right: 45px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.popover-titlebar .close-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 2px 14px;
+  padding: 4px;
+  font-weight: bold;
+  font-size: 17px;
+  cursor: pointer;
+}
+
+.popover-titlebar {
+  position: relative;
+}
+
+.notes_text {
+  padding: 9px 14px;
+}
+
+.realocationCont-main span.close {
+  opacity: 1;
+}
+
+.realocationCont-main span.close {
+  opacity: 1;
+}
+
+.drop-inner tr td {
+  padding: 7px 4px !important;
+}
+
+.realocationCont-main .modal-header b {
+  padding-top: 3px;
+}
+
+
+.popupover_edit:after {
+  content: "";
+  width: 20px;
+  height: 15px;
+  transform: rotate(40deg);
+  background: #fff;
+  position: absolute;
+  box-shadow: 1px -2px 7px rgb(0 0 0 / 40%);
+  z-index: -1 !important;
+  bottom: -10px;
+  left: calc(0% - 8px);
+  top: 50px;
+}
+
+::ng-deep .dashboardlist-page {
+  .contentrfi_modal button.buttonClose {
+    margin-left: 5px !important;
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+    padding: 0.5em 1em !important;
+  }
+}
+//warning modal
+
+.modal.warning-modal .close {
+  background: #91cef7 !important;
+  opacity: 0.9;
+  padding: 2px 6px;
+  margin-top: 0px;
+  margin-right: -10px;
+  font-size: 20px;
+  border-radius: 2px;
+  color: #8b8e90;
+}
+.modal.warning-modal .close:hover {
+  background: #fff !important;
+}
+.modal.warning-modal .modal-para {
+  font-size: 16px;
+}
+.modal.warning-modal .modal-dialog {
+  height: auto;
+  max-width: 310px !important;
+
+  z-index: 401;
+}
+.modal.warning-modal.delete-modal .modal-dialog {
+  height: auto;
+  max-width: 400px !important;
+}
+.modal.warning-modal .modal-header {
+  padding: 8px 16px;
+
+  background-color: #3b90ce;
+
+  color: #fff;
+
+  font-size: 16px;
+
+  font-weight: bold;
+  margin: 3px;
+
+  border: 1px solid #8b8e90;
+}
+
+.modal.warning-modal .modal-body {
+  padding: 0px 16px 10px;
+  line-height: 24px;
+  font-size: 18px;
+  color: #333333;
+}
+
+.modal.warning-modal .modal-footer {
+  padding: 12px 16px 18px;
+  background: #ffffff;
+  color: #fff;
+  border-top: 1px solid #8b8e90 !important;
+  margin: 0px 6px;
+}
+.modal.warning-modal .btn {
+  margin: 0px;
+  padding: 0.2em 1em;
+  border: 0;
+  background: #3b90ce;
+  color: #fff;
+  border: 1px solid #8b8e90;
+  font-size: 1.2em;
+  border-radius: 3px;
+}
+.modal.warning-modal .btn:hover {
+  background: #21abe1;
+}
+.modal.warning-modal .modal-content {
+  border: 1px solid #8b8e90;
+  background: #ffffff;
+  color: #333333;
+  border-radius: 2px;
+}
+
+//warning modal

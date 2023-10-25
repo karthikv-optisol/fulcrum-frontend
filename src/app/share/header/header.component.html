@@ -1,0 +1,17 @@
+<div *ngIf="usersData" class="header_main_div bgGray">
+  <span id="menu_toggle" class="btn-menu toggle">
+    <i class="fa fa-bars"></i>
+  </span>
+
+  <div class="header_top_right">
+    <div class="authLinks debugBorder fontsize14">
+      <a tabindex="51" href="#">Account</a>
+      <span class="linkSeparator">|</span>
+      <a (click)="supportpage()">Support</a>
+      <span class="linkSeparator">|</span>
+      <span>{{ usersData.email }}</span>
+      <span class="linkSeparator">|</span>
+      <a (click)="logout()">Logout</a>
+    </div>
+  </div>
+</div>

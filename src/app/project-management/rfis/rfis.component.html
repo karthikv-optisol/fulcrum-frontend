@@ -1,0 +1,1013 @@
+<div class="w-100 float-left mb-3">
+    <button class="btn blue-button float-left mr-2" (click)="importCostCodeList(newRFI)">
+        Create a New RFI
+    </button>
+    <span class="mr-2 float-left mt-2">or</span>
+    <div class="float-left mr-2">
+        <select class="form-control" (change)="editDraftOpen(newRFI,$event)" [(ngModel)]="rfid_id">
+            <option value="">
+                Select RFI
+            </option>
+            <option *ngFor="let draft of rfi_draft_list" [value]="draft.id">
+                {{draft.rfi_title}}
+            </option>
+        </select>
+    </div>
+
+
+</div>
+<div class="col-md-12 col-lg-12 col-sm-12 float-start table-responsive p-0">
+    <div class="clearfix mb-3">
+        <div class="float-left mr-2">
+            Show
+            <select class="form-control wauto" [(ngModel)]="page">
+                <option *ngFor="let entryValue of entrieValues">
+                    {{entryValue}}
+                </option>
+            </select> Entries
+        </div>
+        <div class="float-right ">
+            Search
+            <input class="form-control wauto" (keyup)="searchRFI($event)" type="search">
+        </div>
+    </div>
+    <table class="table table-striped Submittal-work">
+        <thead>
+            <tr>
+                <th>RFI #
+                    <em class="sort">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-chevron-expand" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M3.646 9.146a.5.5 0 0 1 .708 0L8 12.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708zm0-2.292a.5.5 0 0 0 .708 0L8 3.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708z" />
+                        </svg>
+                    </em>
+                </th>
+
+                <th>RFI Title
+                    <em class="sort">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-chevron-expand" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M3.646 9.146a.5.5 0 0 1 .708 0L8 12.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708zm0-2.292a.5.5 0 0 0 .708 0L8 3.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708z" />
+                        </svg>
+                    </em>
+                </th>
+                <th>Plans Reference
+                    <em class="sort">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-chevron-expand" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M3.646 9.146a.5.5 0 0 1 .708 0L8 12.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708zm0-2.292a.5.5 0 0 0 .708 0L8 3.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708z" />
+                        </svg>
+                    </em>
+                </th>
+                <th>Date Issued
+                    <em class="sort">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-chevron-expand" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M3.646 9.146a.5.5 0 0 1 .708 0L8 12.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708zm0-2.292a.5.5 0 0 0 .708 0L8 3.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708z" />
+                        </svg>
+                    </em>
+                </th>
+                <th style="width: 240px;">RFI Recipient
+                    <em class="sort">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-chevron-expand" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M3.646 9.146a.5.5 0 0 1 .708 0L8 12.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708zm0-2.292a.5.5 0 0 0 .708 0L8 3.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708z" />
+                        </svg>
+                    </em>
+                </th>
+                <th>Tags
+                    <em class="sort">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-chevron-expand" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M3.646 9.146a.5.5 0 0 1 .708 0L8 12.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708zm0-2.292a.5.5 0 0 0 .708 0L8 3.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708z" />
+                        </svg>
+                    </em>
+                </th>
+                <th>Priority
+                    <em class="sort">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-chevron-expand" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M3.646 9.146a.5.5 0 0 1 .708 0L8 12.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708zm0-2.292a.5.5 0 0 0 .708 0L8 3.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708z" />
+                        </svg>
+                    </em>
+                </th>
+                <th>Approved Date
+                    <em class="sort">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-chevron-expand" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M3.646 9.146a.5.5 0 0 1 .708 0L8 12.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708zm0-2.292a.5.5 0 0 0 .708 0L8 3.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708z" />
+                        </svg>
+                    </em>
+                </th>
+                <th>Status
+                    <em class="sort">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-chevron-expand" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M3.646 9.146a.5.5 0 0 1 .708 0L8 12.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708zm0-2.292a.5.5 0 0 0 .708 0L8 3.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708z" />
+                        </svg>
+                    </em>
+                </th>
+                <th>Days Open
+                    <em class="sort">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-chevron-expand" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M3.646 9.146a.5.5 0 0 1 .708 0L8 12.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708zm0-2.292a.5.5 0 0 0 .708 0L8 3.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708z" />
+                        </svg>
+                    </em>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="cursor-pointer"
+                *ngFor="let rfiList of RFIsListData | paginate: { currentPage: p, itemsPerPage: page }"
+                (click)="editRFIOpen(editRFI,rfiList)">
+                <td>{{rfiList.rfi_sequence_number}}</td>
+                <td>{{rfiList.rfi_title}}</td>
+                <td>{{rfiList.rfi_plan_page_reference}}</td>
+                <td>{{dateFormat(rfiList.date_issued)}}</td>
+                <td>{{rfiList.RFI_recipient}}</td>
+                <td>{{rfiList.tag_name}}</td>
+                <td>{{rfiList.priority}}</td>
+                <td>{{dateFormat(rfiList.closeDate)}}</td>
+                <td>{{rfiList.status}}</td>
+                <td>{{rfiList.days_open}}</td>
+            </tr>
+            <tr *ngIf="RFIsListData == ''">
+                <td colspan="10" class="text-left">No data found</td>
+            </tr>
+        </tbody>
+    </table>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>
+<ng-template #newRFI let-modal class="tests">
+    <div class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-front ui-dialog-buttons ui-draggable ui-resizable p-2"
+        [style]="{'width':windowWidth}"
+        style="position: absolute; height: auto;  top: 6px; left: -230px; display: block; z-index: 401;background:white;"
+        tabindex="-1" role="dialog" aria-describedby="divModalWindow" aria-labelledby="ui-id-5">
+        <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix ui-draggable-handle">
+            <span id="ui-id-5" class="ui-dialog-title text-capitalize">
+                {{rfid_id ? "Update RFI Draft - Advent - " : "Creat A New RFI - Advent - "}} {{this.projectName}}</span>
+            <button type="button" (click)="modal.dismiss('Cross click')"
+                class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close"
+                role="button" style="float:
+            right; 
+          background: #91cef7 !important;
+          border: #4e4f51 !important;" title="Close">
+                <span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span>
+                <span class="ui-button-text">X</span>
+            </button>
+        </div>
+        <div id="divModalWindow" class="ui-dialog-content ui-widget-content" [style]="{'height':windowHeight}"
+            style="width: auto; min-height: 0px; max-height: none;overflow:auto;">
+            <form (submit)="createRFISubmit($event)">
+                <div class="col-md-6 col-lg-6 col-sm-12 float-left leftcard-section p-0">
+                    <div class="card rounded-0">
+                        <div class="card rounded-0">
+                            <div class="card-header header-card-blue pt-3 pb-3 pl-2 pr-2">
+                                <div class="float-left col-md-12 p-0">
+                                    RFI Title: <span class="text-danger">*</span>
+                                </div>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="float-left pl-0 col-md-12 border-right p-2">
+                                    <input class="form-control" name="rfi_title" [(ngModel)]="rfi_title" />
+                                </div>
+                            </div>
+                            <div *ngIf="!rfi_title && rfi_title_error" class="text-danger">{{rfi_title_error}}</div>
+                        </div>
+
+                        <div class="card rounded-0">
+                            <div class="card-header header-card-blue pt-3 pb-3 pl-2 pr-2">
+                                <div class="float-left col-md-12 p-0">
+                                    Plan Page Reference:
+                                </div>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="float-left pl-0 col-md-12 border-right p-2">
+                                    <input type="text" name="rfi_plan_page_reference" class="form-control"
+                                        [(ngModel)]="rfi_plan_page_reference" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card rounded-0">
+                            <div class="card-header header-card-blue pt-3 pb-3 pl-2 pr-2">
+                                <div class="float-left col-md-12 p-0">
+                                    RFI Due Date:
+                                </div>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="float-left pl-0 col-md-12 border-right p-2">
+                                    <div class="datepicker_style_particulars">
+                                        <div class="input-group">
+                                            <input class="form-control" placeholder="yyyy-mm-dd" name="dp"
+                                                [minDate]="limitDate" [id]="limitDate" [markDisabled]="isDisabled"
+                                                [(ngModel)]="rfi_due_date" [placeholder]="rfi_due_date"
+                                                name="rfi_due_date" ngbDatepicker #d="ngbDatepicker"
+                                                (click)="d.toggle()" />
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-header header-card-blue pt-3 pb-3 pl-2 pr-2">
+                            <div class="float-left col-md-8 p-0">
+                                Cost Code Reference:
+                            </div>
+
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="float-left pl-0 col-md-8 p-2">
+                                <!-- {{rfi_cost_code_id | json}} -->
+                                <ng-select [items]="importCostCode" bindLabel="label" bindValue="value"
+                                    groupBy="groupname" [searchable]="true" [(ngModel)]="rfi_cost_code_id"
+                                    [multiple]="true">
+                                    <!-- <ng-template ng-optgroup-tmp let-item="item">
+                                        {{ item.groupname || 'Unnamed group' }}
+                                    </ng-template> -->
+                                </ng-select>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card rounded-0">
+                        <div class="card-header header-card-blue pt-3 pb-3 pl-2 pr-2">
+                            <div class="float-left col-md-12 p-0">
+                                RFI Questions / Comments: <span class="text-danger">*</span>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="float-left pl-0 col-md-12 p-2">
+                                <textarea rows="6" name="rfi_statement" [(ngModel)]="rfi_statement"
+                                    class="rounded-0 form-control">
+                            </textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="rfi_statement_error" class="text-danger">{{rfi_statement_error}}</div>
+                    <div class="card rounded-0">
+                        <div class="card-header header-card-blue pt-3 pb-3 pl-2 pr-2">
+                            <div class="float-left col-md-6 p-0">
+                                RFI Priority:
+                            </div>
+                            <div class="float-left col-md-6 p-0">
+                                RFI Type: <span class="text-danger">*</span>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="float-left col-md-6 border-right p-1">
+                                <select class="form-control" name="rfi_priority_id" [(ngModel)]="rfi_priority_id">
+                                    <option value="">Select RFI Priority</option>
+                                    <option *ngFor="let priority of rfiPriortiy" [value]="priority.id">
+                                        {{priority.request_for_information_priority}}</option>
+                                </select>
+                                <div *ngIf="!rfi_priority_id && rfi_priority_error" class="text-danger">
+                                    {{rfi_priority_error}}</div>
+                            </div>
+                            <div class="float-left col-md-6 border-right p-1">
+                                <select class="form-control" name="rfi_type_id" [(ngModel)]="rfi_type_id">
+                                    <option value="">Select an RFI Type</option>
+                                    <option *ngFor="let type of rfiTypes" [value]="type.id">
+                                        {{type.request_for_information_response_type}}</option>
+                                </select>
+                                <div *ngIf="!rfi_type_id && rfi_type_error" class="text-danger">{{rfi_type_error}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-12 float-left pr-0">
+                    <div class="leftcard-section">
+                        <div class="card rounded-0">
+                            <div class="card-header header-card-blue pt-3 pb-3 pl-2 pr-2">
+                                <div class="float-left col-md-12 p-0">
+                                    Tags:
+                                </div>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="float-left pl-0 col-md-12 border-right p-2">
+                                    <ng-select *ngIf="tag_ids" [items]="tagsData" [multiple]="true" bindLabel="tag_name"
+                                        bindValue="id" [searchable]="true" [(ngModel)]="tag_ids">
+                                        <ng-template ng-optgroup-tmp let-item="item">
+                                            {{ item.tag_name || 'Unnamed group' }}
+                                        </ng-template>
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card rounded-0">
+                            <div class="card-header header-card-blue pt-3 pb-3 pl-2 pr-2">
+                                <div class="float-left col-md-12 p-0">
+                                    Select A File To Attach:
+                                </div>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="float-left pl-0 col-md-12 p-2">
+                                    <span>
+                                        <input type="file" accept="image/*,application/pdf" multiple
+                                            (change)="fileUpload($event)" class="d-none" name="files" id="files" />
+                                        <label class="btn btn-grey rounded-0" for="files">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="currentColor" class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5z" />
+                                                <path
+                                                    d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z" />
+                                            </svg>
+                                            Drop or Click Files
+                                        </label>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card rounded-0" *ngIf="fileAttachment.length>0 || efileAttachment.length>0">
+                            <div class="card-header header-card-blue pt-3 pb-3 pl-2 pr-2">
+                                <div class="float-left col-md-12 p-0">
+                                    Attached Files:
+                                </div>
+                            </div>
+
+                            <div class="float-left card-bdoy col-md-12 p-0">
+                                <table class="col-md-8 table-striped">
+                                    <tr>
+                                        <td class="d-inline-block col-lg-2 col-md-2"><input class="d-block"
+                                                type="checkbox" /></td>
+                                        <td class="d-inline-block col-lg-6 col-md-6">Attachment</td>
+                                        <td class="d-inline-block col-lg-4 col-md-4">Creator</td>
+                                    </tr>
+                                    <tbody *ngIf="efileAttachment.length>0">
+                                        <tr *ngFor="let attachment of efileAttachment">
+                                            <td class="d-inline-block col-lg-2 col-md-2">
+                                                <input (change)="rfiAttachmentUpdate(attachment,$event)" class="d-block"
+                                                    [checked]="attachment.is_added=='y' ? true : false"
+                                                    type="checkbox" />
+                                            </td>
+                                            <td class="d-inline-block col-lg-6 col-md-6">
+                                                <img src="assets/images/sortbars.png" />
+                                                <button type="button" (click)="rfidAttachmentDelete(attachment)" class="btn btn-sm"><small>&times;</small></button>
+                                                <a target="_blank"
+                                                    [href]="attachment.file_url">
+                                                    {{attachment.virtual_file_name}}
+                                                </a>
+                                            </td>
+                                            <td class="d-inline-block col-lg-4 col-md-4">
+                                                {{attachment.contacts.contactfullname}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody *ngFor="let attachment of fileAttachment">
+                                        <tr>
+                                            <td class="d-inline-block col-lg-2 col-md-2">
+                                                <input type="checkbox" />
+                                            </td>
+                                            <td class="d-inline-block col-lg-6 col-md-6">
+                                                <img src="assets/images/sortbars.png" />
+                                                <button type="button" class="btn btn-sm"><small>&times;</small></button>
+                                                <a *ngIf="attachment.virtual_file_name" target="_blank"
+                                                    [href]="attachment.file_url">{{attachment.virtual_file_name}}</a>
+                                            </td>
+                                            <td class="d-inline-block col-lg-4 col-md-4">
+                                                &nbsp;
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+
+                            <div class="card-body p-0" *ngIf="fileAttachment.length==0 || efileAttachment.length==0">
+                                <div class="float-left col-md-12 p-1">
+                                    <p class="paragraph-p">No Files Attached</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card rounded-0">
+                            <div class="card-header header-card-blue pt-1 pb-1 pl-2 pr-2">
+                                <div class="float-left col-md-12 p-0">
+                                    <span class="mt-2 float-left">Email:</span>
+                                    <button class="btn-sm blue-button float-right"
+                                        (click)="loadRecieptDialog(MasterCodeLists)">Select Recipient</button>
+                                </div>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="float-left col-md-12 p-1">
+                                    <p class="ptag-style">
+                                        <span><b>To : </b></span>
+                                        <span id="toemailist" *ngFor="let list of recipientTo">
+                                            <b *ngIf="list.to">{{list.name.concat(",")}}</b>
+                                            <span *ngIf="list.smtp_recipient_header_type==To">
+                                                <b>{{list?.email?.contactfullname?.concat(",")}}</b>
+                                            </span>
+                                        </span>
+                                    </p>
+                                    <div>
+                                        <p class="ptag-style">
+                                            <span><b>Cc : </b></span>
+                                            <span id="ccemailist" *ngFor="let list of recipientTo">
+                                                <b *ngIf="list.cc">{{list.name.concat(",")}}</b>
+                                                <span *ngIf="list.smtp_recipient_header_type==Cc">
+                                                    <b>{{list?.email?.contactfullname?.concat(",")}}</b>
+                                                </span>
+                                            </span>
+                                        </p>
+
+                                    </div>
+                                    <div>
+                                        <p class="ptag-style">
+                                            <span><b>Bcc : </b></span>
+                                            <span id="bccemailist" *ngFor="let list of recipientTo">
+                                                <b *ngIf="list.bcc">{{list.name.concat(",")}}</b>
+                                                <span *ngIf="list.smtp_recipient_header_type==Bcc">
+                                                    <b>{{list?.email?.contactfullname?.concat(",")}}</b>
+                                                </span>
+                                            </span>
+                                        </p>
+
+                                    </div>
+                                    <p class="ptag-style">Add additional text to the body of the email: </p>
+                                    <textarea rows="7" name="rfi_response" [(ngModel)]="rfi_response"
+                                        class="w-100 mb-2"></textarea>
+                                </div>
+                            </div>
+                            <p>
+                                <input id="RFIs__create__RfiResponseAndSendEmailViaPromiseChain" type="button"
+                                    value="Save As An RFI And Notify Team " (click)="createRFISubmitWithMail($event)"
+                                    style="font-size: 10pt;">&nbsp;
+                                <input type="button" value="Save As An RFI No Email"
+                                    id="RFIs__create__RfiResponseViaPromiseChain"
+                                    (click)="createRFISubmitWithoutMail($event);" style="font-size: 10pt;">
+
+                            </p>
+                            <p>
+                                <input class="ml-2" type="button" id="createRFidraft" value="Save RFI As Draft"
+                                    (click)="rfid_id ? updateRFIDraftSubmitWithoutMail($event) : createRFISubmitDraft($event)"
+                                    style="font-size: 10pt;">
+                                <input *ngIf="rfid_id" class="ml-2" (click)="deleteDraft($event)" type="button" id="createRFidraft"
+                                    value="Delete this draft" style="font-size: 10pt;">
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="ui-dialog-buttonpane ui-dialog-content">
+            <div class="ui-dialog-buttonset">
+                <button type="button"
+                    class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only btn-cmn" role="button"
+                    (click)="modal.dismiss('Cross click')"><span class="ui-button-text">Close</span></button>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #editRFI let-modal class="tests" let-data="rfi_info">
+    <div class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-front ui-dialog-buttons ui-draggable ui-resizable p-2"
+        [style]="{'width':windowWidth}"
+        style="position: absolute; height: auto; top: 6px; left: -230px; display: block; z-index: 401;background:white;"
+        tabindex="-1" role="dialog" aria-describedby="divModalWindow" aria-labelledby="ui-id-5">
+        <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix ui-draggable-handle">
+            <span id="ui-id-5" class="ui-dialog-title text-capitalize">{{"Edit RFI - Advent - "+this.projectName}}</span>
+            <button type="button" (click)="modal.dismiss('Cross click')"
+                class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close"
+                role="button" style="float:
+            right; 
+          background: #91cef7 !important;
+          border: #4e4f51 !important;" title="Close">
+                <span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span>
+                <span class="ui-button-text">X</span>
+            </button>
+        </div>
+        <div id="divModalWindow" class="ui-dialog-content ui-widget-content" [style]="{'height':windowHeight}"
+            style="width: auto; min-height: 0px; max-height: none; overflow:auto;">
+            <form (submit)="updateRFISubmitWithoutMail($event)">
+                <input type="hidden" [(ngModel)]="rfi_id" name="rfi_id" />
+                <div class="col-md-12 col-lg-12 col-sm-12 float-left leftcard-section p-0">
+                    <div class="card rounded-0">
+                        <div class="card-header bg-dark pt-3 pb-3 pl-2 pr-2">
+                            <div class="float-left col-md-12 p-0 text-white">
+                                <h4 *ngIf="!title_show">{{rfi_title}}
+                                    <span (click)="showTitle()">
+                                        <img src="assets/images/edit-icon.png" />
+                                    </span>
+                                </h4>
+                            </div>
+
+                            <div class="card-body p-0" *ngIf="title_show">
+                                <div class="float-left pl-0 col-md-6 p-2">
+                                    <input type="text" class="form-control" [(ngModel)]="rfi_title" [id]="rfi_title" />
+                                </div>
+                                <div class="float-left pl-0 col-md-6 p-2">
+                                    <span (click)="showTitle()">
+                                        <img src="assets/images/buttons/button-checkmark-green.png">
+                                    </span>
+                                    <span (click)="showTitle()">
+                                        <img src="assets/images/buttons/button-cancel.png">
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-12 float-left leftcard-section p-0">
+                    <div class="card rounded-0">
+                        <div class="card rounded-0">
+                            <div class="card-header header-card-blue pt-3 pb-3 pl-2 pr-2">
+                                <div class="float-left col-md-12 p-0">
+                                    Questions
+                                </div>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="float-left pl-0 col-md-12 p-2" *ngIf="!question_show">
+                                    <div class="col-md-12">{{rfi_statement}}</div>
+                                    <div class="col-md-12 text-right"><button (click)="showStatement()"
+                                            class="btn btn-primary btn-sm rounded"><small>Edit</small></button></div>
+                                </div>
+                                <div class="float-left pl-0 col-md-12 border-right p-2" *ngIf="question_show">
+                                    <!-- <input type="text" class="form-control" [(ngModel)]="rfi_statement"
+                                        [id]="rfi_statement"  [value]="rfi_statement"  /> -->
+                                    <textarea name="" class="form-control" id=""
+                                        [(ngModel)]="rfi_statement">{{rfi_statement}}</textarea>
+                                    <div class="col-md-12 text-right mt-2">
+                                        <button type="button" (click)="showStatement()"
+                                            class="btn btn-primary btn-sm"><small>Save</small></button>
+                                        <button type="button" (click)="showStatement()"
+                                            class="btn btn-primary btn-sm"><small>Cancel</small></button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="card rounded-0">
+                            <div class="card-header header-card-blue pt-3 pb-3 pl-2 pr-2">
+                                <div class="float-left col-md-12 p-0">
+                                    Answers
+                                </div>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="float-left pl-0 col-md-12 border-right p-2">
+                                    <ul>
+                                        <li class="border" *ngFor="let answers of rfi_info?.answers">
+                                            <p class="text-small">
+                                                Answered by {{answers?.responder?.contactfullname}}
+                                            </p>
+                                            <p class="text-small">
+                                                {{answers?.request_for_information_response}}
+                                            </p>
+                                            <p class="text-right">
+                                                <input id="RFIs__create__RfiResponseAndSendEmailViaPromiseChain"
+                                                    type="button" value="Delete" (click)="deleteResponse(answers)"
+                                                    style="font-size: 10pt;">
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card rounded-0">
+                            <div class="card-header header-card-blue pt-3 pb-3 pl-2 pr-2">
+                                <div class="float-left col-md-12 p-0">
+                                    RFI Due Date:
+                                </div>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="float-left pl-0 col-md-12 border-right p-2">
+                                    <div class="datepicker_style_particulars">
+                                        <div class="input-group">
+                                            <input class="form-control" placeholder="yyyy-mm-dd" name="dp"
+                                                [minDate]="limitDate" [id]="limitDate" [markDisabled]="isDisabled"
+                                                [(ngModel)]="due_date" ngbDatepicker #d="ngbDatepicker"
+                                                (click)="d.toggle()" [placeholder]="due_date" />
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card rounded-0">
+                            <div class="card-header header-card-blue pt-3 pb-3 pl-2 pr-2">
+                                <div class="float-left col-md-12 p-0">
+                                    Tags:
+                                </div>
+                            </div>
+                            <div class="card-body p-0" *ngIf="tag_ids.length>0">
+                                <div class="float-left pl-0 col-md-12 border-right p-2">
+                                    <ng-select [items]="tagsData" [multiple]="true" bindLabel="tag_name" bindValue="id"
+                                        [searchable]="true" [(ngModel)]="tag_ids" selectableGroup="true">
+                                        <ng-template ng-optgroup-tmp let-item="item">
+                                            {{ item.tag_name || 'Unnamed group' }}
+                                        </ng-template>
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card rounded-0">
+                            <div class="card-header header-card-blue pt-3 pb-3 pl-2 pr-2">
+                                <div class="float-left col-md-12 p-0">
+                                    My Answers 2023 <span class="text-danger">*</span>
+                                </div>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="float-left pl-0 col-md-12 p-2">
+                                    <textarea rows="7" [(ngModel)]="rfi_response" name="rfi_response"
+                                        class="w-100 mb-2"></textarea>
+                                    <div *ngIf="!rfi_response && rfi_response_error" class="text-danger">
+                                        {{rfi_response_error}}</div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body p-0">
+                                <div class="float-left col-md-2 p-0"></div>
+                                <div class="float-left col-md-5 p-0">
+                                    <input id="RFIs__create__RfiResponseAndSendEmailViaPromiseChain" type="button"
+                                        value="Update changes to this RFI And Notify Team "
+                                        (click)="updateRFISubmitWithoutMail($event,true)" style="font-size: 10pt;">
+                                </div>
+                                <div class="float-left col-md-5 p-0">
+                                    <input class="ml-2" type="button" id="createRFidraft"
+                                        value="Update changes to this RFI No email"
+                                        (click)="updateRFISubmitWithoutMail($event,false)" style="font-size: 10pt;">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-12 float-left pr-0">
+                    <div class="leftcard-section">
+
+                        <div class="card rounded-0">
+                            <div class="card-header header-card-blue pt-3 pb-3 pl-2 pr-2">
+
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="float-left col-md-4 p-0">
+                                    RFI Creator:
+                                </div>
+                                <div class="float-left col-md-8 p-0">
+                                    {{rfi_info?.creator?.first_name + " "+ rfi_info?.creator?.last_name}}
+                                    [{{rfi_info?.creator?.email}}]
+                                </div>
+                                <div class="float-left col-md-12 p-0">
+                                    <div class="float-left col-md-4 p-0">
+                                        RFI Recipients:
+                                    </div>
+                                    <div class="float-left col-md-8 p-0">
+                                        <span *ngIf="rfi_info.recipients">{{rfi_info.recipients?.contactfullname |
+                                            titlecase}} {{rfi_info.recipients?.email}}</span>
+                                    </div>
+                                </div>
+                                <div class="float-left col-md-4 p-0">
+                                    RFI Priority:
+                                </div>
+                                <div class="float-left col-md-8 p-0">
+                                    <select [(ngModel)]="rfi_priority_id" name="rfi_priority_id">
+                                        <option value="">Select RFI Priority</option>
+                                        <option *ngFor="let priority of rfiPriortiy" [value]="priority.id">
+                                            {{priority.request_for_information_priority}}</option>
+                                    </select>
+                                    <div *ngIf="rfi_priority_error" class="text-danger">{{rfi_priority_error}}</div>
+                                </div>
+                                <div class="float-left col-md-4 p-0">
+                                    RFI Open Date:
+                                </div>
+                                <div class="float-left col-md-8 p-0">
+                                    {{rfi_info?.open_date?.split(" ")[0]}}
+                                </div>
+                                <div class="float-left col-md-4 p-0">
+                                    RFI Close Date:
+                                </div>
+                                <div class="float-left col-md-8 p-0">
+                                    {{rfi_info?.close_date}}
+                                </div>
+                                <div class="float-left col-md-12 p-0">
+                                    <div *ngIf="rfi_status==2" class="float-left col-md-12 p-0">
+                                        <input class="mr-2" id="RFIs__create__RfiResponseAndSendEmailViaPromiseChain"
+                                            (click)="viewRender()" type="button" value="View RFI PDF"
+                                            style="font-size: 10pt;">
+                                        <input id="RFIs__create__RfiResponseAndSendEmailViaPromiseChain"
+                                            (click)="statusUpdate(4)" type="button" value="Close"
+                                            style="font-size: 10pt;">
+                                    </div>
+                                    <div *ngIf="rfi_status==4" class="float-left col-md-12 p-0">
+                                        <input id="RFIs__create__RfiResponseAndSendEmailViaPromiseChain"
+                                            (click)="viewRender()" type="button" class="mr-2" value="View RFI PDF"
+                                            style="font-size: 10pt;">
+                                        <input id="RFIs__create__RfiResponseAndSendEmailViaPromiseChain"
+                                            (click)="statusUpdate(2)" type="button" value="Reopen RFI"
+                                            style="font-size: 10pt;">
+                                        <!-- <input id="RFIs__create__RfiResponseAndSendEmailViaPromiseChain" type="button"
+                                        value="Notify Subcontractor"
+                                        style="font-size: 10pt;"> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card rounded-0">
+                            <div class="card-header header-card-blue pt-3 pb-3 pl-2 pr-2">
+                                <div class="float-left col-md-12 p-0">
+                                    Select A File To Attach:
+                                </div>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="float-left pl-0 col-md-12 p-2">
+                                    <span>
+                                        <input type="file" accept="image/*,application/pdf" multiple
+                                            (change)="fileUpload($event)" class="d-none" name="files" id="files" />
+                                        <label class="btn btn-grey rounded-0" for="files">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="currentColor" class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5z" />
+                                                <path
+                                                    d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z" />
+                                            </svg>
+                                            Drop or Click Files
+                                        </label>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card rounded-0">
+                            <div class="card-header header-card-blue pt-3 pb-3 pl-2 pr-2">
+                                <div class="float-left col-md-12 p-0">
+                                    Attached Files:
+                                </div>
+                            </div>
+                            <div class="float-left card-body col-md-12 p-0"
+                                *ngIf="fileAttachment.length>0 || efileAttachment.length>0">
+                                <table class="col-md-8 table-striped">
+                                    <tr>
+                                        <td class="d-inline-block col-lg-2 col-md-2"><input class="d-block"
+                                                type="checkbox" /></td>
+                                        <td class="d-inline-block col-lg-6 col-md-6">Attachment</td>
+                                        <td class="d-inline-block col-lg-4 col-md-4">Creator</td>
+                                    </tr>
+                                    <tbody *ngIf="efileAttachment.length>0">
+                                        <tr *ngFor="let attachment of efileAttachment">
+                                            <td class="d-inline-block col-lg-2 col-md-2">
+                                                <input (change)="rfiAttachmentUpdate(attachment,$event)" class="d-block"
+                                                    [checked]="attachment.is_added=='y' ? true : false"
+                                                    type="checkbox" />
+                                            </td>
+                                            <td class="d-inline-block col-lg-6 col-md-6">
+                                                <img src="assets/images/sortbars.png" />
+                                                <button type="button" (click)="rfiAttachmentDelete(attachment)" class="btn btn-sm"><small>&times;</small></button>
+                                                <a target="_blank"
+                                                    [href]="attachment.file_url">
+                                                    {{attachment.virtual_file_name}}
+                                                </a>
+                                            </td>
+                                            <td class="d-inline-block col-lg-4 col-md-4">
+                                                {{attachment.contacts.contactfullname}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody *ngIf="fileAttachment.length>0">
+                                        <tr *ngFor="let attachment of fileAttachment">
+                                            <td class="d-inline-block col-lg-2 col-md-2">
+                                                <input type="checkbox" />
+                                            </td>
+                                            <td class="d-inline-block col-lg-6 col-md-6">
+                                                <img src="assets/images/sortbars.png" />
+                                                <button class="btn btn-sm"><small>&times;</small></button>
+                                                <a *ngIf="attachment.virtual_file_name" target="_blank"
+                                                    [href]="attachment.file_url">{{attachment.virtual_file_name}}</a>
+                                            </td>
+                                            <td class="d-inline-block col-lg-4 col-md-4">
+                                                &nbsp;
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+
+                            <div class="card-body p-0" *ngIf="fileAttachment.length==0">
+                                <div class="float-left col-md-12 p-1">
+                                    <p class="paragraph-p">No Files Attached</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card rounded-0">
+                            <div class="card-header header-card-blue pt-1 pb-1 pl-2 pr-2">
+                                <div class="float-left col-md-12 p-0">
+                                    <span class="mt-2 float-left">Email:</span>
+                                    <button type="button" class="btn-sm blue-button float-right"
+                                        (click)="loadRecieptDialog(MasterCodeLists)">Select Recipient</button>
+                                </div>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="float-left col-md-12 p-1">
+                                    <p class="ptag-style">
+
+                                        <span><b>To : </b></span>
+                                        <span id="toemailist" *ngFor="let list of recipientTo">
+                                            <b *ngIf="list.to">{{list.name.concat(",")}}</b>
+                                            <span *ngFor="let tolist of list.contacts">
+                                                <span *ngIf="tolist.smtp_recipient_header_type==To">
+                                                    <b>{{tolist.email.contactfullname.concat(",")}}</b>
+                                                </span>
+                                            </span>
+
+                                        </span>
+                                    </p>
+                                    <div>
+                                        <p class="ptag-style">
+                                            <span><b>Cc : </b></span>
+                                            <span id="ccemailist" *ngFor="let list of recipientTo">
+
+                                                <b *ngIf="list.cc">{{list.name.concat(",")}}</b>
+                                                <span *ngFor="let cclist of list.contacts">
+                                                    <span *ngIf="cclist.smtp_recipient_header_type==Cc">
+                                                        <b>{{cclist.email.contactfullname.concat(",")}}</b>
+                                                    </span>
+                                                </span>
+                                            </span>
+                                        </p>
+
+                                    </div>
+                                    <div>
+                                        <p class="ptag-style">
+                                            <span><b>Bcc : </b></span>
+                                            <span id="bccemailist" *ngFor="let list of recipientTo">
+                                                <b *ngIf="list.bcc">{{list.name.concat(",")}}</b>
+                                                <span *ngFor="let bcclist of list.contacts">
+                                                    <span *ngIf="bcclist.smtp_recipient_header_type==Bcc">
+                                                        <b>{{bcclist.email.contactfullname.concat(",")}}</b>
+                                                    </span>
+                                                </span>
+                                            </span>
+                                        </p>
+
+                                    </div>
+                                    <p class="ptag-style">Add additional text to the body of the email: </p>
+                                    <textarea rows="7" [(ngModel)]="rfi_response_title" name="rfi_response_title"
+                                        class="w-100 mb-2"></textarea>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="ui-dialog-buttonpane ui-dialog-content">
+            <div class="ui-dialog-buttonset">
+                <button type="button"
+                    class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only btn-cmn" role="button"
+                    (click)="modal.dismiss('Cross click')"><span class="ui-button-text">Close</span></button>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #MasterCodeLists let-modal class="tests">
+    <div class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-front ui-dialog-buttons ui-draggable ui-resizable"
+        [style]="{'width':windowWidth}"
+        style="position: absolute; height: auto; top: 6px; left: -230px; display: block; z-index: 401;background:white;"
+        tabindex="-1" role="dialog" aria-describedby="divModalWindow" aria-labelledby="ui-id-5">
+        <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix ui-draggable-handle">
+            <span id="ui-id-5" class="ui-dialog-title">Select Recipient — Advent — {{projectName}}</span>
+            <button type="button" (click)="modal.dismiss('Cross click')"
+                class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close"
+                role="button" style="float:
+            right; 
+          background: #91cef7 !important;
+          border: #4e4f51 !important;" title="Close">
+                <span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span>
+                <span class="ui-button-text">X</span>
+            </button>
+        </div>
+        <div id="divContactMail" class="ui-dialog-content ui-widget-content" [style]="{'height':windowHeight}"
+            style="width: auto; min-height: 0px; max-height: none;">
+            <div style="display:block">
+                <table style="width:60%;">
+                    <tbody>
+                        <tr>
+                            <th style="width:127px;">Filter on Roles:</th>
+                            <td style="width:212px" class="ngselect-dropdown">
+                                <div class="fs-wrap multiple fs-default" tabindex="0">
+                                    <ng-select [items]="roleslist" bindLabel="role" bindValue="role"
+                                        [(ngModel)]="selectedRole" [multiple]="true" [searchable]="true"
+                                        [closeOnSelect]="true" (change)="FilterRecipients()">
+                                        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                            <div class="row">
+                                                <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"
+                                                    [ngModelOptions]="{standalone: true}" />
+                                                {{item['role']}}
+                                            </div>
+                                        </ng-template>
+                                        <ng-template ng-multi-label-tmp let-items="items">
+                                            <div class="ng-value" *ngFor="let item of items | slice:0:2">
+                                                {{item['role']}}
+                                            </div>
+                                            <div class="ng-value" *ngIf="items.length > 2">
+                                                <span class="ng-value-label">{{items.length - 2}} more...</span>
+                                            </div>
+                                        </ng-template>
+                                    </ng-select>
+                                </div>
+                            </td>
+                            <td>
+                                <button class="colorMediumGray fakeHref odd commnetdNoBorder"
+                                    (click)="resetDropdown()">Reset
+                                    Filter</button>
+                            </td>
+
+                            <th>Search:</th>
+                            <td>
+                                <input type="text" name="searchFilter" id="searchemail" [(ngModel)]="searchFilter"
+                                    (keyup)="filterSearch($event)" style="width: 240px;">
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <input type="hidden" id="moduleName" value="RFI">
+            <input type="hidden" id="moduleid" value="">
+            <input type="hidden" id="emailTo" value="undefined,">
+            <input type="hidden" id="emailCc" value="undefined,1131,">
+            <input type="hidden" id="emailBcc" value="undefined,">
+            <div style="padding:5px;text-align:center;"><input type="button" id="previously_emailed"
+                    value="Previously Emailed List" (click)="loadpreviouslyemailList('RFI','')"></div>
+            <div id="divemaildata">
+                <table style="margin-bottom: 150px;table-layout: auto;" width="100%" cellspacing="0" cellpadding="4"
+                    border="0">
+                    <thead>
+                        <tr class="permissionTableMainHeader">
+                            <td colspan="7">Check The Contact That You Would Like To Email</td>
+                        </tr>
+                        <tr>
+                            <th style="width:268px">Company</th>
+                            <th style="width:55px">To</th>
+                            <th style="width:55px">Cc</th>
+                            <th style="width:55px">Bcc</th>
+                            <th style="width:120px">Name</th>
+                            <th style="width:351px">Email</th>
+                            <th>Roles</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="recipientFilterEmails.length==0">
+                        <tr class="headsle " *ngFor="let data of recipientEmails">
+                            <td nowrap="" class="font-weight-normal">{{data.company}}</td>
+                            <td class="textAlignCenter">
+                                <input type="checkbox" [value]="data.to" name="check" [checked]="data.to"
+                                    (click)="OnChangeReceipts(true,false,false,data,$event)">
+                            </td>
+                            <td class="textAlignCenter"><input type="checkbox" name="check" [value]="data.cc"
+                                    (click)="OnChangeReceipts(false,true,false,data,$event)" [checked]="data.cc">
+                            </td>
+                            <td class="textAlignCenter"><input type="checkbox" name="check" [value]="data.bcc"
+                                    (click)="OnChangeReceipts(false,false,true,data,$event)" [checked]="data.bcc">
+                            </td>
+                            <td nowrap="" class="colorblack">{{data.name}}</td>
+                            <td nowrap="" class="colorblack">{{data.email}}</td>
+                            <td class="colorblack">{{data.roles}}</td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="recipientFilterEmails.length>0">
+                        <tr class="headsle " *ngFor="let data of recipientFilterEmails">
+                            <td nowrap="" class="font-weight-normal">{{data.company}}</td>
+                            <td class="textAlignCenter">
+                                <input type="checkbox" [value]="data.to" name="check" [checked]="data.to"
+                                    (click)="OnChangeReceipts(true,false,false,data,$event)">
+                            </td>
+                            <td class="textAlignCenter"><input type="checkbox" name="check" [value]="data.cc"
+                                    (click)="OnChangeReceipts(false,true,false,data,$event)" [checked]="data.cc">
+                            </td>
+                            <td class="textAlignCenter"><input type="checkbox" name="check" [value]="data.bcc"
+                                    (click)="OnChangeReceipts(false,false,true,data,$event)" [checked]="data.bcc">
+                            </td>
+                            <td nowrap="" class="colorblack">{{data.name}}</td>
+                            <td nowrap="" class="colorblack">{{data.email}}</td>
+                            <td class="colorblack">{{data.roles}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-sm blue-button" (click)="modal.dismiss('Cross click')">Add Email</button>
+            <button class="btn-sm blue-button" (click)="modal.dismiss('Cross click')">Close</button>
+        </div>
+    </div>
+</ng-template>

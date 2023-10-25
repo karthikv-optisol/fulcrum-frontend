@@ -1,0 +1,38 @@
+#contentAreaRight {
+    margin: 0;
+    padding: 0 15px 0 30px;
+}
+.messageQueueSuccess{
+    color: green;
+    font-size: 1.1em;
+    font-weight: 700;
+    padding: 0 1px 0 25px;
+}
+.change-emailpw {
+    table-layout: inherit;
+    width: auto;
+}
+.acc_management ol li {
+    padding-bottom: 5px;
+}
+.opt_personal td {
+    padding-bottom: 10px !important;
+}
+.acc_management ol {
+    margin-top: 15px;
+}
+.acc_management ol li:last-child {
+    padding-bottom: 0px;
+}
+.change-emailpwtr td {
+    padding: 8px 6px 7px 4px !important;
+}
+input.reset_save-btn, input.reset_change-btn {
+    border-bottom: none !important;
+}
+input.reset_save-btn {
+    padding: 7px 25px !important;
+}
+input.reset_change-btn {
+    padding: 7px 21px !important;
+}

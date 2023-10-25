@@ -1,0 +1,100 @@
+<div *ngIf="modalloading"
+	style="display: block"
+	id="divAjaxLoading">
+	Loading . . ..
+	<img alt="Loading..."
+		src="assets/images/ajax-loader.gif">
+</div>
+<table border="0" *ngIf="getSubcontractorBidLists.length">
+    <tbody><tr valign="top">
+        <th class="textAlignLeft">Filter On Status:</th>
+        <th class="textAlignLeft">Sort By:</th>
+        <td width="100px;">&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr valign="top">
+        <td>
+            <select id="ddlStatus" #ddlStatus name="ddlStatus" tabindex="2" multiple="true" style="width: 200px; height: 125px;" (change)="updateBidderListReport();">
+                <option *ngFor="let item of getSubcontractorBidLists;" value="{{item.id}}">{{item.subcontractor_bid_status}}</option>
+            </select>
+            <br>
+            <span style="font-size:10px;">(Ctrl/Command Click To Select Multiple)</span>
+        </td>
+        <td>
+            <select id="ddlSortBy" #ddlSortBy (change)="updateBidderListReport();">
+                <option value="cost_code_division_id,company,cost_code">Company, Cost Code</option>
+                <option value="cost_code_division_id,cost_code,company">Cost Code, Company</option>
+                <option value="cost_code_division_id,cost_code,bid_total">Cost Code, Bid Amount</option>
+                <option value="cost_code_division_id,cost_code,email">Email</option>
+            </select>
+        </td>
+    </tr>
+</tbody></table>
+
+<div id="divBidderLog" style="margin-top: 20px;" *ngIf="getSubcontractorBidLists.length">
+    {{arrBidders.length}} Results
+    <table cellspacing="0" cellpadding="4" border="1">
+        <tbody>
+            <div *ngIf="checkSortOrder()">
+                <tr class="permissionTableMainHeader">
+                    <th>Division</th>
+                    <th>Cost Code</th>
+                    <th>Cost Code Description</th>
+                    <th>Company</th>
+                    <th>Contact</th>
+                    <th>Status</th>
+                    <th>Phone</th>
+                    <th>Fax</th>
+                    <th>Email</th>
+                    <th>Bid Amount</th>
+                </tr>
+            </div>
+            <div *ngIf="!checkSortOrder()">
+                <tr class="permissionTableMainHeader">
+                    <th>Company</th>
+                    <th>Contact</th>
+                    <th>Division</th>
+                    <th>Cost Code</th>
+                    <th>Cost Code Description</th>
+                    <th>Status</th>
+                    <th>Phone</th>
+                    <th>Fax</th>
+                    <th>Email</th>
+                    <th>Bid Amount</th>
+                </tr>
+            </div>
+        <div *ngIf="arrBidders.length">
+            <div *ngFor="let item of arrBidders;">
+             
+                <tr *ngIf="checkSortOrder()">
+                    <td>{{item.division}} ({{item.division_number}})</td>
+                    <td>{{item.cost_code}}</td>
+                    <td>{{item.cost_code_description}}</td>
+                    <td>{{item.company}}</td>
+                    <td>{{item.first_name}} {{item.last_name}}</td>
+                    <td>{{item.subcontractor_bid_status}}</td>
+                    <td>PHONE NUMBER</td>
+                    <td>FAX NUMBER</td>
+                    <td>{{item.email}}</td>
+                    <td align="right">{{getBidAmount(item.item_quantity,item.unit_price)}}</td>
+                </tr>
+                <tr *ngIf="!checkSortOrder()">
+                    <td>{{item.company}}</td>
+                    <td>{{item.first_name}} {{item.last_name}}</td>
+                    <td>{{item.division}} ({{item.division_number}})</td>
+                    <td>{{item.cost_code}}</td>
+                    <td>{{item.cost_code_description}}</td>
+                    <td>{{item.subcontractor_bid_status}}</td>
+                    <td>PHONE NUMBER</td>
+                    <td>FAX NUMBER</td>
+                    <td>{{item.email}}</td>
+                    <td align="right">{{getBidAmount(item.item_quantity,item.unit_price)}}</td>
+                </tr>
+                <tr *ngIf="checkDisplay(item.cost_code_id)">
+                    <td colspan="10" bgcolor="grey">&nbsp;</td>
+                </tr>
+            </div>
+        </div>
+       
+    </tbody></table></div>
+

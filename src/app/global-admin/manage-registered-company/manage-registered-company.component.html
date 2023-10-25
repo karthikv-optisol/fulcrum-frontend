@@ -1,0 +1,185 @@
+<div *ngIf="modalloading" style="display: block" id="divAjaxLoading">
+    Loading . . .
+    <img alt="Loading..." src="assets/images/ajax-loader.gif" />
+  </div>
+  <div id="wrapper" class="debugBorder">
+    <div class="spacerBottom"></div>
+    <div id="contentArea">
+      <div id="contentAreaLeft">
+        <app-sidemenu (SendValue)="ValueFromComp1($event)"></app-sidemenu>
+      </div>
+      <td id="contentAreaRight" align="left">
+        <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%">
+            <tbody><tr>
+                <td align="left">
+
+                    <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%">
+                        <tbody><tr>
+                            <td>
+                                <div id="softwareModuleHeadline">Delta Lane: Manage Registered Co's</div>
+                                <div id="messageDiv" class="userMessage"></div>
+                                <form novalidate [formGroup]="changeAccountInfoForm">
+
+<table border="0" cellpadding="3" cellspacing="0" height="73" width="100%">
+
+<tbody><tr>
+<td height="20"><div class="headerStyle">Manage Customers — Create/Edit a Customer (User Company)</div></td>
+</tr>
+
+<tr>
+<td height="20">
+<br>
+<input type="button" value="Create A New Registered Company (User Company)" onclick="window.location='admin-user-company-creation-form-reset.php?pID=MTU4&amp;mode=insert'">
+<br>
+<br>
+<select name="ddl_user_company_id" id="ddl_user_company_id" (change)="getCompanyValue($event.target.value)">
+<option value="" selected="selected" id="ddl_user_company_id-0">Please Select a Registered Company to Edit</option>
+<option *ngFor="let userCompanyList of userCompanyLists" value="{{userCompanyList.id}}" id="ddl_user_company_id-1">{{userCompanyList.company}}</option>
+</select>
+<br>
+<br>
+</td>
+</tr>
+
+<tr>
+<td>
+
+
+
+<table border="0" cellspacing="2" cellpadding="2" style="border: dashed 2px #ccc;">
+<tbody><tr>
+<td colspan="2" nowrap=""><strong>Required Customer (User Company) Information</strong></td>
+</tr>
+
+<tr>
+<td width="10%" nowrap="">Customer Name (User Company Name)</td>
+<td>
+<table border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td width="35%">
+    <input type="hidden" formControlName="company_id" name="company_id" >
+    <input maxlength="50" size="25" type="text" formControlName="user_company_name" name="user_company_name" value="" tabindex="108" style="width:150px;">
+</td>
+<td>* Required Field</td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+
+<tr>
+<td nowrap="">Employer Identification Number (Fed Tax ID/EIN/SSN)&nbsp;</td>
+<td>
+<table border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td width="35%"><input type="text" maxlength="50" size="25" formControlName="employer_identification_number" name="employer_identification_number" value="" tabindex="109" style="width:150px;"></td>
+<td>* Required Field</td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+
+<tr>
+<td nowrap="">Construction License Number</td>
+<td>
+<table border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td><input type="text" formControlName="construction_license_number" name="construction_license_number" value="" maxlength="14" size="25" tabindex="110" style="width:150px;"></td>
+<td></td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+
+<tr>
+<td nowrap="">Construction License Number Expiration Date&nbsp;</td>
+<td>
+<table border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td>
+<input class="datepicker auto-hint hasDatepicker" title="MM/dd/yyyy" type="date" formControlName="construction_license_number_expiration_date" name="construction_license_number_expiration_date" value=""  tabindex="111" style="width:150px;" id="dp1655268674888" />
+</td>
+<td></td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+<tr>
+<td>Company Logo</td>
+<td>
+
+<div id="uploadProgressWindow" class="uploadResult" style="display: none;">
+<h3>FILE UPLOAD PROGRESS: <input type="button" value="Close File Progress Window" onclick="document.getElementById('uploadProgressWindow').style.display='none';"></h3>
+<ul id="UL-FileList" class="qq-upload-list"></ul>
+<span id="uploadProgressErrorMessage"></span>
+</div>
+
+<div id="uploaderJobsitePhotos"></div>
+
+<div id="photo_upload" class="boxViewUploader uploaderInitialized" folder_id="2" project_id="" virtual_file_path="/GC Logos/" virtual_file_name="" prepend_date_to_filename="0" append_date_to_filename="0" post_upload_js_callback="ImageLogoRefresh(arrFileManagerFiles);" action="/modules-image-manager-image-uploader-ajax.php" method="uploadFiles" allowed_extensions="gif,jpg,jpeg,png" drop_text_prefix="" style="width:170px;" custom_label="" multiple="" file_upload_position="">
+    <div class="qq-uploader">
+<div class="qq-upload-button" style="position: relative; overflow: hidden; direction: ltr;">
+    <img src="assets/images/icons/file-upload.png" width="15" height="17" alt="">Drop or Click Files<input multiple="multiple" type="file" formControlName="test" name="file" style="position: absolute; right: 0px; top: 0px; font-family: Arial; font-size: 118px; margin: 0px; padding: 0px; cursor: pointer; opacity: 0;"></div></div></div>
+
+<ul id="record_list_container--manage-jobsite_photo-record" class="ulUploadedFiles" style="margin:10px 0 5px 0px"><li id="liUploadedPhotoPlaceholder">No uploads yet.</li></ul>
+<div class="fakeHref verticalAlignBottom question" (click)="showHideDomElement()">(?)</div><span id="rfi_draft_help" *ngIf="isHideDomElement" class="verticalAlignBottom "> Note : Only gif, jpg, jpeg, png images are allowed. Image size allowed from 150x40 to 500x100 .</span>
+<input id="jobsite_photo_file_manager_folder_id" type="hidden" value="$jobsite_photo_file_manager_folder_id">
+
+<input type="hidden" id="gc_logo" formControlName="gc_logo" name="gc_logo" value="">
+</td>
+</tr>
+<tr>
+<td nowrap="" style="border-top: solid 0px #ccc;border-bottom: solid 0px #ccc;border-left: solid 0px #ccc;">Customer Status</td>
+<td style="border-top: solid 0px #ccc;border-right: solid 0px #ccc;border-bottom: solid 0px #ccc;">
+<table border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td>
+<input type="checkbox" formControlName="paying_customer_flag"  name="paying_customer_flag" (click)="checkAllPayingCustomerModules($event)">Paying Customer (Y/N)
+</td>
+<td></td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+
+<tr>
+<td nowrap="" valign="top">Software Modules</td>
+<td>
+<table border="0" cellpadding="0" cellspacing="0">
+<div style="text-align:left !important;" *ngIf="softwareModulesLists.length>0">
+    <div *ngFor="let softwareModulesList of softwareModulesLists;">
+    <input [ngClass]="{'payingCustomerModuleCheckbox': softwareModulesList.software_module_label != 'Application Audit Trails' && softwareModulesList.software_module_label != 'Unit Testing' && softwareModulesList.purchased_module_flag !='N','purchasedModuleFlag':softwareModulesList.purchased_module_flag =='N'}" class="softwareModules" type="checkbox" value="{{softwareModulesList.id}}" [checked]="softwareModulesList.purchased_module_flag =='N' || softwareModulesList.CheckBoxvalues == true  "> {{softwareModulesList.software_module_label}}<br>
+    </div>
+   
+</div>
+</table>
+</td>
+</tr>
+
+<tr>
+<td colspan="2" height="5"></td>
+</tr>
+
+</tbody></table>
+
+<br>
+<div align="left">
+<input type="reset" value="Reset Form"  name="Submit" tabindex="3002" (click)="resetForm()">
+&nbsp;&nbsp;
+<input type="submit" value="Save"  name="Submit" tabindex="3001" (click)="submitForm()">
+</div>
+</td>
+</tr>
+
+</tbody></table>
+</form>
+
+
+                            </td>
+                        </tr>
+                    </tbody></table>
+
+                </td>
+            </tr>
+        </tbody></table>
+
+  

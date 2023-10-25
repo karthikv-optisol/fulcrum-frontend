@@ -1,0 +1,48 @@
+<div class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-front ui-dialog-buttons ui-draggable ui-resizable"
+    style="position: absolute; height: auto; width: 600px; top: 100px; left: 0; display: block; z-index: 401;background:white;"
+    tabindex="-1" role="dialog" aria-describedby="divModalWindow" aria-labelledby="ui-id-5">
+    <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix ui-draggable-handle">
+        <span id="ui-id-5" class="ui-dialog-title">{{modalTitle}}?</span>
+        <button type="button" (click)="modalClose.emit(true)"
+            class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close"
+            role="button" style="float:
+    right; 
+  background: #91cef7 !important;
+  border: #4e4f51 !important;" title="Close">
+            <span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span>
+            <span class="ui-button-text">X</span>
+        </button>
+    </div>
+    <div id="divModalWindow" class="ui-dialog-content ui-widget-content"
+        style="width: auto; min-height: 0px; max-height: none; height: auto;overflow:auto; line-height: 2;">
+        <p *ngIf="modalQuestion">{{modalQuestion}}</p>
+        <p *ngIf="modalLabel">{{modalLabel}}</p>
+        <ul *ngIf="modalArray1.length>0">
+            <li *ngFor="let docs of modalArray1 let index=i;">
+                <span *ngIf="modalArray2.resignDate.length>0">
+                    <span *ngFor="let items of modalArray2.resignDate">
+                        <span *ngIf="items.subcontract_item == docs.subcontract_item && items.resignDate==null">
+                            {{items.subcontract_item}}
+                        </span>
+                    </span>
+                </span>
+                <span *ngIf="modalArray2.resignDate.length==0">
+                    {{docs.subcontract_item}}
+                </span>
+            </li>
+        </ul>
+        <p *ngIf="modalContent">{{modalContent}}</p>
+    </div>
+    <div class="ui-dialog-buttonpane ui-dialog-content">
+        <div class="ui-dialog-buttonset">
+            <button type="button"
+                class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only btn-cmn mr-2"
+                role="button" (click)="formSubmit.emit(true)">
+                <span class="ui-button-text" *ngIf="modalButton">{{modalButton}}</span>
+                <span class="ui-button-text" *ngIf="!modalButton">Delete</span>
+            </button>
+            <button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only btn-cmn"
+                role="button" (click)="modalClose.emit(true)"><span class="ui-button-text">Cancel</span></button>
+        </div>
+    </div>
+</div>

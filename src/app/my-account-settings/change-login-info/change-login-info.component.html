@@ -1,0 +1,153 @@
+
+        <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%">
+           <tbody>
+              <tr>
+                 <td align="left">
+               
+                    <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%">
+                       <tbody>
+                          <tr>
+                             <td>
+                                <div id="softwareModuleHeadline">Delta Lane: Change Login Info</div>
+                                <div id="messageDiv" class="userMessage"></div>
+                                <div class="headerStyle">Account Management - Change Your Email Address</div>
+                                <div class="messageQueueErrorBlockContainer">
+                                 <div class="messageQueueErrorText">{{commonError}}</div>
+                                 <div class="messageQueueErrorText">{{emailError}}</div>
+                                 <div class="messageQueueErrorText">{{alertsError}}</div>
+                                <div class="messageQueueErrorText">{{screenNameError}}</div>
+                                <div class="messageQueueErrorText">{{carrierError}}</div>
+                                <div class="messageQueueErrorText">{{mobileError}}</div>
+                              </div>
+                              <div class="messageQueueConfirmBlockContainer" style="margin-top: 10px;">
+                                 <div class="messageQueueSuccess">{{successMessage}}</div>
+                              </div>
+                              <div *ngIf="isPasswordDiv" class="alignmentDiv">
+                                 <input value="Click Here to Try Updating Your Security Information Again" type="button" (click)="changePasswordDiv()">                                </div>
+                                <div *ngIf="!isPasswordDiv">
+                                <div class="headerStyle">Account Management - Required Login &amp; Security Information</div>
+                                <form novalidate [formGroup]="changeLoginInfoForm">
+                                   <table border="0" width="100%" cellspacing="0" cellpadding="3">
+                                      <tbody>
+                                         <tr>
+                                            <td>
+                                               <div align="left" class="security_information">
+                                                  If you need to change the security information on your account, follow these steps:
+                                                  <ol class="instructionsList" type="i">
+                                                     <li>Change your information as desired by editing the fields below.</li>
+                                                     <li>Click “Save Changes”.</li>
+                                                  </ol>
+                                               </div>
+                                            </td>
+                                         </tr>
+                                         <tr>
+                                            <td align="left" width="100%">
+                                               <div style="padding: 0 7px;"><strong>Required Account Information</strong></div>
+                                               <div class="requiredAccountInfoBox">
+                                                  <table border="0" cellspacing="2" cellpadding="2" class="change-emailpw">
+                                                     <tbody>
+                                                        <tr>
+                                                           <td nowrap="" class="lablename_login">Alerts</td>
+                                                           <td>
+                                                              <table border="0" cellpadding="0" cellspacing="0" class="change-emailpw">
+                                                                 <tbody>
+                                                                    <tr>
+                                                                       <td class="email_alert"><b><input id="emailAlert" type="checkbox" value="emailAlert" name="alertTypes[]" [checked]="alerts == 'Email' || alerts == 'Both'" tabindex="115" (change)="alertchange($event.target.checked,'Email')"></b></td>
+                                                                       <td><b>Receive Alerts via Email</b>* Required Field</td>
+                                                                       <td></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                       <td><b><input id="smsAlert" type="checkbox" value="smsAlert" name="alertTypes[]" [checked]="alerts == 'SMS' || alerts == 'Both'" tabindex="114" (change)="alertchange($event.target.checked,'SMS')"></b></td>
+                                                                       <td><b>Receive Alerts via SMS Text Messages</b></td>
+                                                                       <td></td>
+                                                                    </tr>
+                                                                 </tbody>
+                                                              </table>
+                                                           </td>
+                                                        </tr>
+                                                        <tr id="smsAlertRow1" *ngIf="alerts == 'SMS' || alerts == 'Both'">
+                                                           <td width="10%" nowrap="" class="lablename_login">Mobile Phone Number</td>
+                                                           <td>
+                                                              <table border="0" cellpadding="0" cellspacing="0" class="change-emailpw w-none">
+                                                                 <tbody>
+                                                                    <tr>
+                                                                       <td class="mobile_number-td">
+                                                                          <input id="mobile_phone_area_code" style="display: inline;" maxlength="3" size="3" formControlName="mobile_phone_area_code" name="mobile_phone_area_code" value="909" tabindex="104">
+                                                                          <input style="display: inline-block;" maxlength="3" size="3" formControlName="mobile_phone_prefix" name="mobile_phone_prefix" value="532" tabindex="105">
+                                                                          <input style="display: inline-block;" maxlength="4" size="4" formControlName="mobile_phone_last_number" name="mobile_phone_last_number" value="5781" tabindex="106">
+                                                                       </td>
+                                                                       <td>* Required Field</td>
+                                                                    </tr>
+                                                                 </tbody>
+                                                              </table>
+                                                           </td>
+                                                        </tr>
+                                                        <tr id="smsAlertRow2" *ngIf="alerts == 'SMS'|| alerts == 'Both'">
+                                                           <td width="10%" nowrap="" class="lablename_login">Cell Phone Carrier</td>
+                                                           <td>
+                                                              <table border="0" cellpadding="0" cellspacing="0" class="change-emailpw w-none">
+                                                                 <tbody>
+                                                                    <tr>
+                                                                       <td>
+                                                                        <select formControlName="cell_phone_carrier" class="inputsize">
+                                                                              <optgroup *ngFor="let skillItem of mobileNetworkCarriers | groupBy: 'country'" label="{{skillItem.key}}">
+                                                                                 <option *ngFor="let title of skillItem.value" [value]="title.id">
+                                                                                    {{title.carrier_display_name}}
+                                                                                  </option>
+                                                                              </optgroup>
+                                                                       </select>
+                                                                       </td>
+                                                                       <td>* Required Field</td>
+                                                                    </tr>
+                                                                 </tbody>
+                                                              </table>
+                                                           </td>
+                                                        </tr>
+                                                        <tr>
+                                                           <td width="10%" nowrap="" class="lablename_login">Email Address</td>
+                                                           <td>
+                                                              <table border="0" cellpadding="0" cellspacing="0" class="change-emailpw w-none">
+                                                                 <tbody>
+                                                                    <tr>
+                                                                       <td width="10%" class="email_addrs"><input class="inputsize" formControlName="email"  maxlength="50" size="25" name="email" value="dinesh.kumar@optisolbusiness.com" tabindex="108" style="width:90%;"></td>
+                                                                       <td>* Required Field</td>
+                                                                    </tr>
+                                                                 </tbody>
+                                                              </table>
+                                                           </td>
+                                                        </tr>
+                                                        <tr>
+                                                           <td nowrap="" class="lablename_login">Screen Name (login name)</td>
+                                                           <td>
+                                                              <table border="0" cellpadding="0" cellspacing="0" class="change-emailpw w-none">
+                                                                 <tbody>
+                                                                    <tr>
+                                                                       <td width="10%" class="email_addrs"><input class="inputsize" formControlName="screen_name" maxlength="50" size="25" name="screen_name" value="dinesh" tabindex="109" style="width:90%;"></td>
+                                                                       <td>* Required Field</td>
+                                                                    </tr>
+                                                                 </tbody>
+                                                              </table>
+                                                           </td>
+                                                        </tr>
+                                                     </tbody>
+                                                  </table>
+                                               </div>
+                                              
+                                               <br>
+                                               <input type="button" value="Reset Form" name="Submit1" tabindex="22" (click)="resetPasswordForm()" class="reset_save-btn">&nbsp;|&nbsp;
+                                               <input type="button" (click)="changeLoginInfo()" value="Save Changes" name="Submit2" tabindex="21" class="reset_change-btn">
+                                            </td>
+                                         </tr>
+                                      </tbody>
+                                   </table>
+                                </form>
+                                </div>
+                             </td>
+                          </tr>
+                       </tbody>
+                    </table>
+                 </td>
+              </tr>
+           </tbody>
+        </table>
+  

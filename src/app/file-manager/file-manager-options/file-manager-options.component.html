@@ -1,0 +1,398 @@
+   
+        <div *ngIf="!loading">
+            <div id="messageDiv" class="" style="display: none;"></div>
+            <div id="softwareModuleHeadline">{{currentlySelectedProjectName}}: File Manager</div>
+            <ul id="rightClickMenu" class="rightClickMenu contextMenu">
+                <li *ngIf="!isguest" class="new">
+                    <span class="entypo entypo-folder"></span>
+                    <a data-toggle="modal" (click)="newFolderButtonClicked(windowNewFolder1);">New Subfolder</a>
+                </li>
+                <li *ngIf="!isguest" class="upload"> <span class="entypo entypo-upload"></span>
+                    <a (click)="uploadButtonClicked()">Upload</a>
+                </li>
+                <li class="download"> <span class="entypo entypo-download"></span>
+                    <a (click)="downloadRightClickSelected();">Download</a>
+                </li>
+                <li *ngIf="!isguest" class="link"> <span class="entypo entypo-link"></span>
+                    <a (click)="getLinkRightClickSelected();">Get Link</a>
+                </li>
+                <li *ngIf="!isguest" class="restore"> <span class="entypo entypo-level-up"></span>
+                    <a (click)="restoreButtonClicked();">Restore</a>
+                </li>
+                <li *ngIf="!isguest" class="delete separator"> <span class="entypo entypo-trash"></span>
+                    <a (click)="deleteButtonClicked();">Delete</a>
+                </li>
+
+                <li *ngIf="!isguest" class="deletePermanent"> <span class="entypo entypo-trash"></span>
+                    <a (click)="permanentlyDeleteItemsFromRecycleBin();">Vanquish!</a>
+                </li>
+                <li *ngIf="!isguest" class="edit"> <span class="entypo entypo-pencil"></span>
+                    <a (click)="renameButtonClicked();">Rename</a>
+                </li>
+                <li *ngIf="!isguest" class="zip separator hidden">
+                    <span class="entypo entypo-install"></span>
+                    <a href="#extract">Extract</a>
+                </li>
+                <li *ngIf="!isguest" class="details separator"> <span class="entypo entypo-list"></span>
+                    <a id="btnMenuShowInfo" (click)="toggleFileSystemDetails();">Show Properties</a>
+                </li>
+                <li *ngIf="!isguest" class="emptyTrash">
+                    <span class="entypo entypo-flash"></span>
+                    <a (click)="emptyTrash();">Empty Trash</a>
+                </li>
+                <li *ngIf="!isguest" class="cancel"> <span class="entypo entypo-cancel-circled"></span>
+                    <a (click)="closeCurrentlyOpenedMenu();">Cancel</a>
+                </li>
+            </ul>
+
+            <table border="0" class="btns_options">
+                <tbody>
+                    <tr>
+                        <td>
+                            <input id="btnUpload" type="button" value="Upload" (click)="uploadButtonClicked(0);">
+                        </td>
+                        <td>
+                            <input id="btnDownload" type="button" value="Download"
+                                (click)="downloadRightClickSelected();">
+                        </td>
+                        <td>
+                            <input id="btnFolder" class="newsubfolderbtns" type="button" value="New Folder"
+                                data-toggle="modal" (click)="newFolderButtonClicked(windowNewFolder1);">
+                        </td>
+                        <td>
+                            <input id="btnRename" type="button" value="Rename" (click)="renameButtonClicked();">
+                        </td>
+                        <td>
+                            <input id="btnDelete" type="button" value="Delete" (click)="deleteButtonClicked();"
+                                class="">
+                        </td>
+                        <td>
+                            <input id="btnRestore" type="button" value="Restore" style="display: none;"
+                                (click)="restoreButtonClicked();">
+                        </td>
+                        <td>
+                            <input id="btnToggleDetails" type="button" value="Show Info"
+                                (click)="toggleFileSystemDetails();">
+                        </td>
+                        <td align="right" style="width:100%;">
+
+                            <div class="container">
+
+                                <form>
+                                    <mat-form-field appearance="none">
+
+                                        <input (keyup)="onKeySearch($event)" id="filenameSearch" class="ui-autocomplete-input"
+                                           matInput type="text"
+                                            [matAutocomplete]="auto" />
+                                        <mat-autocomplete [displayWith]="getOptionText" #auto="matAutocomplete">
+                                            <mat-option *ngFor="let item of filteredOptions" [value]="item.filename">
+                                                <ul class="ui-autocomplete ui-front ui-menu">
+
+                                                    <li class="ui-menu-item" id="ui-id-3" tabindex="-1">
+
+                                                        <a (click)="viewpdffile(item.id,'')"><span><strong>{{item.filename}}</strong></span><br><span>
+                                                                <small>{{item.name}}</small></span></a>
+                                                    </li>
+                                                </ul>
+
+                                            </mat-option>
+
+
+                                        </mat-autocomplete>
+                                    </mat-form-field>
+                                </form>
+
+                            </div>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+            <table id="tblFileModule" border="0" width="100%">
+                <tbody>
+                    <tr valign="top">
+                        <td id="tdFileTreeMenu" style="width:350px;">
+                            <div id="fileTreeMenu" rel="/" class="">
+                                <ul class="jqueryFileTree" *ngFor="let folderlist of folderlist; let index = index">
+                                    <li rel="{{folderlist.relvalue}}" (contextmenu)="onListClick($event)"
+                                        id="liFolder_{{folderlist.folder_id}}"
+                                        (click)="loadsubfolders(folderlist.folder_id,'no')"
+                                        class="directory collapsed {{folderlist.extra_class}} upload">
+                                        <a id="a_liFolder_{{folderlist.folder_id}}" rel="{{folderlist.folder_id}}"
+                                            style="height:23px" [class.ui-selected]="index == 0">
+                                            {{folderlist.escapedActiveVirtualFolder}} </a>
+
+                                        
+                                        <div *ngIf="folderlist.upload_id == 'uploader_01'; else uploader_02">
+
+                                            <div id="uploader_01"
+                                                class="uploading_folders_display_{{folderlist.folder_id}} treeViewUploader upload {{folderlist.permissionClassList}}"
+                                                folder_id="{{folderlist.id}}" virtual_file_path="/" file_name=""
+                                                action="" allowed_extensions="">
+                                                <div class="qq-uploader">
+                                                    <div class="qq-upload-drop-area" style="display: none;">
+                                                        <img src="../../../assets/images/icons/file-upload.png" width="15"
+                                                            height="17" alt="">
+                                                        {{folderlist.escapedActiveVirtualFolder}} Drop Here
+                                                    </div>
+                                                    <div class="qq-upload-button"
+                                                        style="position: relative; overflow: hidden; direction: ltr;">
+                                                        <img src="../../../assets/images/icons/file-upload.png" width="15"
+                                                            height="17" alt="">
+                                                        {{folderlist.escapedActiveVirtualFolder}} Drop or Click Files
+
+                                                        <input multiple="multiple" class="{{folderlist.folder_id}}"
+                                                            #folderInput name="file" type="file"
+                                                            (change)="createUploaders($event,folderInput.files,folderlist.folder_id,'uploader_01','treeViewUploader upload',folderlist.escapedActiveVirtualFolder,'/')"
+                                                            webkitDirectory
+                                                            style="position: absolute; right: 0px; top: 0px; font-family: Arial; font-size: 118px; margin: 0px; padding: 0px; cursor: pointer; opacity: 0;">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <ng-template #uploader_02>
+                                            <div id="uploader_02"
+                                                class="uploading_folders_display_folderlist.folder_id treeViewUploader {{folderlist.permissionClassList}}"
+                                                drop_text_prefix="{{folderlist.escapedActiveVirtualFolder}}"
+                                                folder_id="{{folderlist.id}}" virtual_file_path="/" file_name=""
+                                                action="" allowed_extensions="">
+                                                <div class="qq-uploader">
+                                                    <div class="qq-upload-drop-area" style="display: none;">
+                                                        <img src="../../../assets/images/icons/file-upload.png" width="15"
+                                                            height="17" alt="">
+                                                        {{folderlist.escapedActiveVirtualFolder}} Drop Here
+                                                    </div>
+                                                    <div class="qq-upload-button"
+                                                        style="position: relative; overflow: hidden; direction: ltr;">
+                                                        <img src="../../../assets/images/icons/file-upload.png" width="15"
+                                                            height="17" alt="">
+                                                        {{folderlist.escapedActiveVirtualFolder}} Drop or Click Files
+                                                        <input multiple="multiple" name="file" #folderInput type="file"
+                                                            (change)="createUploaders($event,folderInput.files,folderlist.folder_id,'uploader_02','treeViewUploader upload',folderlist.escapedActiveVirtualFolder,'/')"
+                                                            webkitDirectory name="file" class="{{folderlist.folder_id}}"
+                                                            style="position: absolute; right: 0px; top: 0px; font-family: Arial; font-size: 118px; margin: 0px; padding: 0px; cursor: pointer; opacity: 0;">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+
+                                    </li>
+
+
+                                    <ul id="liFolder_{{folderlist.folder_id}}" class="jqueryFileTree ">
+                                    </ul>
+
+                                </ul>
+                                <ul class="jqueryFileTree trash" *ngIf="displayTrash">
+                                    <li #trashDiv (contextmenu)="onListClick($event)" id="liFolder_-1"
+                                        (click)="loadsubfolders(-1,'yes')" rel="/Trash/"
+                                        class="directory collapsed trash trashRoot ">
+                                        <a class="trash" id="a_liFolder_-1" rel="-1">Trash</a>
+
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div id="infoContainer">
+                                <div id="fileDetails" style="display:none;">
+                                    <table id="tblFileSystemDetails" class="fileSystemDetails" border="0"
+                                        cellpadding="5" cellspacing="0" width="100%" style="margin-top:29px;">
+
+                                        <tbody>
+                                            <tr class="bgGray">
+                                                <th class="textAlignLeft">Name</th>
+                                                <th class="show_if_file" style="display:none;">Size</th>
+                                                <th>Type</th>
+                                                <th>Modified</th>
+                                                <th>Created</th>
+                                            </tr>
+                                            <tr>
+                                                <td class="folder_or_filename" style="display:none;">
+
+
+                                                </td>
+                                                <td class="folder_or_filename_edit">
+
+                                                    <input id="detailsTheNodeName" name="detailsTheNodeName" type="text"
+                                                        value="" class="elementItemName"
+                                                        (change)="updateNodeNameFromDetails()"
+                                                        style="width:95%;min-width:150px;">
+                                                    <input id="nodetypes" class="nodetypes" name="nodetypes"
+                                                        type="hidden" value="">
+                                                    <input id="detailsFileExtention" class="detailsFileExtention"
+                                                        name="detailsFileExtention" type="hidden" value="">
+                                                    <input id="detailsSelectedElement" class="detailsSelectedElement"
+                                                        name="detailsSelectedElement" type="hidden" value="">
+                                                </td>
+                                                <td nowrap="" align="center" class="show_if_file_value"
+                                                    style="display:none;"></td>
+                                                <td nowrap="" align="center" class="nodetypeadd"></td>
+                                                <td nowrap="" align="center" class="date_modified"></td>
+                                                <td nowrap="" align="center" class="date_created"></td>
+                                            </tr>
+
+
+                                        </tbody>
+                                    </table>
+                                    <table cellpadding="5" cellspacing="0" width="100%" style="margin-top: 20px;">
+                                        <tbody>
+                                            <tr class="bgGray">
+                                                <th id="heading_nodetype" class="textAlignLeft"></th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <table align="left" border="0" id="tblFileFolderPermissionMatrix"
+                                        style="margin-bottom: 20px;">
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td>Full Control</td>
+                                            <td>View</td>
+                                            <td class="permission_upload" style="display:none;">Upload</td>
+                                            <td class="other_permissions" style="display:none;">Rename</td>
+                                            <td class="other_permissions" style="display:none;">Move</td>
+                                            <td class="other_permissions" style="display:none;">Delete</td>
+                                        </tr>
+
+                                        <tbody *ngFor="let roles of arrProjectRoles; let myIndex = index">
+
+                                            <tr id="tr_{{alldetails.nodeId}}_{{roles.id}}">
+                                                <td class="right">{{roles.role}}</td>
+                                                <td id="td_{{alldetails.nodeId}}_{{roles.id}}_full">
+                                                    <a class="toggle"
+                                                        (click)="toggleAllPermissionsForRole(alldetails.nodeId+'_'+roles.id, alldetails.nodeType)">toggle
+                                                        all</a>
+                                                </td>
+
+
+                                                <td id="td_{{alldetails.nodeId}}_{{roles.id}}_view">
+
+                                                    <input id="{{alldetails.nodeId}}_{{roles.id}}_view" type="checkbox"
+                                                        value="1" checked="{{roles.checked_view}}"
+                                                        (click)="toggleFileFolderPermission(alldetails.nodeId+'_'+roles.id+'_view', alldetails.nodeType);">
+                                                </td>
+
+
+                                                <td *ngIf="folder_or_file"
+                                                    id="td_{{alldetails.nodeId}}_{{roles.id}}_upload">
+
+                                                    <input id="{{alldetails.nodeId}}_{{roles.id}}_upload"
+                                                        type="checkbox" value="1" checked="{{roles.checked_upload}}"
+                                                        (click)="toggleFileFolderPermission(alldetails.nodeId+'_'+roles.id+'_upload', alldetails.nodeType);">
+                                                </td>
+
+                                                <td *ngIf="root_folder"
+                                                    id="td_{{alldetails.nodeId}}_{{roles.id}}_rename">
+
+                                                    <input id="{{alldetails.nodeId}}_{{roles.id}}_rename"
+                                                        type="checkbox" value="1" checked="{{roles.checked_rename}}"
+                                                        (click)="toggleFileFolderPermission(alldetails.nodeId+'_'+roles.id+'_rename', alldetails.nodeType);">
+                                                </td>
+
+                                                <td *ngIf="root_folder" id="td_{{alldetails.nodeId}}_{{roles.id}}_move">
+
+                                                    <input id="{{alldetails.nodeId}}_{{roles.id}}_move" type="checkbox"
+                                                        value="1" checked="{{roles.checked_move}}"
+                                                        (click)="toggleFileFolderPermission(alldetails.nodeId+'_'+roles.id+'_move', alldetails.nodeType);">
+                                                </td>
+
+                                                <td *ngIf="root_folder"
+                                                    id="td_{{alldetails.nodeId}}_{{roles.id}}_delete">
+
+                                                    <input id="{{alldetails.nodeId}}_{{roles.id}}_delete"
+                                                        type="checkbox" value="1" checked="{{roles.checked_delete}}"
+                                                        (click)="toggleFileFolderPermission(alldetails.nodeId+'_'+roles.id+'_delete', alldetails.nodeType);">
+                                                </td>
+
+
+                                            </tr>
+
+
+
+                                        </tbody>
+                                        <tr *ngIf="root_folder">
+                                            <td *ngIf="typefolder" colspan="6">
+                                                <a class="toggle"
+                                                    (click)="applyPermissionsToFolderContents(alldetails.nodeId);">
+                                                    Apply These Permissions To Sub Folders & Files</a>
+                                            </td>
+                                        </tr>
+
+                                        <tr *ngIf="root_folder">
+                                            <td *ngIf="typefile" colspan="6">
+                                                <a class="toggle"
+                                                    (click)="applyPermissionsToFileSiblings(alldetails.nodeId, alldetails.elementId);">
+                                                    Apply These Permissions To Other Files In This Folder</a>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+                                </div>
+                                <div id="fileerrormessage"></div>
+                                <div id="filePreview" style="width: 100%; display: block;">
+
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div id="uploadProgressWindow" class="uploadResult" style="display: none;">
+                <h3 style="
+                font-weight: bold;font-size: 1.17em;margin: 1em 0;
+            ">FILE UPLOAD PROGRESS: 
+            <input type="button" value="Close File Progress Window" (click)="closefileprogress()"></h3>
+                <ul id="UL-FileList" class="qq-upload-list">
+                    <!-- <li>
+                        <span class="qq-upload-file">signature.pdf</span>
+                        <span class="qq-upload-spinner"></span>
+                        <span class="qq-upload-size" style="display: inline;">
+                             11% from 2.8MB</span>
+                             <a class="qq-upload-cancel" href="#">Cancel</a>
+                             <span class="qq-upload-failed-text">Failed</span>
+                             <span class="qq-upload-success-text">Success</span></li> -->
+                                </ul>
+                <span id="uploadProgressErrorMessage"></span>
+            </div>
+        </div>
+    <ng-template #windowNewFolder1 let-modal>
+        <div class="modal-content modal_popup">
+            <div class="modal-header">
+                <h3>Create New Folder</h3>
+                <span class="close" #closeBtn (click)="modal.dismiss('Cross click')">×</span>
+            </div>
+            <div class="modal-body" style="width: auto; min-height: 0px; max-height: none; height: 164px;">
+                <form id="windowNewFolder" title="Create New Folder">
+                    <table>
+                        <tr>
+                            <td>
+                                Parent Folder: <span id="parentFolderName"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input id="newFolderName" required name="newFolderName" type="text">
+                                <input id="parent_file_manager_folder_id" name="parent_file_manager_folder_id"
+                                    type="hidden">
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer btn-group">
+
+                <button class="btn" (click)="createNewFolder(windowNewFolder1)" style="
+        background-color: #009DD9;color: #ffffff;">
+                    Create New Folder</button>
+                <button class="btn" style="
+        background-color: #009DD9;color: #ffffff;" #closeBtn (click)="modal.dismiss('Cross click')">Close</button>
+            </div>
+        </div>
+    </ng-template>
+

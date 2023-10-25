@@ -1,0 +1,53 @@
+/* You ca n add global styles to this file, and also import other style files */
+
+/* Importing Bootstrap SCSS file. */
+// a { cursor: pointer !important; }
+// .modal-backdrop.show {
+//     opacity: 0 !important;
+// }
+// .modal-backdrop
+// {
+//     z-index: 0 !important;
+// }
+
+// Bootstrap
+// @import '~bootstrap/scss/bootstrap';
+
+//Fulcrum site
+// @import url("https://fulcrumnew.optisolbusiness.com/assets/styles.css");
+// @import url("https://fulcrumnew.optisolbusiness.com/assets/modules-file-manager-file-browser.css");
+// @import url("https://fulcrumnew.optisolbusiness.com/assets/rightclick-menu-entypo.css");
+@import "~@ng-select/ng-select/themes/default.theme.css";
+//assets folder
+@import url("./assets/styles.css");
+@import url("./assets/entypo.css");
+@import url("./assets/fSelect.css");
+@import url("./assets/fileuploader.css");
+@import url("./assets/css/jquery.signaturepad.css");
+@import url("./assets/font-awesome.min.css");
+@import url("./assets/modules-jobsite-daily-logs.css");
+@import url("./assets/modules-daily-construction-report.css");
+
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Toastr 
+@import 'ngx-toastr/toastr';
+
+//Scss-styles
+@import './assets/scss-styles/components/buttons';
+@import './assets/scss-styles/components/common';
+@import './assets/scss-styles/components/dashboard';
+@import './assets/scss-styles/components/multi-select.scss';
+@import './assets/scss-styles/helpers/helpers';
+@import './assets/scss-styles/helpers/pages';
+@import './assets/scss-styles/helpers/variables';
+@import './assets/scss-styles/layout/footer';
+@import './assets/scss-styles/layout/forms';
+@import './assets/scss-styles/layout/header';
+@import './assets/scss-styles/layout/sidebar';
+@import './assets/scss-styles/layout/toaster';
+@import './assets/scss-styles/reset/color';
+@import './assets/scss-styles/reset/fonts';
+@import './assets/scss-styles/reset/style';
+@import './assets/scss-styles/responsive.scss';

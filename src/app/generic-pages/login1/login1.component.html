@@ -1,0 +1,94 @@
+<div class="login_bg_full"></div>
+<div id="wrapper2" class="debugBorder">
+  <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tbody>
+      <tr>
+        <td align="left">
+          <table id="contentArea" align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+            <tbody>
+              <tr>
+                <td align="left">
+                  <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tbody>
+                      <tr>
+                        <td align="left">
+                          <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%">
+                            <tbody>
+                              <tr>
+                                <td>
+                                  <div class="background"></div>
+                                  <div class="background2"></div>
+                                  <div class="login-form-sec">
+                                    <div class="hgroup">
+                                      <h1><a href="/"><img alt="" src="assets/images/home/splash-page-axis-logo-white.gif"
+                                            style="max-width:100%;"></a></h1>
+                                    </div>
+                                    <h2>Login</h2>
+                                    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                                      <div *ngIf="message" class="generic-success">You have successfully logged out.
+                                      </div>
+                                      <div *ngIf="error" class="error generic-error">{{error}}</div>
+                                      <div class="group">
+                                        <input type="text" formControlName="username" class="form-control"
+                                          [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+
+                                        <span class="highlight"></span><span class="bar"></span>
+                                        <label>Username</label>
+                                        <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                                          <span class="error tooltip-msg" data-tooltip="Please enter a valid Username"
+                                            *ngIf="f.username.errors.required"></span>
+                                          <span class="error tooltip-msg" data-tooltip="Please enter a valid Username"
+                                            *ngIf="f.username.errors.email"></span>
+                                        </div>
+                                      </div>
+                                      <div class="group m-0">
+                                        <input type="password" formControlName="password" class="form-control"
+                                          [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                                        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                                          <span class="error tooltip-msg" data-tooltip="Please enter a valid Password"
+                                            *ngIf="f.password.errors.required"></span>
+                                          <!-- <div *ngIf="f.password.errors.minlength" >
+                                            Password must be at least 6 characters
+                                          </div> -->
+                                          <!-- <div *ngIf="f.password.errors.maxlength">
+                                            Password must not exceed 40 characters
+                                          </div> -->
+                                        </div>
+                                        <label>Password</label>
+                                      </div>
+                                      <div class="forgot">
+                                        <a href="javascript:void(0)" (click)="forgotpwd()" tabindex="104">Forgot Password?</a>
+                                      </div>
+                                      <!-- <input tabindex="103" type="submit" value="Login" name="auth_login"
+                                        class="buttonui"> -->
+
+                                      <button [disabled]="loading" class="buttonui">
+                                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                                        Login
+                                      </button>
+
+                                    </form>
+                                    <div class="powered">
+                                      <a href="/">©2017 MyFulcrum.com™</a>
+                                      <a routerLink="/login-form">Login</a>
+                                      <a routerLink="/dashboard">Account</a>
+                                    </div>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,116 @@
+
+        <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%">
+           <tbody>
+              <tr>
+                 <td align="left">
+                    <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%">
+                       <tbody>
+                          <tr>
+                             <td>
+                                <div id="softwareModuleHeadline">Delta Lane: Change Email Address</div>
+                                <div id="messageDiv" class="userMessage"></div>
+                                <div class="headerStyle">Account Management - Change Your Email Address</div>
+                                <div class="messageQueueErrorBlockContainer">
+                                 <div class="messageQueueErrorText">{{commonError}}</div>
+                                 <div class="messageQueueErrorText">{{emailError}}</div>
+                                 <div class="messageQueueErrorText">{{confirmEmailError}}</div>
+                                <div class="messageQueueErrorText">{{passwordError}}</div>
+                              </div>
+                              <div class="messageQueueConfirmBlockContainer">
+                                 <div class="messageQueueSuccess">{{successMessage}}</div>
+                              </div>
+                                <form novalidate [formGroup]="changeEmailForm">
+                                   <input type="hidden" name="currentemail" formControlName="currentemail" value="dinesh.kumar@optisolbusiness.com">
+                                   <table border="0" width="100%" cellspacing="0" cellpadding="3">
+                                      <tbody>
+                                         <tr>
+                                            <td>
+                                               <div align="left">
+                                                  If you need to change the email address on your account, follow these steps:
+                                                  <ol class="instructionsList" type="i">
+                                                     <li>Your current email address is shown below.</li>
+                                                     <li>Change your email address by editing the fields below.</li>
+                                                     <li>Enter your password for authentication.</li>
+                                                     <li>Click “Save Changes”.</li>
+                                                  </ol>
+                                               </div>
+                                            </td>
+                                         </tr>
+                                         <tr>
+                                            <td align="left">
+                                               <table width="100%" border="0" cellspacing="2" cellpadding="2" style="border: dashed 2px #ccc;" class="change-emailpw">
+                                                  <tbody>
+                                                     <tr class="update-email">
+                                                        <td colspan="2"><strong>Update Your Email Address Below</strong></td>
+                                                     </tr>
+                                                     <tr>
+                                                        <td width="10%" nowrap="">Enter Your New Email Address</td>
+                                                        <td>
+                                                           <table border="0" cellpadding="0" cellspacing="0">
+                                                              <tbody>
+                                                                 <tr>
+                                                                    <td width="10%">
+                                                                       <input type="email" tabindex="101" size="33" name="new_email1" formControlName="email"></td>
+                                                                    <td>&nbsp;</td>
+                                                                 </tr>
+                                                              </tbody>
+                                                           </table>
+                                                        </td>
+                                                     </tr>
+                                                     <tr>
+                                                        <td width="10%" nowrap="">Re-enter Your New Email Address</td>
+                                                        <td>
+                                                           <table border="0" cellpadding="0" cellspacing="0">
+                                                              <tbody>
+                                                                 <tr>
+                                                                    <td width="10%">
+                                                                       <input type="email" tabindex="101" size="33" name="new_email2" formControlName="confirmemail"></td>
+                                                                    <td>&nbsp;</td>
+                                                                 </tr>
+                                                              </tbody>
+                                                           </table>
+                                                        </td>
+                                                     </tr>
+                                                  </tbody>
+                                               </table>
+                                               <br>
+                                               <table width="100%" border="0" cellspacing="2" cellpadding="2" style="border: dashed 2px #ccc;" class="change-emailpw">
+                                                  <tbody>
+                                                     <tr class="current-email">
+                                                        <td colspan="2"><strong>Your current email address is: <i>{{user.email}}</i></strong></td>
+                                                     </tr>
+                                                     <tr>
+                                                        <td width="10%" nowrap="">Enter Current Password</td>
+                                                        <td>
+                                                           <table border="0" cellpadding="0" cellspacing="0" class="change-emailpw">
+                                                              <tbody>
+                                                                 <tr>
+                                                                    <td width="10%"><input id="first_element" tabindex="100" type="password"  formControlName="password" name="currentPassword" value="" maxlength="30" size="25" style="width:200px;"></td>
+                                                                    <td>&nbsp;(required for authentication)</td>
+                                                                 </tr>
+                                                              </tbody>
+                                                           </table>
+                                                        </td>
+                                                     </tr>
+                                                  </tbody>
+                                               </table>
+                                               <div align="left" class="change_btn">
+                                                  <br>
+                                                  <input type="reset" value="Reset Form" name="Reset" tabindex="3002" (click)="resetPasswordForm()">&nbsp;|&nbsp;
+                                                  <input class="button" type="button" (click)="changeEmailAddress()" value="Change Email" name="Submit" tabindex="3001">
+                                               </div>
+                                            </td>
+                                         </tr>
+                                      </tbody>
+                                   </table>
+                                </form>
+                             </td>
+                          </tr>
+                       </tbody>
+                    </table>
+                 </td>
+              </tr>
+           </tbody>
+        </table>
+  
+  

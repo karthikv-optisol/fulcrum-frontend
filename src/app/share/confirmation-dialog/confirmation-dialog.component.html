@@ -1,0 +1,61 @@
+<div
+  class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-front ui-dialog-buttons ui-draggable"
+  tabindex="-1"
+  role="dialog"
+  style="
+    height: auto;
+    width: 500px;
+    top: 135px;
+    left: 202px;
+    display: block;
+    z-index: 402;
+
+    position: absolute;
+    background-color: white;
+  "
+  aria-describedby="dialog-confirm"
+  aria-labelledby="ui-id-2"
+>
+    <div
+    class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix ui-draggable-handle dialogcontent_header"
+    >
+    <span id="ui-id-4" class="ui-dialog-title">{{ title }}</span>
+    <button
+    type="button"
+    (click)="dismiss()"
+    class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close closeBtn"
+    role="button"
+    title="Close"
+    >
+    <span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span
+    ><span class="ui-button-text">x</span>
+    </button>
+    </div>
+  <div
+    id="dialog-confirm"
+    class="ui-dialog-content ui-widget-content"
+    style="width: auto; min-height: 0px; max-height: none; height: 26px"
+  >
+    {{ message }}
+   
+  </div>
+  <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+    <div class="ui-dialog-buttonset">
+      <button
+        type="button"
+        class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+        role="button"
+        (click)="decline()"
+      >
+        <span class="ui-button-text">No</span></button
+      ><button
+        type="button"
+        class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+        role="button"
+        (click)="accept()"
+      >
+        <span class="ui-button-text">Yes</span>
+      </button>
+    </div>
+  </div>
+</div>

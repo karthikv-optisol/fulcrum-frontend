@@ -1,0 +1,86 @@
+.modal-backdrop.show {
+    opacity: 0 !important;
+}
+.modal-backdrop
+{
+    z-index: 0 !important;
+}
+.view_all_btn,.buttonClose
+{
+    cursor: pointer;
+}
+.slides{
+	max-width:345px !important;
+    width:100%;
+}
+.splitcenter .tableCheck {
+    width: 100%;
+}
+.operate.col-sm-4
+{
+    padding-right: 15px;
+    padding-bottom: 20px;
+    // width:auto;
+    // min-width: 33%;
+}
+h3 {
+    font-size: 1.17em;
+    margin: 1em 0!important;
+}
+
+td {
+    empty-cells: hide;
+    // font-size: 14px;
+    vertical-align: top;
+}
+thead {
+    font-weight: bold;
+}
+.Slidelabel
+{
+    min-width: 0px !important;
+    margin-bottom: 0px !important;
+}
+#bloc1, #bloc2
+{
+    display:inline;
+}
+.actgen a{
+    color: #00008B !important;
+}
+.customer_health_rprt a { color: inherit; } 
+.cus_health_inner_new {
+    display: flex;
+    flex-direction: row;
+}
+.mainlabeltable{
+    display: flex;
+    flex-direction: row;
+}
+.mainlabeltable .activeHref {
+    cursor: pointer;
+    text-decoration: underline;
+    color:#fff;
+    font-size: 14px;
+    font-family: Arial, Helvetica, Verdana, sans-serif;
+}
+.mainlabeltable td{
+    color:#fff;
+    font-size: 14px;
+    font-family: Arial, Helvetica, Verdana, sans-serif;
+}
+.cus_health_inner_new .Slidelabel {
+    display: inline-block;
+    width: 100%;
+    text-align: left;
+}
+#customer_reports{
+	table-layout: auto;
+    width: auto;
+}.moduleNavBox .openheader2 {
+    background-color: #3b90ce !important;
+    color: #fff;
+    font-weight: bold;
+    padding-right: 5px;
+    text-align: left;
+  }

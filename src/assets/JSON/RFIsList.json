@@ -1,0 +1,129 @@
+{
+    "status": true,
+    "code": "Success",
+    "message": "Data retrieved successfully",
+    "body": {
+        "RTFsListData": [
+            {
+                "id": 100,
+                "RFIsTitle": "March 21 test",
+                "planReference": "reference test",
+                "dateIssued": "2021-08-02 05:29:59",
+                "RFIReceipient":"dinesh.kumar@optisolbusiness.com",
+                "Tags": "Pending",
+                "Priority": "high",
+                "closeDate": "2021-08-02 05:29:59",
+                "status": "closed",
+                "daysOpen": 30
+            },
+            {
+                "id": 100,
+                "RFIsTitle": "March 21 test",
+                "planReference": "reference test",
+                "dateIssued": "2021-08-02 05:29:59",
+                "RFIReceipient":"dinesh.kumar@optisolbusiness.com",
+                "Tags": "Pending",
+                "Priority": "high",
+                "closeDate": "2021-08-02 05:29:59",
+                "status": "closed",
+                "daysOpen": 30
+            },
+            {
+                "id": 100,
+                "RFIsTitle": "March 21 test",
+                "planReference": "reference test",
+                "dateIssued": "2021-08-02 05:29:59",
+                "RFIReceipient":"dinesh.kumar@optisolbusiness.com",
+                "Tags": "Pending",
+                "Priority": "high",
+                "closeDate": "2021-08-02 05:29:59",
+                "status": "closed",
+                "daysOpen": 30
+            },
+            {
+                "id": 100,
+                "RFIsTitle": "March 21 test",
+                "planReference": "reference test",
+                "dateIssued": "2021-08-02 05:29:59",
+                "RFIReceipient":"dinesh.kumar@optisolbusiness.com",
+                "Tags": "Pending",
+                "Priority": "high",
+                "closeDate": "2021-08-02 05:29:59",
+                "status": "closed",
+                "daysOpen": 30
+            },
+            {
+                "id": 100,
+                "RFIsTitle": "March 21 test",
+                "planReference": "reference test",
+                "dateIssued": "2021-08-02 05:29:59",
+                "RFIReceipient":"dinesh.kumar@optisolbusiness.com",
+                "Tags": "Pending",
+                "Priority": "high",
+                "closeDate": "2021-08-02 05:29:59",
+                "status": "closed",
+                "daysOpen": 30
+            },
+            {
+                "id": 100,
+                "RFIsTitle": "March 21 test",
+                "planReference": "reference test",
+                "dateIssued": "2021-08-02 05:29:59",
+                "RFIReceipient":"dinesh.kumar@optisolbusiness.com",
+                "Tags": "Pending",
+                "Priority": "high",
+                "closeDate": "2021-08-02 05:29:59",
+                "status": "closed",
+                "daysOpen": 30
+            },
+            {
+                "id": 100,
+                "RFIsTitle": "March 21 test",
+                "planReference": "reference test",
+                "dateIssued": "2021-08-02 05:29:59",
+                "RFIReceipient":"dinesh.kumar@optisolbusiness.com",
+                "Tags": "Pending",
+                "Priority": "high",
+                "closeDate": "2021-08-02 05:29:59",
+                "status": "closed",
+                "daysOpen": 30
+            },
+            {
+                "id": 100,
+                "RFIsTitle": "March 21 test",
+                "planReference": "reference test",
+                "dateIssued": "2021-08-02 05:29:59",
+                "RFIReceipient":"dinesh.kumar@optisolbusiness.com",
+                "Tags": "Pending",
+                "Priority": "high",
+                "closeDate": "2021-08-02 05:29:59",
+                "status": "closed",
+                "daysOpen": 30
+            },
+            {
+                "id": 100,
+                "RFIsTitle": "March 21 test",
+                "planReference": "reference test",
+                "dateIssued": "2021-08-02 05:29:59",
+                "RFIReceipient":"dinesh.kumar@optisolbusiness.com",
+                "Tags": "Pending",
+                "Priority": "high",
+                "closeDate": "2021-08-02 05:29:59",
+                "status": "closed",
+                "daysOpen": 30
+            },
+            {
+                "id": 100,
+                "RFIsTitle": "March 21 test",
+                "planReference": "reference test",
+                "dateIssued": "2021-08-02 05:29:59",
+                "RFIReceipient":"dinesh.kumar@optisolbusiness.com",
+                "Tags": "Pending",
+                "Priority": "high",
+                "closeDate": "2021-08-02 05:29:59",
+                "status": "closed",
+                "daysOpen": 30
+            }
+        ]
+    }
+}

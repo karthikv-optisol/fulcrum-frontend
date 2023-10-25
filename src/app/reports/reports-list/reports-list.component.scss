@@ -1,0 +1,344 @@
+h4{
+  font-size: inherit !important;
+}
+
+.moduleNavBox .openheader2 {
+  background-color: #3b90ce !important;
+  color: #fff;
+  font-weight: bold;
+  padding-right: 5px;
+  text-align: left;
+}
+
+.withoutArrow {
+  margin-top: -22px;
+}
+br  {
+  content: ' '
+}
+br:after {
+  content: ' '
+}
+
+::ng-deep .cdk-overlay-connected-position-bounding-box {
+  height: 145% !important;
+  width: auto !important;
+}
+/*Bid list css*/
+.oddRow,
+.oddRowNotClickable {
+  background-color: #efefef;
+}
+
+.detailed_week,
+.tableborder {
+  border: 1px solid;
+}
+
+.align-left,
+.textAlignLeft {
+  text-align: left !important;
+}
+.align-right {
+  text-align: right;
+}
+.align-center {
+  text-align: center;
+}
+.table-header {
+  margin: 0;
+  padding: 0;
+}
+
+.line-break {
+  border: 0.5px solid;
+}
+.repot-inform {
+  background-color: #2481c3;
+  color: #fff;
+  padding: 5px;
+  margin-bottom: 5px;
+}
+.table-headerinner {
+  background-color: #2481c3;
+  color: #fff;
+  font-weight: lighter;
+}
+#report_html {
+  /*border:1px solid;*/
+  font-size: 18px;
+}
+.total_bold {
+  font-weight: bold;
+}
+.center-align,
+.textAlignCenter {
+  text-align: center;
+}
+.table_header_td {
+  font-size: 20px !important;
+  color: #000;
+}
+.marginTopborderMT {
+  border-top: 1px solid #cbc8c8;
+}
+.marginrightborderMT {
+  border-right: 1px solid #cbc8c8;
+}
+#ChangeOrdertblTabularData {
+  width: 100% !important;
+}
+.highlighted-week {
+  background: #d2d2d2 none repeat scroll 0 0;
+  border: 1px solid #8b8e90;
+  color: #333;
+  font-weight: normal;
+}::ng-deep .ngb-dp-day.ngb-dp-today{
+  border: 1px solid #cccccc !important;
+    background: #d2df9a url(../../../assets/images/ui-bg_highlight-soft_75_d2df9a_1x100.png) 50% top repeat-x !important;
+    color: #4e4f51 !important;
+}
+#OpenTrackItem, #RFiReportOpen, #manpower_activity_monthly1, #record_list_container--manage-submittal-record, #PotentialChnageOrder, #PurchaseingLog, #ForecastLog, #weather, #schedule_daelay, #manpower_activity, #sitework_activity, #building_activity, #swppp_notes, #other_notes, #visitors, #deliveries, #safetyissues, #extrawork, #inspections, #Delays_html table, table#MeetingTableWithDiscussion, #manpower_activity_monthly {
+  table-layout: inherit;
+}
+#OpenTrackItem th, #RFiReportOpen th, #manpower_activity_monthly1 th, #record_list_container--manage-submittal-record th, #PotentialChnageOrder th, #PurchaseingLog th, #ForecastLog th, #weather thead .table-headerinner th, #schedule_daelay thead .table-headerinner th, #manpower_activity thead .table-headerinner th, #sitework_activity thead .table-headerinner th, #building_activity thead .table-headerinner th, #swppp_notes thead .table-headerinner th, #other_notes thead .table-headerinner th, #visitors thead .table-headerinner th, #deliveries thead .table-headerinner th, #safetyissues thead .table-headerinner th, #extrawork  thead .table-headerinner th, #inspections thead .table-headerinner th, #schedule_daelay tbody tr th {
+  font-weight: bold;
+  padding: 8px 5px;
+}
+#OpenTrackItem tbody tr td, #RFiReportOpen tbody tr td, #manpower_activity_monthly1 tbody tr td, #record_list_container--manage-submittal-record tbody tr td, #PotentialChnageOrder tbody tr td, #PurchaseingLog tbody tr td, #ForecastLog tbody tr td, #weather tbody tr td, #weather thead tr th, #schedule_daelay tbody tr td, #schedule_daelay thead tr th, #manpower_activity tbody tr td, #manpower_activity thead tr th, #sitework_activity tbody tr td, #sitework_activity thead tr th, #building_activity tbody tr td, #building_activity thead tr th, #swppp_notes tbody tr td, #swppp_notes thead tr th, #other_notes tbody tr td, #other_notes thead tr th, #visitors tbody tr td, #visitors thead tr th, #deliveries tbody tr td, #deliveries thead tr th, #safetyissues tbody tr td, #safetyissues thead tr th, #extrawork tbody tr td, #extrawork thead tr th, #inspections tbody tr td, #inspections thead tr th, #record_list_container--manage-submittal-record tr td, #BidderList td, #record_list_container--manage-request_for_information-record thead tr td, #record_list_container--manage-request_for_information-record tbody tr td, #MeetingTableWithDiscussion tbody tr td, #manpower_activity_monthly tbody tr td, #manpower_activity_monthly thead tr th {
+  padding: 4.8px 5px;
+}
+table#OpenTrackItem, table#RFiReportOpen, table#manpower_activity_monthly1, table#record_list_container--manage-submittal-record, table#PotentialChnageOrder, table#PurchaseingLog, table#ForecastLog, #weather, #schedule_daelay, #manpower_activity, #sitework_activity, #building_activity, #swppp_notes, #other_notes, #visitors, #schedule_daelay, #deliveries, #extrawork, #inspections {
+  border: 1px solid #B0A6A6;
+}
+table#ForecastLog, table#PurchaseingLog {
+  width: 49%;
+}
+#weather thead tr th {
+  line-height: 17px;
+}
+#weather .borderBottom, #schedule_daelay .borderBottom, #manpower_activity .borderBottom, #sitework_activity .borderBottom, #building_activity .borderBottom, #swppp_notes .borderBottom, #other_notes .borderBottom, #visitors .borderBottom, #deliveries .borderBottom, #extrawork .borderBottom, #inspections .borderBottom {
+  border-bottom: 0.7px solid #bbb;
+}
+#MeetingTableWithDiscussion tbody tr td.commnetdNoBorder {
+  padding: 10px 10px !important;
+}
+#Delays_html table thead .manpower_act th {
+  padding: 7px 7px;
+  text-align: center;
+  line-height: 17px;
+} 
+#Delays_html table thead .manpower_act th:first-child {
+  vertical-align: middle;
+}
+
+.CellBorderTop{
+  border-top:1px solid #CBC8C8;
+}
+.costCodeTxt {
+  color: #2481c3;
+}
+.costCodeTr td{
+  border-top: 1px solid #CBC8C8;
+  border-bottom: 1px solid #CBC8C8;
+}
+.fontSize16{
+  font-size:16pts;
+  /*text-decoration:underline;*/
+  font-family: 'Calibri-bold';
+  text-transform:uppercase;
+  border-bottom:1px solid #3487c7;
+}
+.cellRTNotWback
+{
+  border-top:none !important;
+  background: #fff;
+}
+.comment-table tr .BotBord {
+  border-bottom: 1px solid #CBC8C8;
+}
+.comment-table tr{
+  vertical-align:top;
+}
+.project_name{
+  text-align:center;
+  text-decoration:underline;
+  font-size:18pts;
+  text-weight:Bold;
+  text-transform : uppercase;
+}
+
+/*Bid list css*/
+.oddRow, .oddRowNotClickable {
+  background-color: #efefef;
+}
+
+.detailed_week,.tableborder{
+      border:1px solid ;
+}
+
+.align-left,.textAlignLeft{
+  text-align:left;
+}
+.align-right{
+  text-align:right;
+}
+.align-center{
+  text-align:center;
+}
+.table-header{
+  margin:0;
+  padding:0;
+}
+
+.line-break{
+  border:0.5px solid;
+}
+.repot-inform{
+  background-color:#2481c3;
+  color:#fff;
+  padding:5px;
+  margin-bottom:5px;
+}
+.table-headerinner{
+  background-color:#2481c3;
+  color:#fff;
+  font-weight:lighter;
+}
+#report_html{
+/*border:1px solid;*/
+font-size:18px;
+}
+.total_bold{
+  font-weight:bold;
+}
+.center-align,.textAlignCenter{
+  text-align:center;
+}
+.table_header_td{
+  font-size:20px !important;
+  color:#000;
+}
+.marginTopborderMT
+{
+  border-top: 1px solid #cbc8c8;
+}
+.marginrightborderMT
+{
+  border-right: 1px solid #cbc8c8;
+}
+#manpower_activity_monthly tr th, #RFiReportQA tr th {
+  word-break: unset !important;
+}
+#contactlist .align-left {
+  text-align: left;
+}
+.break_content {
+  white-space: nowrap;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#SubcontracttblTabularData thead tr th {
+  border-right: 1px solid #adadad;
+}
+#sublist tr th, #Delays_html #record_list_container--manage-submittal-record tr th, #delay_list_container--manage-request_for_information-record tr th {
+  word-break: inherit !important;
+}
+.sublist_record-display td span {
+  display: inherit !important;
+}
+.sublist_record-display td:first-child, .sublist_record-display td:nth-child(2), .sublist_record-display td:nth-child(3), .sublist_record-display td:nth-child(5), .sublist_record-display td:nth-child(6) {
+  word-break: break-word;
+}
+.textUnderline {
+  text-decoration:underline;
+}
+.fontSize16{
+font-size:16pts;
+/*text-decoration:underline;*/
+font-family: 'Calibri-bold';
+text-transform:uppercase;
+border-bottom:1px solid #3487c7;
+}
+
+/*Bid list css*/
+.oddRow, .oddRowNotClickable {
+background-color: #efefef;
+}
+
+.borderLeft{
+  border-left: 1px solid #bbb;
+}
+.borderBottom{
+  border-bottom: 1px solid #bbb;
+}
+.paragraphBoldCal{
+  font-weight: bold;
+}
+
+.tableborder-rh{
+border:1px solid #B0A6A6 ;
+}
+
+.align-left,.textAlignLeft{
+text-align:left;
+}
+.align-right{
+text-align:right;
+}
+.align-center{
+text-align:center;
+}
+.table-header{
+margin:0;
+padding:0;
+}
+#realcaHistory tr td,#realcaHistory tr th,#realcaHistory{
+  border:1px solid #bbb;
+  border-collapse: collapse;
+}
+.line-break{
+border:0.5px solid;
+}
+.repot-inform{
+background-color:#2481c3;
+color:#fff;
+padding:5px;
+margin-bottom:5px;
+}
+.table-headerinner{
+background-color:#2481c3;
+color:#fff;
+font-weight:lighter;
+}
+
+.center-align,.textAlignCenter{
+text-align:center;
+}
+.table_header_td{
+font-size:20px !important;
+color:#000;
+}
+.marginleftborderMT
+{
+border-left: 0px solid #cbc8c8 !important;
+}
+.marginrightborderMT
+{
+border-right: 0px solid #cbc8c8 !important;
+}
+#subinvoiceList th {
+
+  word-break: inherit !important;
+  }
+@media (min-width: 1282px) and (max-width: 1367px) {
+  #OpenTrackItem th, #RFiReportOpen th, #manpower_activity_monthly1 th, #record_list_container--manage-submittal-record th, #PotentialChnageOrder th, #PurchaseingLog th, #ForecastLog th, #OpenTrackItem tbody tr td, #RFiReportOpen tbody tr td, #manpower_activity_monthly1 tbody tr td, #record_list_container--manage-submittal-record tbody tr td, #PotentialChnageOrder tbody tr td, #PurchaseingLog tbody tr td, #ForecastLog tbody tr td {
+    font-size: 13px;
+  }
+} 
+@media (min-width: 1280px) and (max-width: 1367px) {
+  .sublog-table {
+    min-width: 120%;
+  }
+}

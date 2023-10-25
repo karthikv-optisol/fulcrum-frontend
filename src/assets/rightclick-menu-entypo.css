@@ -1,0 +1,34 @@
+.rightClickMenu {
+	list-style: none;
+	border: 1px solid #ccc;
+	margin:0;
+	padding:0;
+	cursor: pointer;
+	font-size: 90%;
+	font-weight: bold;
+	color: #196ea3;
+	text-align: left;
+	box-shadow: 1px 3px 6px 0px #ccc;
+	position: absolute;
+	width: 150px;
+	z-index: 1400;
+	display: none;
+	background: #fff;
+}
+.rightClickMenu li {
+	padding: 4px;
+}
+.rightClickMenu li:hover {
+	background: #f0f0f0;
+}
+.rightClickMenu li a {
+	color: #196ea3;
+}
+.rightClickMenu li a:hover {
+	text-decoration: none;
+	color: #196ea3;
+}
+.rightClickMenu li a:active {
+	text-decoration: none;
+	color: #196ea3;
+}

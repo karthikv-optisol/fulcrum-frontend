@@ -1,0 +1,21 @@
+.closeBtn{
+    background: #91cef7 !important;
+    border: #4e4f51 !important;
+    margin: 0px  !important;
+    padding: 0.25rem 0.35rem  !important;
+    font-size: 14px  !important;
+    font-weight: bold  !important; 
+    color: #aaaaaa  !important;
+  }
+  
+.closeBtn:hover{
+    background: white !important;
+    text-decoration: none;
+    cursor: pointer !important;
+}
+  
+.dialogcontent_header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

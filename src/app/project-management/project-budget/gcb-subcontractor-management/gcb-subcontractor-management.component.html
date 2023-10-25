@@ -1,0 +1,92 @@
+<div
+  class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-front ui-dialog-buttons ui-draggable ui-resizable"
+  style="
+    position: absolute;
+    width: 1490px;
+    top: 7px;
+    left: -243px !important;
+    display: block;
+    z-index: 401;
+    background-color: white;
+  "
+  tabindex="-1"
+  role="dialog"
+  aria-describedby="divModalWindow"
+  aria-labelledby="ui-id-4"
+>
+  <div
+    class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix ui-draggable-handle importCostCodeExcel_dialogcontent_header"
+  >
+    <span id="ui-id-4" class="ui-dialog-title">{{ dialogTitle }}</span>
+    <button
+      type="button"
+      (click)="dismissModal.emit()"
+      class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close closeBtn"
+      role="button"
+      title="Close"
+    >
+      <span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span
+      ><span class="ui-button-text">x</span>
+    </button>
+  </div>
+  <div
+    id="divModalWindow"
+    class="ui-dialog-content ui-widget-content"
+    style="
+      width: auto;
+      min-height: 0px;
+      max-height: none;
+      height: 434.44px;
+      overflow: auto;
+    "
+  >
+    <table border="0" width="100%">
+      <tbody > 
+        <tr class="file_containers">
+          <td class="textAlignLeft" nowrap="" width="30%">
+            <app-budget-file-container  
+            [fileList]="projectInvitationfilesList"
+            [tableData] = "'project_bid'"
+            [virtual_file_path]="'/Bidding & Purchasing/Project Bid Invitations/'"
+            [fileUploadUrl]="'api/project_management/uploadprojectBidInvitations'"
+            [containerTitle]="'Delta Lane<br />Default Invitations To Bid'"
+            [tooltip]="'Project Level Invitation To Bid'"
+            [methodCall]="'projectBidInvitations'"
+            [gc_budget_line_item_id]="gc_budget_line_item_id"
+            ></app-budget-file-container>
+
+            <app-budget-file-container 
+            [fileList]="gcBudgetfilesList" 
+            [tableData]="'budget_line'"
+            [virtual_file_path]="'/Bidding & Purchasing/'+costCode+ ' ' +costCodeDescription+'/['+costCode+'] Bid Invitations/'"
+            [fileUploadUrl]="'api/project_management/uploadprojectBidInvitations'"
+            [containerTitle]="costCode+' General Conditions<br />Default Invitations To Bid'"
+            [tooltip]="'Cost Code Level Invitation To Bid'"
+            [methodCall]="'gcBudgetLineItemBidInvitations'"
+            [gc_budget_line_item_id]="gc_budget_line_item_id"
+            ></app-budget-file-container>
+
+            <app-budget-file-container 
+            [fileList]="gcBudgetUnsignedScopefilesList" 
+            [tableData]="'unsigned'"
+            [virtual_file_path]="'/Bidding & Purchasing/'+costCode+ ' ' +costCodeDescription+'/['+costCode+'] Unsigned Scope of Work Documents/'"
+            [fileUploadUrl]="'api/project_management/uploadprojectBidInvitations'"
+            [containerTitle]="costCode+' General Conditions<br />Unsigned Scopes of Work'"
+            [tooltip]="'Cost Code Level Unsigned Scope'"
+            [methodCall]="'gcBudgetLineItemUnsignedScopeOfWorkDocuments'"
+            [gc_budget_line_item_id]="gc_budget_line_item_id"
+            ></app-budget-file-container>
+          </td>
+          <td class="textAlignLeft" nowrap="" width="30%"></td>
+          <td class="textAlignLeft" nowrap="" width="30%"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+    <div class="ui-dialog-buttonset">
+        <button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button"><span class="ui-button-text">Close</span>
+        </button>
+    </div>
+   </div>
+</div>

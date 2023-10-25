@@ -1,0 +1,157 @@
+@charset "UTF-8";
+
+/*******************************************************************************
+
+[vim]
+vim: set noexpandtab tabstop=4 shiftwidth=4 softtabstop=4:
+
+[emacs]
+Local variables:
+tab-width: 4
+c-basic-offset: 4
+c-hanging-comment-ender-p: nil
+c-indent-level: 4
+indent-tabs-mode: t
+tab-stop-list: '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60)
+End:
+
+*******************************************************************************/
+
+#dcrPreview {
+	/*
+	width:90%;
+	margin:0px auto;
+	overflow:hidden;
+	*/
+	/*font-weight: bold;*/
+	/*border: 1px solid #ccc;*/
+	padding: 15px;
+	border-radius: 0px 3px 3px 3px;
+}
+
+#dcrPreview h1 {
+	border: 2px solid #d8d8d8;
+	border-left: none;
+	border-right: none;
+	color: #3b90ce;
+	font-family: Arial, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 38px;
+	margin: 0px;
+	margin-bottom: 10px;
+	padding: 0px;
+	padding: 20px 0px;
+	/*text-align:center;*/
+}
+
+#dcrPreview p {
+	font-size: 15px;
+	margin: 0px;
+	padding: 3px 0px;
+}
+
+.dcrPreviewBody {
+	clear: both;
+	overflow: hidden;
+}
+
+.dcrPreviewLeft {
+	width: 48%;
+	float: left;
+}
+
+.dcrPreviewRight {
+	width: 48%;
+	float: Right;
+}
+
+.dcrPreviewTable {
+	margin-top: 1px;
+}
+
+.dcrPreviewTable td {
+	/*background: #f0f0f0;*/
+	color: #000;
+	font-size: 14px;
+	font-size: 13px;
+	font-weight: normal;
+	/*height: 32px;*/
+	/*line-height: 20px;*/
+	/* padding: 4px 20px; */
+	/*padding: 4px 0px;*/
+	vertical-align: middle;
+}
+.alignTDMan{
+	word-wrap: break-word;
+	white-space: normal;
+	text-align: justify;
+	width: 70%;
+}
+.btBtTr{
+	border-bottom: 1px solid #d1c7c7;
+}
+.valignTd{
+	vertical-align:top;
+}
+.tdManspan{
+	display: inline-block;
+	float: right;
+	margin-right: 40px;
+	text-align:right;
+	vertical-align:top;
+}
+.thHeadtd{
+	/*vertical-align:top;
+	padding-top:10px;*/
+	width:15%;
+	font-weight: bold !important;
+	/*font-size: 12px !important;*/
+}
+.thHeadtdNr{
+	font-weight: bold !important;
+}
+.aligntrMan{
+	/*border-top: 1px solid #d1c7c7;*/
+	border-bottom: 1px solid #d1c7c7;
+	/*border-right: 1px solid #d1c7c7;*/
+}
+.dcrPreviewTable .dcrPreviewTableHeader {
+	color: #fff;
+	padding: 4px 10px;
+	/*font-size: 17px;*/
+	font-size: 14px;
+	font-weight: bold;
+	background: #3487c7;
+	text-transform: uppercase;
+	/*text-align: center;*/
+}
+
+.dcrPreviewTable .dcrPreviewImagecenter {
+	text-align: center;
+	padding: 20px;
+}
+
+.leftBorder {
+	border-left: 1px solid #000;
+}
+.alignCenter {
+	text-align: center;
+}
+.paddingLeft {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.paddingTop {
+	padding-top: 10px;
+}
+.topBorder {
+	border-top: 1px solid #000;
+}
+.bottomBorder {
+	border-bottom: 1px solid #000;
+}
+.textJustify {
+	text-align: justify;
+}
+.textTop {
+	vertical-align: text-top !important;;
+}

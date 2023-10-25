@@ -1,0 +1,2531 @@
+<h3 class="title-text">{{ currentlySelectedProjectName }}: Meetings</h3>
+<hr />
+<div class="float-left w-100">
+  <select class="mr-2 form_line form-control" [(ngModel)]="selectedMeetingTypeId"
+    (ngModelChange)="changeMeetingType($event, false)">
+    <option value="">Please Select A Meeting Type</option>
+    <option *ngFor="let meetingType of meetingTypes" value="{{ meetingType.id }}">
+      {{ meetingType.name }}
+    </option>
+  </select>
+
+  <!-- <select class="mr-2 form_line form-control" [(ngModel)]="selectedMeetingListId"
+        (ngModelChange)="changeMeetingList($event)" [disabled]="!selectedMeetingTypeId && !meetingLists">
+        <option value="">Select A Meeting</option>
+        <option *ngFor="let meetingList of meetingLists" [ngValue]="meetingList.id" [selected]="selectedMeetingListId == meetingList.id">Meeting {{meetingList.name}}
+        </option>
+    </select> -->
+
+  <select class="mr-2 form_line form-control" [(ngModel)]="selectedMeetingListId"
+    (ngModelChange)="changeMeetingList($event)">
+    <option value="">Select A Meeting</option>
+    <ng-container *ngFor="let meetingList of meetingLists" [disabled]="!selectedMeetingTypeId && !meetingLists">
+      <option [value]="meetingList.id">
+        Meeting {{ meetingList.name }}
+      </option>
+    </ng-container>
+  </select>
+  <input type="button" value="Refresh Meeting Details" class="mr-2" [disabled]="!meetingDetailData"
+    (click)="refreshMeetingDetails()" />
+  <input type="button" value="New Meeting" (click)="loadNewDialog(newMeeting)" class="mr-2" />
+  <input type="button" value="Manage Meeting Types" class="mr-2" (click)="loadManageDialog(manageMeeting)" />
+  <div class="float-right mt-2 font-14p" (click)="loadMeetingPermissionDialog(MeetingPermission)"
+    style="color: #06c; cursor: pointer">
+    Meeting Permissions
+  </div>
+  <hr />
+  <!--meeting data-->
+  <div *ngIf="meetingDetailData && editmeetingInfo">
+    <button class="button-com-add-mt float-right" (click)="editMeetingInfoData()">
+      Edit Meeting Information
+    </button>
+    <div class="w-100 float-left mt-2">
+      <div class="col-md-4 col-lg-4 col-sm-12 float-left">
+        <table class="nowrapCells content-table marginRight">
+          <tbody>
+            <tr>
+              <th colspan="2" class="columnHeader p-0 text-left text-decoration-underline">
+                <!-- {{ currentlySelectedProjectName }} :
+                {{ selectedMeetingTypeName.name }}
+                {{ selectedMeetingListName.name }} -->
+
+                {{ currentlySelectedProjectName }} :
+                {{ meetingTypeName | titlecase }}
+                {{ meetingName | titlecase}}
+              </th>
+            </tr>
+            <tr>
+              <td class="verticalAlignMiddle widthset-col">Start Time:</td>
+              <td>
+                <span class="showElement">{{
+                  meetingDetailData.start_date_time
+                  }}</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="verticalAlignMiddle widthset-col">End Time:</td>
+              <td>
+                <span class="showElement">{{
+                  meetingDetailData.end_date_time
+                  }}</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="verticalAlignMiddle widthset-col">Location:</td>
+              <td>
+                <span class="showElement required">{{
+                  meetingDetailData.location
+                  }}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md-4 col-lg-4 col-sm-12 float-left">
+        <table class="nowrapCells content-table marginRight">
+          <tbody>
+            <tr>
+              <th colspan="2" class="columnHeader p-0 text-left text-decoration-underline">
+                ATTENDEES
+              </th>
+            </tr>
+            <tr *ngFor="let attendee of meetingDetailData.Attendees">
+              <td colspan="2" class="verticalAlignMiddle">{{ attendee }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md-4 col-lg-4 col-sm-12 float-left">
+        <table class="nowrapCells content-table marginRight">
+          <tbody>
+            <tr>
+              <th colspan="2" class="columnHeader p-0 text-left text-decoration-underline">
+                Next Meeting
+              </th>
+            </tr>
+            <tr>
+              <td class="widthset-col1">Next Meeting Start Time:</td>
+              <td class="valueleft">
+                {{ meetingDetailData.next_meeting_start_time }}
+              </td>
+            </tr>
+            <tr>
+              <td class="widthset-col1">Next Meeting End Time:</td>
+              <td class="valueleft">
+                {{ meetingDetailData.next_meeting_end_time }}
+              </td>
+            </tr>
+            <tr>
+              <td class="widthset-col1">Next Meeting Location:</td>
+              <td class="valueleft">{{ meetingDetailData.next_location }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md-12 float-left pr-0">
+        <input type="button" class="float-left mr-2" value="Print" (click)="printMeeting()" [disabled]="printMeetingPDFDataSending"/>
+        <input type="button" class="float-left mr-2" value="Email"
+          (click)="loadEmailMeetingPdfDialog(EmailMeetingReport)" />
+        <input type="button" class="float-right" value="Render PDF" (click)="renderMeetingPDF()" [disabled]="renderMeetingPDFDataSending"/>
+      </div>
+    </div>
+  </div>
+  <!--edit meeting data-->
+  <div id="divModalWindow" *ngIf="meetingDetailData && doneMeetinginfo">
+    <button class="button-com-add-mt float-right" (click)="cancelMeetingInfoData()">
+      Cancel
+    </button>
+    <button class="button-com-add-mt float-right" (click)="doneMeetingInfoData()">
+      Done Editing Information
+    </button>
+    <form [formGroup]="editMeetingInfoForm">
+      <hr />
+      <table class="w-100 float-left popup-table">
+        <thead>
+          <tr>
+            <th>
+              <button type="button" role="button" title="Close" class="delete-close"
+                (click)="EditInfo__deleteMeeting(editinfoclosedialog)">
+                <span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span>
+                <span class="ui-button-text">X</span>
+              </button>
+              <!-- {{ currentlySelectedProjectName }} :
+              {{ selectedMeetingTypeName.name }}
+              {{ selectedMeetingListName.name }} -->
+
+              {{ currentlySelectedProjectName }} :
+              {{ meetingTypeName | titlecase }}
+              {{ meetingName | titlecase}}
+            </th>
+            <th>
+              Attendees
+              <span class="ui-button-text" (click)="EditInfoattendeesMeeting(editinfoattendeesdialog)">?</span>
+            </th>
+            <th>Next Meeting</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr></tr>
+          <tr>
+            <td class="col-md-4 pl-0 third-col">
+              <table width="100%" cellpadding="5px">
+                <tbody>
+                  <tr>
+                    <td class="first-col align-middle" nowrap="nowrap">
+                      Start Time:
+                    </td>
+                    <td class="second-col d-flex">
+                      <div class="datepicker_style_particular">
+                        <input id="date" (keydown)="(false)" readonly="readonly" class="form_line form-control"
+                          placeholder="Start" type="text" (click)="
+                            d1.toggle(); d2.close(); d3.close(); d4.close()
+                          " format="mm/dd/yyyy" ngbDatepicker #d1="ngbDatepicker"
+                          formControlName="editMeetingInfo_startDate" />
+                        <div class="has-error" *ngIf="
+                            !editMeetingInfoForm.controls
+                              .editMeetingInfo_startDate.valid &&
+                            editMeetingInfoForm.controls
+                              .editMeetingInfo_startDate.touched
+                          ">
+                          <div *ngIf="
+                              editMeetingInfoForm.get(
+                                'editMeetingInfo_startDate'
+                              ).errors.required
+                            ">
+                            Start date is required
+                          </div>
+                        </div>
+                      </div>
+                      <div class="datepicker_style_particular">
+                        <select class="form_line form-control" formControlName="editMeetingInfo_startTime">
+                          <option *ngFor="let time of timePicker" value="{{ time.id }}">
+                            {{ time.value }}
+                          </option>
+                        </select>
+                        <div class="has-error" *ngIf="
+                            !editMeetingInfoForm.controls
+                              .editMeetingInfo_startTime.valid &&
+                            editMeetingInfoForm.controls
+                              .editMeetingInfo_startTime.touched
+                          ">
+                          <div *ngIf="
+                              editMeetingInfoForm.get(
+                                'editMeetingInfo_startTime'
+                              ).errors.required
+                            ">
+                            Start time is required
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="first-col align-middle" nowrap="nowrap">
+                      End Time:
+                    </td>
+                    <td class="second-col d-flex">
+                      <div class="datepicker_style_particular">
+                        <input id="date" class="form_line form-control" (keydown)="(false)" readonly="readonly"
+                          placeholder="Start" type="text" (click)="
+                            d2.toggle(); d1.close(); d3.close(); d4.close()
+                          " format="mm/dd/YYYY" ngbDatepicker #d2="ngbDatepicker"
+                          formControlName="editMeetingInfo_endDate" />
+                        <div class="has-error" *ngIf="
+                            !editMeetingInfoForm.controls
+                              .editMeetingInfo_endDate.valid &&
+                            editMeetingInfoForm.controls.editMeetingInfo_endDate
+                              .touched
+                          ">
+                          <div *ngIf="
+                              editMeetingInfoForm.get('editMeetingInfo_endDate')
+                                .errors.required
+                            ">
+                            End date is required
+                          </div>
+                        </div>
+                      </div>
+                      <div class="datepicker_style_particular">
+                        <select class="form_line form-control" formControlName="editMeetingInfo_endTime">
+                          <option *ngFor="let time of timePicker" value="{{ time.id }}">
+                            {{ time.value }}
+                          </option>
+                        </select>
+                        <div class="has-error" *ngIf="
+                            !editMeetingInfoForm.controls
+                              .editMeetingInfo_endTime.valid &&
+                            editMeetingInfoForm.controls.editMeetingInfo_endTime
+                              .touched
+                          ">
+                          <div *ngIf="
+                              editMeetingInfoForm.get('editMeetingInfo_endTime')
+                                .errors.required
+                            ">
+                            End time is required
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>&nbsp;</td>
+                    <td>
+                      <a class="text-black clr_txt" (click)="clearMeetingInfo('1')">Clear</a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="first-col align-middle" nowrap="nowrap">
+                      Location:
+                    </td>
+                    <td class="second-col">
+                      <select class="form_line form-control" formControlName="editMeetingInfo_location"
+                        [(ngModel)]="editInfoselectedMeeting">
+                        <option value="">Select location</option>
+                        <ng-container *ngFor="let location of editMeetinginfoLocations">
+                          <option [ngValue]="location.id" [selected]="editInfoselectedMeeting == location.id">
+                            {{ location.meeting_location }}
+                          </option>
+                        </ng-container>
+                      </select>
+                      <div class="has-error" *ngIf="
+                          !editMeetingInfoForm.controls.editMeetingInfo_location
+                            .valid &&
+                          editMeetingInfoForm.controls.editMeetingInfo_location
+                            .touched
+                        ">
+                        <div *ngIf="
+                            editMeetingInfoForm.get('editMeetingInfo_location')
+                              .errors.required
+                          ">
+                          Location is required
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>&nbsp;</td>
+                    <td>
+                      <a class="text-primary clr_txt" (click)="
+                          loadManageMeetingLocationsList(manageMeetingLocations)
+                        ">Manage Meeting Locations</a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+            <td class="col-md-4 pl-3 pr-0">
+              <table width="100%" cellpadding="2px">
+                <tbody>
+                  <tr>
+                    <td>
+                      <input type="checkbox" class="float-left" name="list_name" [checked]="masterSelected" value="m1"
+                        (change)="checkUncheckEditMeeting($event)" />
+                      <label class="float-left text-left" for="checkboxCheckAll">Toggle All</label>
+                    </td>
+                  </tr>
+                  <tr *ngFor="
+                      let attendee of meetingDetailData?.EligibleAttendees
+                    ">
+                    <td>
+                      <span>
+                        <input (change)="checkedEditMeeting($event, attendee)" [checked]="attendee.isChecked"
+                          name="list_name" type="checkbox" id="{{ attendee.id }}" class="" [value]="attendee.id" />
+                        <label for="{{ attendee.id }}">{{ attendee.name
+                          }}{{
+                          attendee.company ? "(" + attendee.company + ")" : ""
+                          }}</label>
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+            <td class="col-md-4 p-0 third-col">
+              <table width="100%" cellpadding="5px">
+                <tbody>
+                  <tr>
+                    <td nowrap="nowrap" class="first-col align-middle">
+                      Next Meeting Start Time:
+                    </td>
+                    <td class="second-col d-flex">
+                      <div class="datepicker_style_particular">
+                        <input class="form_line form-control" id="date" (keydown)="(false)" readonly="readonly"
+                          placeholder="Start" type="text" (click)="
+                            d3.toggle(); d1.close(); d2.close(); d4.close()
+                          " format="mm/dd/YYYY" ngbDatepicker #d3="ngbDatepicker"
+                          formControlName="editMeetingInfo_nextStartDate" />
+                        <div class="has-error" *ngIf="
+                            !editMeetingInfoForm.controls
+                              .editMeetingInfo_nextStartDate.valid &&
+                            editMeetingInfoForm.controls
+                              .editMeetingInfo_nextStartDate.touched
+                          ">
+                          <div *ngIf="
+                              editMeetingInfoForm.get(
+                                'editMeetingInfo_nextStartDate'
+                              ).errors.required
+                            ">
+                            Next start date is required
+                          </div>
+                        </div>
+                      </div>
+                      <div class="datepicker_style_particular">
+                        <select class="form_line form-control" formControlName="editMeetingInfo_nextStartTime">
+                          <option *ngFor="let time of timePicker" value="{{ time.id }}">
+                            {{ time.value }}
+                          </option>
+                        </select>
+                        <div class="has-error" *ngIf="
+                            !editMeetingInfoForm.controls
+                              .editMeetingInfo_nextStartTime.valid &&
+                            editMeetingInfoForm.controls
+                              .editMeetingInfo_nextStartTime.touched
+                          ">
+                          <div *ngIf="
+                              editMeetingInfoForm.get(
+                                'editMeetingInfo_nextStartTime'
+                              ).errors.required
+                            ">
+                            Next start time is required
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td nowrap="nowrap" class="first-col align-middle">
+                      Next Meeting End Time:
+                    </td>
+                    <td class="second-col d-flex">
+                      <div class="datepicker_style_particular">
+                        <input class="form_line form-control" id="date" (keydown)="(false)" readonly="readonly"
+                          placeholder="Start" type="text" (click)="
+                            d4.toggle();
+                          " format="mm/dd/YYYY" ngbDatepicker #d4="ngbDatepicker"
+                          formControlName="editMeetingInfo_nextEndDate" />
+                        <div class="has-error" *ngIf="
+                            !editMeetingInfoForm.controls
+                              .editMeetingInfo_nextEndDate.valid &&
+                            editMeetingInfoForm.controls
+                              .editMeetingInfo_nextEndDate.touched
+                          ">
+                          <div *ngIf="
+                              editMeetingInfoForm.get(
+                                'editMeetingInfo_nextEndDate'
+                              ).errors.required
+                            ">
+                            Next end date is required
+                          </div>
+                        </div>
+                      </div>
+                      <div class="datepicker_style_particular">
+                        <select class="form_line form-control" formControlName="editMeetingInfo_nextEndTime">
+                          <option *ngFor="let time of timePicker" value="{{ time.id }}">
+                            {{ time.value }}
+                          </option>
+                        </select>
+                        <div class="has-error" *ngIf="
+                            !editMeetingInfoForm.controls
+                              .editMeetingInfo_nextEndTime.valid &&
+                            editMeetingInfoForm.controls
+                              .editMeetingInfo_nextEndTime.touched
+                          ">
+                          <div *ngIf="
+                              editMeetingInfoForm.get(
+                                'editMeetingInfo_nextEndTime'
+                              ).errors.required
+                            ">
+                            Next end time is required
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>&nbsp;</td>
+                    <td>
+                      <a class="text-black clr_txt" (click)="clearMeetingInfo('2')">Clear</a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td nowrap="nowrap" class="first-col align-middle">
+                      Next Meeting Location:
+                    </td>
+                    <td class="second-col">
+                      <select class="form_line form-control" formControlName="editMeetingInfo_nextLocation"
+                        [(ngModel)]="editInfoselectedNextMeeting">
+                        <option value="">Select location</option>
+                        <ng-container *ngFor="let location of editMeetinginfoLocations">
+                          <option [ngValue]="location.id" [selected]="
+                              editInfoselectedNextMeeting == location.id
+                            ">
+                            {{ location.meeting_location }}
+                          </option>
+                        </ng-container>
+                      </select>
+
+                      <div class="has-error" *ngIf="
+                          !editMeetingInfoForm.controls
+                            .editMeetingInfo_nextLocation.valid &&
+                          editMeetingInfoForm.controls
+                            .editMeetingInfo_nextLocation.touched
+                        ">
+                        <div *ngIf="
+                            editMeetingInfoForm.get(
+                              'editMeetingInfo_nextLocation'
+                            ).errors.required
+                          ">
+                          Next location is required
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>&nbsp;</td>
+                    <td>
+                      <a class="text-primary clr_txt" (click)="
+                          loadManageMeetingLocationsList(manageMeetingLocations)
+                        ">Manage Meeting Locations</a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+    <!-- <form [formGroup]="createMeetingForm">
+                <hr>
+                <table class="w-100 float-left popup-table">
+                    <thead>
+                        <tr>
+                            <th>{{currentlySelectedProjectName}} : {{selectedMeetingTypeName.name}}
+                                {{selectedMeetingListName.name}}</th>
+                            <th>Attendees</th>
+                            <th>Next Meeting Info</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr></tr>
+                        <tr>
+                            <td class="col-md-4 pl-0 third-col">
+                                <table width="100%" cellpadding="5px">
+                                    <tbody>
+                                        <tr>
+                                            <td class="first-col align-middle" nowrap="nowrap">Start Time:</td>
+                                            <td class="second-col d-flex">
+                                                <div class="datepicker_style_particular">
+                                                    <input id="date" (keydown)="(false)" readonly="readonly"
+                                                        class=" form_line form-control" placeholder="Start" type="text"
+                                                        (click)="d1.toggle();d2.close();d3.close();d4.close()"
+                                                        format="mm/dd/yyyy" ngbDatepicker #d1="ngbDatepicker"
+                                                        formControlName="startDate">
+                                                    <div class="has-error"
+                                                        *ngIf="!createMeetingForm.controls.startDate.valid && createMeetingForm.controls.startDate.touched">
+                                                        <div *ngIf="createMeetingForm.get('startDate').errors.required">
+                                                            Start date is required</div>
+                                                    </div>
+                                                </div>
+                                                <div class="datepicker_style_particular">
+                                                    <select class=" form_line form-control" formControlName="startTime">
+                                                        <option *ngFor="let time of timePicker" value="{{time.id}}">
+                                                            {{time.value}}</option>
+                                                    </select>
+                                                    <div class="has-error"
+                                                        *ngIf="!createMeetingForm.controls.startTime.valid && createMeetingForm.controls.startTime.touched">
+                                                        <div *ngIf="createMeetingForm.get('startTime').errors.required">
+                                                            Start time is required</div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="first-col align-middle" nowrap="nowrap">End Time:</td>
+                                            <td class="second-col d-flex">
+                                                <div class="datepicker_style_particular">
+                                                    <input id="date" class=" form_line form-control" (keydown)="(false)"
+                                                        readonly="readonly" placeholder="Start" type="text"
+                                                        (click)="d2.toggle();d1.close();d3.close();d4.close()"
+                                                        format="mm/dd/YYYY" ngbDatepicker #d2="ngbDatepicker"
+                                                        formControlName="endDate">
+                                                    <div class="has-error"
+                                                        *ngIf="!createMeetingForm.controls.endDate.valid && createMeetingForm.controls.endDate.touched">
+                                                        <div *ngIf="createMeetingForm.get('endDate').errors.required">
+                                                            End date is required</div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="datepicker_style_particular">
+                                                    <select class=" form_line form-control" formControlName="endTime">
+                                                        <option *ngFor="let time of timePicker" value="{{time.id}}">
+                                                            {{time.value}}</option>
+                                                    </select>
+                                                    <div class="has-error"
+                                                        *ngIf="!createMeetingForm.controls.endTime.valid && createMeetingForm.controls.endTime.touched">
+                                                        <div *ngIf="createMeetingForm.get('endTime').errors.required">
+                                                            End time is required</div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td><a class="text-black clr_txt" (click)="clearMeetingInfo('1')">Clear</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="first-col align-middle" nowrap="nowrap">Location:</td>
+                                            <td class="second-col">
+                                                <select class="form_line form-control" formControlName="location" [(ngModel)]="selectedMeetingLocation">
+                                                    <option value="">Select location</option>
+                                                    <ng-container *ngFor="let location of manageMeetingLocationsListData">
+                                                      <option [ngValue]="location.id" [selected]="selectedMeetingLocation == location.id">
+                                                        {{ location.meeting_location }}
+                                                      </option>
+                                                    </ng-container>
+                                                  </select>
+                                                <div class="has-error"
+                                                    *ngIf="!createMeetingForm.controls.location.valid && createMeetingForm.controls.location.touched">
+                                                    <div *ngIf="createMeetingForm.get('location').errors.required">
+                                                        Location is required</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td><a class="text-primary clr_txt"
+                                                    (click)="loadManageMeetingLocationsList(manageMeetingLocations)">Manage
+                                                    Meeting Locations</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td class="col-md-4 pl-3 pr-0">
+                                <table width="100%" cellpadding="2px">
+                                    <tbody>
+                                        <tr>
+                                            <td><input type="checkbox" class="float-left" name="list_name" [checked]="masterSelected" value="m1" (change)="checkUncheckAll($event)"/> <label
+                                                    class="float-left text-left" for="checkboxCheckAll">Toggle
+                                                    All</label></td>
+                                        </tr>
+                                        <tr *ngFor="let attendee of loadMeetingDialog?.meetingattendee">
+                                            <td>
+                                                <span>
+                                                        <input (change)="checkedAttendees($event, attendee)" [checked]="attendee.isChecked" name="list_name" type="checkbox" id="{{attendee.id}}" class="" [value]="attendee.id" />
+                                                        <label for="{{attendee.id}}">{{attendee.name}}{{attendee.company ?
+                                                        '(' + attendee.company + ')' : ''}}</label>
+                                                    </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td class="col-md-4 p-0 third-col">
+                                <table width="100%" cellpadding="5px">
+                                    <tbody>
+                                        <tr>
+                                            <td nowrap="nowrap" class="first-col align-middle">Next Meeting Start Time:
+                                            </td>
+                                            <td class="second-col d-flex">
+                                                <div class="datepicker_style_particular">
+                                                    <input class="form_line form-control" id="date" (keydown)="(false)"
+                                                        readonly="readonly" placeholder="Start" type="text"
+                                                        (click)="d3.toggle();d1.close();d2.close();d4.close()"
+                                                        format="mm/dd/YYYY" ngbDatepicker #d3="ngbDatepicker"
+                                                        formControlName="nextStartDate">
+                                                    <div class="has-error"
+                                                        *ngIf="!createMeetingForm.controls.nextStartDate.valid && createMeetingForm.controls.nextStartDate.touched">
+                                                        <div
+                                                            *ngIf="createMeetingForm.get('nextStartDate').errors.required">
+                                                            Next start date is required</div>
+                                                    </div>
+                                                </div>
+                                                <div class="datepicker_style_particular">
+                                                    <select class="form_line form-control"
+                                                        formControlName="nextStartTime">
+                                                        <option *ngFor="let time of timePicker" value="{{time.id}}">
+                                                            {{time.value}}</option>
+                                                    </select>
+                                                    <div class="has-error"
+                                                        *ngIf="!createMeetingForm.controls.nextStartTime.valid && createMeetingForm.controls.nextStartTime.touched">
+                                                        <div
+                                                            *ngIf="createMeetingForm.get('nextStartTime').errors.required">
+                                                            Next start time is required</div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td nowrap="nowrap" class="first-col align-middle">Next Meeting End Time:
+                                            </td>
+                                            <td class="second-col d-flex">
+                                                <div class="datepicker_style_particular">
+                                                    <input class="form_line form-control" id="date" (keydown)="(false)"
+                                                        readonly="readonly" placeholder="Start" type="text"
+                                                        (click)="d4.toggle();d1.close();d2.close();d3.close()"
+                                                        format="mm/dd/YYYY" ngbDatepicker #d4="ngbDatepicker"
+                                                        formControlName="nextEndDate">
+                                                    <div class="has-error"
+                                                        *ngIf="!createMeetingForm.controls.nextEndDate.valid && createMeetingForm.controls.nextEndDate.touched">
+                                                        <div
+                                                            *ngIf="createMeetingForm.get('nextEndDate').errors.required">
+                                                            Next end date is required</div>
+                                                    </div>
+                                                </div>
+                                                <div class="datepicker_style_particular">
+                                                    <select class="form_line form-control
+                                                    " formControlName="nextEndTime">
+                                                        <option *ngFor="let time of timePicker" value="{{time.id}}">
+                                                            {{time.value}}</option>
+                                                    </select>
+                                                    <div class="has-error"
+                                                        *ngIf="!createMeetingForm.controls.nextEndTime.valid && createMeetingForm.controls.nextEndTime.touched">
+                                                        <div
+                                                            *ngIf="createMeetingForm.get('nextEndTime').errors.required">
+                                                            Next end time is required</div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td><a class="text-black clr_txt" (click)="clearMeetingInfo('2')">Clear</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td nowrap="nowrap" class="first-col align-middle">Next Meeting Location:
+                                            </td>
+                                            <td class="second-col">
+                                                <select class="form_line form-control" formControlName="nextLocation" [(ngModel)]="selectedNextMeetingLocation">
+                                                    <option value="">Select location</option>
+                                                    <ng-container *ngFor="let location of manageMeetingLocationsListData">
+                                                        <option [ngValue]="location.id" [selected]="selectedNextMeetingLocation == location.id">
+                                                        {{ location.meeting_location }}
+                                                      </option>
+                                                    </ng-container>
+                                                  </select>
+
+                                                <div class="has-error"
+                                                    *ngIf="!createMeetingForm.controls.nextLocation.valid && createMeetingForm.controls.nextLocation.touched">
+                                                    <div *ngIf="createMeetingForm.get('nextLocation').errors.required">
+                                                        Next location is required</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td><a class="text-primary clr_txt"
+                                                    (click)="loadManageMeetingLocationsList(manageMeetingLocations)">Manage
+                                                    Meeting Locations</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form> -->
+    <!-- <p>done edit</p>
+            <div class="w-100 float-left mt-2">
+                <div class="col-md-4 col-lg-4 col-sm-12 float-left">
+                    <table class="nowrapCells content-table marginRight">
+                        <tbody>
+                            <tr>
+                                <th colspan="2" class="columnHeader p-0 text-left text-decoration-underline">
+                                    {{currentlySelectedProjectName}} : {{selectedMeetingTypeName.name}}
+                                    {{selectedMeetingListName.name}}
+                                </th>
+                            </tr>
+                            <tr>
+                                <td class="verticalAlignMiddle widthset-col">Start Time:</td>
+                                <td>
+                                    <span class="showElement">{{meetingDetailData.start_date_time}}</span>
+                                    
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="verticalAlignMiddle widthset-col">End Time:</td>
+                                <td>
+                                    <span class="showElement">{{meetingDetailData.end_date_time}}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="verticalAlignMiddle widthset-col">Location:</td>
+                                <td>
+                                    <span class="showElement required">{{meetingDetailData.location}}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-4 col-lg-4 col-sm-12 float-left">
+                    <table class="nowrapCells content-table marginRight">
+                        <tbody>
+                            <tr>
+                                <th colspan="2" class="columnHeader p-0 text-left text-decoration-underline">
+                                    ATTENDEES
+                                </th>
+                            </tr>
+                            <tr *ngFor="let attendee of meetingDetailData.Attendees">
+                                <td colspan="2" class="verticalAlignMiddle">{{attendee}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-4 col-lg-4 col-sm-12 float-left">
+                    <table class="nowrapCells content-table marginRight">
+                        <tbody>
+                            <tr>
+                                <th colspan="2" class="columnHeader p-0 text-left text-decoration-underline">Next Meeting
+                                </th>
+                            </tr>
+                            <tr>
+                                <td class="widthset-col1">Next Meeting Start Time:</td>
+                                <td class="valueleft">{{meetingDetailData.next_meeting_start_time}}</td>
+                            </tr>
+                            <tr>
+                                <td class="widthset-col1">Next Meeting End Time:</td>
+                                <td class="valueleft">{{meetingDetailData.next_meeting_end_time}}</td>
+                            </tr>
+                            <tr>
+                                <td class="widthset-col1">Next Meeting Location:</td>
+                                <td class="valueleft">{{meetingDetailData.next_location}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div> -->
+  </div>
+</div>
+
+<div class="w-100 float-left accordionview">
+  <hr />
+  <div class="discussion-item d-flex">
+    <input id="btnShowNewDiscussionItem" class="mr-2" type="button" value="New Discussion Item"
+      *ngIf="meetingDetailData && !isShowNewDiscussion" (click)="isShowNewDiscussion = true" />
+    <input id="btnImportDiscussionItem" class="mr-2" type="button" value="Import Discussion Items" *ngIf="
+        meetingDetailData && !isShowNewDiscussion && ImportDiscussionItemsbtn
+      " (click)="
+        importdiscussionList(discussionItemsImport, selectedMeetingListId)
+      " />
+    <div class="ml-auto d-flex">
+      <div class="exp-collap mr-3" *ngIf="isShowDiscussion && meetingDetailData">
+        <a href="javascript:expandAllItems();" id="aExpandAll">Expand All</a>
+        /
+        <a href="javascript:collapseAllItems();" id="aCollapseAll">Collapse All</a>
+      </div>
+      <div class="showall-btn mr-3" *ngIf="meetingDetailData">
+        <input id="chkShowAll" type="checkbox" onclick="loadDiscussionItemsByMeetingId();" checked="" /><span
+          class="ml-2">Show All</span>
+      </div>
+      <div class="mr-3" *ngIf="isShowDiscussion && meetingDetailData">
+        <a id="btnGlobalEdit" class="mr-2 text-primary text-strong" *ngIf="!isBulkEdit"
+          (click)="globalShowEditDiscussion()">Edit Discussion Items</a>
+        <a id="btnGlobalEdit" class="text-primary text-strong" (click)="editDiscussionsAll()" *ngIf="isBulkEdit"><i>Done
+            Editing</i></a>
+      </div>
+    </div>
+  </div>
+  <div class="new-discussion pt-3" *ngIf="isShowNewDiscussion">
+    <div class=" border_box ">
+      <div>
+        <h3 class="new_dscus_title">New Discussion Item</h3>
+      </div>
+      <!-- <form [formGroup]="createDiscussionForm"> -->
+      <div class="form-inline" action="">
+        <label for="Title" class="label-justify">Title:</label>
+        <input type="text" id="Title" [(ngModel)]="title" name="discussion_item_title"
+          class="form_line form-control mr-10">
+        <label class="pt0 pl35">
+          <input id="chkShowAll" (change)="openRFICheck($event)" class="mt0" type="checkbox" /><span class="pt0">Include
+            Open
+            RFIs
+            task</span>
+        </label>
+        <label class="pt0 pl35">
+          <input id="chkShowAll" (change)="openSubmittalCheck($event)" class="mt0" type="checkbox" /><span
+            class="pt0">Include Open
+            Submittals</span>
+        </label>
+      </div>
+
+      <div class="form-inline mt-20" action="">
+        <label for="Title" class="label-justify">Description:</label>
+        <textarea id="Title" name="discussion_item" [(ngModel)]="title_description" class="wdth_80per"></textarea>
+      </div>
+      <div *ngIf="openRFI" class="form-inline mt-20" action="">
+        <label for="Title" class="label-justify">Open RFI:</label>
+        <!-- <input id="dropdown1" ej-dropdownlist [dataSource]="openRFIData" [fields]="RFI_Fields" [showCheckbox]="true" [(multiSelectMode)]="selectmode"/> -->
+        <!-- <ng-select [items]="openRFIData"
+                bindLabel="text"
+                bindValue="value"
+                >
+                </ng-select> -->
+        <ng-select [items]="openRFIData" [multiple]="true" bindLabel="rfi_title" [selectableGroup]="true"
+          [closeOnSelect]="false" bindValue="id" [(ngModel)]="RFI_Fields">
+          <ng-template ng-header-tmp let-items="items">
+            <input type="checkbox" (change)="toggleOpenRFI($event)" />Select All
+          </ng-template>
+          <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+            <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected" /> {{item.reference}}-{{item.rfi_title
+            |
+            uppercase}}
+          </ng-template>
+          <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+            <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected" />
+            {{item.reference}}-{{item.rfi_title}}
+          </ng-template>
+          <ng-template ng-multi-label-tmp let-items="items">
+            <div class="ng-value" *ngFor="let item of items | slice:0:2">
+              {{item['reference']}}-{{item.rfi_title}}
+            </div>
+            <div class="ng-value" *ngIf="items.length > 2">
+              <span class="ng-value-label">{{items.length - 2}} more...</span>
+            </div>
+          </ng-template>
+        </ng-select>
+      </div>
+      <div *ngIf="openSubmittal" class="form-inline mt-20" action="">
+        <label for="Title" class="label-justify ">Open Submittals:</label>
+        <!-- <input id="dropdown1" ej-dropdownlist [dataSource]="openSubmittalData" [fields]="Submittal_Fields" [showCheckbox]="true" [(multiSelectMode)]="selectmode"/> -->
+
+        <ng-select [items]="openSubmittalData" [multiple]="true" bindLabel="su_title" [selectableGroup]="true"
+          [closeOnSelect]="false" bindValue="id" [(ngModel)]="Submittal_Fields">
+          <ng-template ng-header-tmp let-items="items">
+            <input type="checkbox" (change)="toggleOpenSubmittal($event)" />Select All
+          </ng-template>
+          <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+            <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected" /> {{item.reference}}-{{item.su_title
+            |
+            uppercase}}
+          </ng-template>
+          <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+            <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected" />
+            {{item.reference}}-{{item.su_title}}
+          </ng-template>
+          <ng-template ng-multi-label-tmp let-items="items">
+            <div class="ng-value" *ngFor="let item of items | slice:0:2">
+              {{item.reference}}-{{item.su_title}}
+            </div>
+            <div class="ng-value" *ngIf="items.length > 2">
+              <span class="ng-value-label">{{items.length - 2}} more...</span>
+            </div>
+          </ng-template>
+        </ng-select>
+        <!-- <small>{{Submittal_Fields | json}}</small> -->
+        <!-- <select id="inputState" (change)="selectSubmittal($event)" class="round new_dscus_select">
+                    <option value="">Choose...</option>
+                    <option *ngFor="let sublist of openSubmittalData; let i = index;" [value]="sublist.id">
+                        {{sublist.text}}</option>
+                </select> -->
+      </div>
+      <div class="form-inline mt-20" action="">
+        <label for="Title" class="label-justify vis_hid">Actions</label>
+        <input id="btnShowNewDiscussionItem" class="mr-2" (click)="createDiscussionItem()" type="submit"
+          value="Save New Discussion Item" />
+        <input id="btnShowNewDiscussionItem" class="mr-2" type="button" value="Cancel"
+          (click)="isShowNewDiscussion = false" />
+      </div>
+      <!-- </form> -->
+    </div>
+  </div>
+
+  <accordion class="accordian-container-cusrom mt-5" *ngIf="isShowDiscussion && meetingDetailData">
+    <accordion-group id="accordion" class="custom-accordion"
+      *ngFor="let discussionView of meetingDiscussionViewData; let i = index;" [isOpen]="discussionView.isAccordion">
+      <div class="card-header p-0" accordion-heading>
+        <h5 class="mb-0" (click)="
+            $event.stopPropagation();
+            discussionView.isAccordion = !discussionView.isAccordion
+          ">
+          <button class="btn btn-link">
+            <span class="ui-accordion-header-icon ui-icon ui-icon-triangle-1-e"></span>
+            <span class="arrow-left"></span>
+            <span *ngIf="!discussionView.isEdit">{{
+              discussionView.discussion_item_title
+              +" "}}</span>
+            <input *ngIf="
+                discussionView.isEdit && discussionView.discussion_item_title
+              " type="text" (click)="$event.stopPropagation()" [(ngModel)]="discussionView.discussion_item_title" />
+            <span (click)="deleteDiscussionItem(deleteDiscussion,discussionView)" *ngIf="
+            discussionView.isEdit && discussionView.discussion_item_title">
+              <img style="filter: invert(1); width: 30px; margin:-8px 0px"
+                src="/assets/images/icons/delete-file-black.png">
+            </span>
+            <!-- formControlName="discussion_item_title" value="{{discussionView.discussion_item_title}}" -->
+            <span class="edit-accord font-14p" *ngIf="discussionView.isAccordion && !discussionView.isEdit"
+              (click)="$event.stopPropagation(); editDiscussionForm(discussionView); discussionView.isEdit = true;">Edit</span>
+            <span class="edit-accord font-14p" *ngIf="discussionView.isAccordion && !discussionView.isEdit"
+              (click)="$event.stopPropagation(); editDiscussionForm(discussionView);">
+              {{discussionView.discussion_item_status_id==1 ? "Open" : "Closed" }}
+            </span>
+            <span class="edit-accord font-14p"
+              *ngIf="discussionView.isEdit && discussionView.isAccordion && !isBulkEdit"
+              (click)="$event.stopPropagation(); discussionView.isEdit = false; updateDiscussionandAction(discussionView)">Done</span>
+            <span class="edit-accord font-14p" *ngIf="!discussionView.isAccordion && !discussionView.isEdit">{{
+              discussionView?.discussion_item_statuses?.discussion_item_status}}</span>
+            <span class="edit-accord font-14p" *ngIf="discussionView.isEdit" (click)="$event.stopPropagation()">
+              <select (change)="$event.stopPropagation()" name="discussion_item_status_id"
+                [(ngModel)]="discussionView.discussion_item_status_id">
+                <option value="1">Open</option>
+                <option value="2">Close</option>
+              </select>
+            </span>
+          </button>
+        </h5>
+      </div>
+
+      <div class="card-body">
+        <div class="discussion_items">
+
+          <span *ngIf="!discussionView.isEdit">{{
+            discussionView.discussion_item
+            }}</span>
+          <textarea *ngIf="discussionView.isEdit && discussionView.discussion_item" class="w-100" rows="3"
+            [(ngModel)]="discussionView.discussion_item"></textarea>
+          <!-- formControlName="discussion_item" -->
+        </div>
+      
+        <accordion class="accordian-container-cusrom comment-accordion mt-3"
+          *ngIf="discussionView.DiscussionItemComments?.length">
+          <accordion-group id="accordion2" class="custom-accordion" [isOpen]="'true'">
+            <div class="card-header p-0" accordion-heading>
+              <h5 class="mb-0">
+                <button class="btn btn-link">
+                  <span class="arrow-left"> </span>comment({{
+                  discussionView.DiscussionItemComments?.length
+                  }})
+                </button>
+              </h5>
+            </div>
+            <div class="card-body">
+              <!-- *ngFor="let comment of discussionView.DiscussionItemComments " disucssionForm.get('discussions.comments').controls -->
+              <div class="d-flex align-items-center mb-3 comment-list"
+                *ngFor="let comment of discussionView.DiscussionItemComments; let i=index;">
+                <div *ngIf="discussionView.isEdit && comment.discussion_item_comment">
+                  <span (click)="deleteComments(deleteComment,comment.id)"
+                    class="text-large text-white bg-dark px-2 mr-2">&times;</span>
+                </div>
+                <div>
+                  <input type="checkbox" (click)="updateComment(comment,$event)"
+                    [checked]="comment?.is_visible_flag == 'Y' ? true : false" />
+                </div>
+                <div>
+                  <div class="p-1 comment-table-commentor">
+                    {{ comment.first_name }} {{ comment.last_name }}
+                  </div>
+                  <div class="p-1 comment-table-commentor">
+                    {{ comment.modified }}
+                  </div>
+                </div>
+                <div class="p-1 font-14p w-100">
+                  <span *ngIf="!discussionView.isEdit">{{
+                    comment.discussion_item_comment
+                    }}</span>
+                  <textarea *ngIf="
+                      discussionView.isEdit && comment.discussion_item_comment
+                    " class="w-100" rows="3"
+                    (change)="editComments(comment,$event)">{{ comment.discussion_item_comment }}</textarea>
+                  <!-- formControlName="discussion_item_comment" -->
+                </div>
+              </div>
+            </div>
+          </accordion-group>
+        </accordion>
+
+        <div class="edit-comments-discuss">
+          <textarea class="custom-textarea" #comments></textarea>
+          <div class="text-right">
+            <button id="save_comment_570" (click)="saveComment(discussionView.id, comments.value)"
+              class="save-btn-comment" value="Save Comment">
+              Save Comment
+            </button>
+          </div>
+        </div>
+
+        <accordion class="accordian-container-cusrom accordion-subaction sub-accord mt-5"
+          *ngIf="discussionView.ActionItems">
+          <accordion-group id="accordion1" class="custom-accordion" [isOpen]="'true'">
+            <div class="card-header p-0" accordion-heading>
+              <h5 class="mb-0">
+                <button class="btn btn-link">
+                  <span class="align-middle d-inline-block pt-2"><span class="arrow-left"> </span>Action Items ({{
+                    discussionView.ActionItems?.others?.length +
+                    (discussionView.ActionItems?.rfi ? 1 : 0) +
+                    (discussionView.ActionItems?.submittal ? 1 : 0)
+                    }})</span>
+
+                  <span class="edit-accord" (click)="
+                      $event.stopPropagation(); discussionView.isAction = true;getDiscussion(discussionView);addActions(i);
+                    ">Add Action</span>
+                </button>
+              </h5>
+            </div>
+            <div id="collapseeight" class="collapse show" aria-labelledby="headingeight" data-parent="#accordion1">
+              <div class="card-body p-0">
+                <table border="0" id="record_list_container--action_items--discussion_item_id--551" class="content"
+                  cellpadding="5" style="margin: 0; padding: 15px" width="100%">
+                  <thead class="borderBottom">
+                    <tr>
+                      <th class="trEditable hide-data" width="5%"></th>
+                      <th class="textAlignLeft" width="8%">#</th>
+                      <th class="textAlignLeft" width="50%" (click)="sample()">Task</th>
+                      <th class="textAlignLeft">Assigned To</th>
+                      <th class="textAlignLeft">Due Date</th>
+                      <th class="textAlignLeft">Completed</th>
+                    </tr>
+                  </thead>
+                  <tbody class="customNthChild">
+                    <ng-container *ngFor="let actionData of actionForms; let actionIndex=index;">
+                      <tr class="trCreateActionItem--551 hidden" *ngIf="discussionView.isAction && actionIndex === i">
+                        <td class="trEditable hide-data"></td>
+                        <td width="8%"></td>
+                        <td>
+                          <textarea id="create-action_item-record " class="w-100" rows="3"
+                            [(ngModel)]="actionData.task"></textarea><br /><br />
+                          <span class="text-danger" *ngIf="task.touched && task.dirty">
+                            Action item is required
+                          </span>
+
+                        </td>
+                        <td>
+                          <ng-select [items]="meetingAssigneeListData" [multiple]="true" bindLabel="first_name"
+                            bindValue="contact_id" [searchable]="true" [(ngModel)]="actionData.assignedTo">
+                            <ng-template ng-optgroup-tmp let-item="item">
+                              {{
+                              item.first_name
+                              ? item.first_name + item.last_name
+                              : item.email
+                              }}
+                              {{
+                              item.company
+                              ?
+                              "-"+ assignee.company
+                              : ""
+                              }}
+                            </ng-template>
+                            <ng-template ng-multi-label-tmp let-items="items">
+                              <div class="ng-value" *ngFor="let item of items | slice:0:2">
+                                {{item['first_name']}}
+                              </div>
+                              <div class="ng-value" *ngIf="items.length > 2">
+                                <span class="ng-value-label">{{items.length - 2}} more...</span>
+                              </div>
+                            </ng-template>
+                          </ng-select>
+                        </td>
+                        <td>
+                          <div class="float-left pl-0 col-md-12 border-right p-0">
+                            <div class="datepicker_style_particulars">
+                              <div class="input-group">
+                                <input class="form-control" placeholder="yyyy-mm-dd" name="start" [minDate]="limitDate"
+                                  placeholder="Start" [markDisabled]="isDisabled" ngbDatepicker #start="ngbDatepicker"
+                                  (click)="start.toggle()" [(ngModel)]="actionData.completed" />
+                              </div>
+
+                            </div>
+                          </div>
+
+                        </td>
+                        <td>
+                          <div class="datepicker_style_particulars">
+                            <div class="input-group">
+                              <input class="form-control" placeholder="yyyy-mm-dd" name="completed"
+                                [minDate]="limitDate" placeholder="Completed" [markDisabled]="isDisabled" ngbDatepicker
+                                #completed="ngbDatepicker" (click)="completed.toggle()"
+                                [(ngModel)]="actionData.dueDate" />
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </ng-container>
+
+
+                    <tr class="trCreateActionItem--551" *ngIf="discussionView.isAction">
+                      <td class="trUneditable backgroundColorWhite" align="right" colspan="5">
+                        <button type="button" (click)="actionItemSubmit(i)" class="save-btn-comment mr-2"
+                          value="Create Action Item">
+                          Create Action Item
+                        </button>
+                        <button type="button" class="save-btn-comment" value="Cancel"
+                          (click)="discussionView.isAction = false; removeActions(i)">
+                          Cancel
+                        </button>
+                        <hr />
+                      </td>
+                    </tr>
+
+
+                    <tr class="trUneditable" *ngFor="
+                        let action of discussionView?.ActionItems?.others;
+                        let k = index
+                      ">
+                      <td class="textAlignLeft verticalAlignTop" width="8%">
+                        <span *ngIf="discussionView.isEdit && action.action_item">
+                          <span (click)="deleteActionItem(deleteActions,action?.id)"
+                            class="text-large text-white bg-dark px-2 mr-2">&times;</span>
+                        </span>
+                      </td>
+                      <td class="textAlignLeft verticalAlignTop" width="50%">
+                        <span *ngIf="!discussionView.isEdit">{{
+                          action.action_item
+                          }}</span>
+                        <textarea *ngIf="discussionView.isEdit && action.action_item" class="w-100" rows="3"
+                          (change)="editActions(action,$event)"
+                          [(ngModel)]="action.action_item">{{ action.action_item }}</textarea>
+                        <!-- formControlName="others.action_item" -->
+                      </td>
+                      <td class="textAlignLeft verticalAlignTop">
+                        <ng-select *ngIf="discussionView.isEdit && action.action_item" [items]="meetingAssigneeListData"
+                          [multiple]="true" bindLabel="first_name" bindValue="contact_id" [searchable]="true"
+                          (change)="othersAssignee($event)" [(ngModel)]="action.assigned_ids">
+                          <ng-template ng-optgroup-tmp let-item="item">
+                            {{
+                            item.first_name
+                            ? item.first_name + item.last_name
+                            : item.email
+                            }}
+                            {{
+                            item.company
+                            ?
+                            "-"+ assignee.company
+                            : ""
+                            }}
+                          </ng-template>
+                          <ng-template ng-multi-label-tmp let-items="items">
+                            <div class="ng-value" *ngFor="let item of items | slice:0:2">
+                              {{item['first_name']}}
+                            </div>
+                            <div class="ng-value" *ngIf="items.length > 2">
+                              <span class="ng-value-label">{{items.length - 2}} more...</span>
+                            </div>
+                          </ng-template>
+                        </ng-select>
+                        <ul *ngIf="!discussionView.isEdit && action.action_item"
+                          style="margin: 0; padding: 0; list-style: none">
+                          <li id="Delete_action_NA-1399" *ngFor="let assignedName of action.assigned_to">
+                            {{ assignedName.contactfullname ? assignedName.contactfullname.concat(",") : "" }}
+                          </li>
+                        </ul>
+                      </td>
+                      <td class="textAlignLeft verticalAlignTop">
+                        <div *ngIf="discussionView.isEdit" class="datepicker hasDatepicker datepicker_style_particular">
+                          <input id="date" (keydown)="(false)" readonly="readonly" class="form_line form-control"
+                            [placeholder]="dateSplit(action.action_item_due_date)" type="text" (click)="
+                              jk.toggle();
+                            " format="mm/dd/yyyy" ngbDatepicker #jk="ngbDatepicker"
+                            [(ngModel)]="action.action_item_due_date" defaultValue="{{
+                              dateFormat(action.action_item_due_date)
+                            }}" />
+                          <!-- formControlName="others.due_date" -->
+                        </div>
+                        <span *ngIf="!discussionView.isEdit">{{
+                          dateFormat(action.action_item_due_date)
+                          }}</span>
+                      </td>
+                      <td class="textAlignLeft verticalAlignTop">
+                        <div *ngIf="discussionView.isEdit" class="datepicker hasDatepicker datepicker_style_particular">
+                          <input id="date" (keydown)="(false)" readonly="readonly" class="form_line form-control"
+                            [placeholder]="dateSplit(action.action_item_completed_timestamp)" type="text" (click)="
+                              kj.toggle();" format="mm/dd/yyyy" ngbDatepicker #kj="ngbDatepicker"
+                            [(ngModel)]="action.action_item_completed_timestamp" (change)="othersAssignee($event)" />
+                          <!-- formControlName="others.complete_date" -->
+                        </div>
+                        <span *ngIf="!discussionView.isEdit">{{
+                          dateFormat(action.action_item_completed_timestamp)
+                          }}</span>
+                      </td>
+                    </tr>
+
+                    <tr style="color: #fff; background-color: #8b8e90" *ngIf="discussionView?.ActionItems?.rfi">
+                      <td colspan="6">Open RFIs</td>
+                    </tr>
+
+                    <tr *ngFor="let rfi of discussionView?.ActionItems?.rfi; let i =index;"
+                      id="record_container--manage-action_item-record-read_only--action_items--sort_order--1399"
+                      class="trUneditable">
+                      <td class="textAlignLeft verticalAlignTop" width="8%">
+                        <span *ngIf="discussionView.isEdit && rfi.action_item">
+                          <span (click)="deleteActionItem(rfi.id)"
+                            class="text-large text-white bg-dark px-2 mr-2">&times;</span>
+                        </span>
+                        {{ rfi.reference }}
+                      </td>
+                      <td class="textAlignLeft verticalAlignTop" width="50%"
+                        id="manage-action_item-record-read_only--action_items--action_item--1399">
+                        <span *ngIf="!discussionView.isEdit">{{
+                          rfi.action_item
+                          }}</span>
+                        <textarea *ngIf="
+                            discussionView.isEdit &&
+                            rfi.action_item
+                          " class="w-100" (change)="editActions(rfi,$event)" rows="3">{{
+                            rfi.action_item
+                          }}</textarea>
+                        <!-- formControlName="rfi.action_item" -->
+                      </td>
+                      <td class="textAlignLeft verticalAlignTop">
+                        <ng-select *ngIf="discussionView.isEdit && rfi?.action_item" [items]="meetingAssigneeListData"
+                          [multiple]="true" bindLabel="first_name" bindValue="contact_id" [searchable]="true"
+                          (change)="othersAssignee($event)" [(ngModel)]="rfi.assigned_ids">
+                          <ng-template ng-optgroup-tmp let-item="item">
+                            {{
+                            item.first_name
+                            ? item.first_name + item.last_name
+                            : item.email
+                            }}
+                            {{
+                            item.company
+                            ?
+                            "-"+ assignee.company
+                            : ""
+                            }}
+                          </ng-template>
+                          <ng-template ng-multi-label-tmp let-items="items">
+                            <div class="ng-value" *ngFor="let item of items | slice:0:2">
+                              {{item['first_name']}}
+                            </div>
+                            <div class="ng-value" *ngIf="items.length > 2">
+                              <span class="ng-value-label">{{items.length - 2}} more...</span>
+                            </div>
+                          </ng-template>
+                        </ng-select>
+                        <ul *ngIf="
+                            !discussionView.isEdit
+                          " style="margin: 0; padding: 0; list-style: none">
+                          <li id="Delete_action_NA-1399" *ngFor="
+                              let assignedNameRFI of rfi?.assigned_to
+                            ">
+                            {{ assignedNameRFI.contactfullname ? assignedNameRFI.contactfullname.concat(",") : "" }}
+                          </li>
+                        </ul>
+                      </td>
+                      <td class="textAlignLeft verticalAlignTop">
+                        <div *ngIf="discussionView.isEdit" class="datepicker hasDatepicker datepicker_style_particular">
+                          <input id="date" (keydown)="(false)" readonly="readonly" class="form_line form-control"
+                            [placeholder]="dateSplit(rfi?.action_item_due_date)" type="text" (click)="
+                              rfi_due.toggle();" format="mm/dd/yyyy" ngbDatepicker
+                            [(ngModel)]="rfi.action_item_due_date" #rfi_due="ngbDatepicker" />
+                          <!-- formControlName="rfi.due_date" -->
+                        </div>
+                        <span *ngIf="!discussionView.isEdit">{{
+                          dateFormat(
+                          rfi
+                          ?.action_item_due_date
+                          )
+                          }}</span>
+                      </td>
+                      <td class="textAlignLeft verticalAlignTop">
+                        <div *ngIf="discussionView.isEdit" class="datepicker hasDatepicker datepicker_style_particular">
+                          <input id="date" (keydown)="(false)" readonly="readonly" class="form_line form-control"
+                            [placeholder]="dateSplit(rfi?.action_item_completed_timestamp)" type="text" (click)="
+                              rfi_comp.toggle();" format="mm/dd/yyyy" [(ngModel)]="rfi.action_item_completed_timestamp"
+                            ngbDatepicker #rfi_comp="ngbDatepicker" />
+                          <!-- formControlName="rfi.complete_date"  -->
+                        </div>
+                        <span *ngIf="!discussionView.isEdit">{{
+                          dateFormat(
+                          rfi
+                          ?.action_item_completed_timestamp
+                          )
+                          }}</span>
+                      </td>
+                    </tr>
+
+                    <tr style="color: #fff; background-color: #8b8e90" *ngIf="discussionView?.ActionItems?.submittal">
+                      <td colspan="6">Open Submittals</td>
+                    </tr>
+
+                    <tr id="record_container--manage-action_item-record-read_only--action_items--sort_order--1401"
+                      class="trUneditable" *ngFor="let submittal of discussionView?.ActionItems?.submittal">
+                      <td class="textAlignLeft verticalAlignTop" width="8%">
+                        <span *ngIf="discussionView.isEdit && submittal?.action_item">
+                          <span (click)="deleteActionItem(submittal?.id)"
+                            class="text-large text-white bg-dark px-2 mr-2">&times;</span>
+                        </span>
+                        {{ submittal?.reference }}
+                      </td>
+                      <td class="textAlignLeft verticalAlignTop" width="50%"
+                        id="manage-action_item-record-read_only--action_items--action_item--1401">
+                        <span *ngIf="!discussionView.isEdit">{{
+                          submittal?.action_item
+                          }}</span>
+                        <textarea *ngIf="
+                            discussionView.isEdit &&
+                            submittal?.action_item
+                          " class="w-100" (change)="editActions(submittal,$event)" rows="3">{{
+                            submittal?.action_item
+                          }}</textarea>
+                        <!-- formControlName="submittal.action_item" -->
+                      </td>
+                      <td class="textAlignLeft verticalAlignTop">
+                        <ng-select *ngIf="
+                          discussionView.isEdit &&
+                          submittal?.action_item
+                        " [items]="meetingAssigneeListData" [multiple]="true" bindLabel="first_name"
+                          bindValue="contact_id" [searchable]="true" (change)="othersAssignee($event)"
+                          [(ngModel)]="submittal.assigned_ids">
+                          <ng-template ng-optgroup-tmp let-item="item">
+                            {{
+                            item.first_name
+                            ? item.first_name + item.last_name
+                            : item.email
+                            }}
+                            {{
+                            item.company
+                            ?
+                            "-"+ assignee.company
+                            : ""
+                            }}
+                          </ng-template>
+                          <ng-template ng-multi-label-tmp let-items="items">
+                            <div class="ng-value" *ngFor="let item of items | slice:0:2">
+                              {{item['first_name']}}
+                            </div>
+                            <div class="ng-value" *ngIf="items.length > 2">
+                              <span class="ng-value-label">{{items.length - 2}} more...</span>
+                            </div>
+                          </ng-template>
+                        </ng-select>
+                        <ul *ngIf="!discussionView.isEdit" style="margin: 0; padding: 0; list-style: none">
+
+                          <li id="Delete_action_NA-1401" *ngFor="
+                              let assignedNameSubmittal of submittal?.assigned_to
+                            ">
+                            {{ assignedNameSubmittal.contactfullname ? assignedNameSubmittal.contactfullname.concat(",")
+                            : "" }}
+                          </li>
+                        </ul>
+                      </td>
+                      <td class="textAlignLeft verticalAlignTop">
+                        <div *ngIf="discussionView.isEdit" class="datepicker hasDatepicker datepicker_style_particular">
+                          <input id="date" (keydown)="(false)" readonly="readonly" class="form_line form-control"
+                            [placeholder]="dateSplit(submittal?.action_item_due_date)" type="text" (click)="
+                              submit_due.toggle();" format="mm/dd/yyyy" [(ngModel)]="submittal.action_item_due_date"
+                            ngbDatepicker #submit_due="ngbDatepicker" />
+                          <!-- formControlName="submittal.due_Date" -->
+                        </div>
+                        <span *ngIf="!discussionView.isEdit">{{
+                          dateFormat(
+                          submittal
+                          ?.action_item_due_date
+                          )
+                          }}</span>
+                      </td>
+                      <td class="textAlignLeft verticalAlignTop"
+                        id="manage-action_item-record-read_only--action_items--action_item_completed_timestamp--1401">
+                        <div *ngIf="discussionView.isEdit" class="datepicker hasDatepicker datepicker_style_particular">
+                          <input id="date" (keydown)="(false)" readonly="readonly" class="form_line form-control"
+                            [placeholder]="dateSplit(submittal?.action_item_completed_timestamp)" type="text" (click)="
+                              submit_comp.toggle();" format="mm/dd/yyyy"
+                            [(ngModel)]="submittal.action_item_completed_timestamp" ngbDatepicker
+                            #submit_comp="ngbDatepicker" />
+                          <!-- formControlName="submittal.complete_date" -->
+                        </div>
+                        <span *ngIf="!discussionView.isEdit">{{
+                          dateFormat(
+                          submittal
+                          ?.action_item_completed_timestamp
+                          )
+                          }}</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </accordion-group>
+        </accordion>
+      </div>
+    </accordion-group>
+  </accordion>
+
+  <div class="mt-5" *ngIf="!isShowDiscussion && meetingDetailData">
+    This project does not have any discussion items for this meeting
+  </div>
+</div>
+<ng-template #newMeeting let-modal class="tests">
+  <div class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-front ui-dialog-buttons ui-draggable ui-resizable"
+    style="
+      position: absolute;
+      height: auto;
+      width: 1136.7px;
+      top: 6px;
+      left: -230px;
+      display: block;
+      z-index: 401;
+      background: white;
+    " tabindex="-1" role="dialog" aria-describedby="divModalWindow" aria-labelledby="ui-id-5">
+    <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix ui-draggable-handle">
+      <span id="ui-id-5" class="ui-dialog-title">Create Meeting — Advent — {{ currentlySelectedProjectName }}</span>
+      <button type="button" (click)="modal.dismiss('Cross click')"
+        class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close"
+        role="button" style="
+          float: right;
+          background: #91cef7 !important;
+          border: #4e4f51 !important;
+        " title="Close">
+        <span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span>
+        <span class="ui-button-text">X</span>
+      </button>
+    </div>
+    <div id="divModalWindow" class="ui-dialog-content ui-widget-content" style="
+        width: auto;
+        min-height: 0px;
+        max-height: none;
+        height: 434.44px;
+        overflow: auto;
+      ">
+      <form [formGroup]="createMeetingForm">
+        <input type="hidden" value="2" /> Meeting Type:
+        <select class="mr-2 form_line form-control" [(ngModel)]="selectedMeetingTypeId"
+          (ngModelChange)="changeMeetingType($event, true)" formControlName="meetingType">
+          <option value="">Please Select A Meeting Type</option>
+          <option *ngFor="let meetingType of meetingTypes" value="{{ meetingType.id }}">
+            {{ meetingType.name }}
+          </option>
+        </select>
+        <hr />
+        <table class="w-100 float-left popup-table">
+          <thead>
+            <tr>
+              <th>Meeting Info</th>
+              <th>Attendees</th>
+              <th>Next Meeting Info</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr></tr>
+            <tr>
+              <td class="col-md-4 pl-0 third-col">
+                <table width="100%" cellpadding="5px">
+                  <tbody>
+                    <tr>
+                      <td class="first-col align-middle" nowrap="nowrap">
+                        Start Time:
+                      </td>
+                      <td class="second-col d-flex">
+                        <div class="datepicker_style_particular">
+                          <input id="date" (keydown)="(false)" readonly="readonly" class="form_line form-control"
+                            placeholder="Start" type="text" (click)="
+                              d1.toggle(); d2.close(); d3.close(); d4.close()
+                            " format="mm/dd/yyyy" ngbDatepicker #d1="ngbDatepicker" formControlName="startDate" />
+                          <div class="has-error" *ngIf="
+                              !createMeetingForm.controls.startDate.valid &&
+                              createMeetingForm.controls.startDate.touched
+                            ">
+                            <div *ngIf="
+                                createMeetingForm.get('startDate').errors
+                                  .required
+                              ">
+                              Start date is required
+                            </div>
+                          </div>
+                        </div>
+                        <div class="datepicker_style_particular">
+                          <select class="form_line form-control" formControlName="startTime">
+                            <option *ngFor="let time of timePicker" value="{{ time.id }}">
+                              {{ time.value }}
+                            </option>
+                          </select>
+                          <div class="has-error" *ngIf="
+                              !createMeetingForm.controls.startTime.valid &&
+                              createMeetingForm.controls.startTime.touched
+                            ">
+                            <div *ngIf="
+                                createMeetingForm.get('startTime').errors
+                                  .required
+                              ">
+                              Start time is required
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="first-col align-middle" nowrap="nowrap">
+                        End Time:
+                      </td>
+                      <td class="second-col d-flex">
+                        <div class="datepicker_style_particular">
+                          <input id="date" class="form_line form-control" (keydown)="(false)" readonly="readonly"
+                            placeholder="Start" type="text" (click)="
+                              d2.toggle(); d1.close(); d3.close(); d4.close()
+                            " format="mm/dd/YYYY" ngbDatepicker #d2="ngbDatepicker" formControlName="endDate" />
+                          <div class="has-error" *ngIf="
+                              !createMeetingForm.controls.endDate.valid &&
+                              createMeetingForm.controls.endDate.touched
+                            ">
+                            <div *ngIf="
+                                createMeetingForm.get('endDate').errors.required
+                              ">
+                              End date is required
+                            </div>
+                          </div>
+                        </div>
+                        <div class="datepicker_style_particular">
+                          <select class="form_line form-control" formControlName="endTime">
+                            <option *ngFor="let time of timePicker" value="{{ time.id }}">
+                              {{ time.value }}
+                            </option>
+                          </select>
+                          <div class="has-error" *ngIf="
+                              !createMeetingForm.controls.endTime.valid &&
+                              createMeetingForm.controls.endTime.touched
+                            ">
+                            <div *ngIf="
+                                createMeetingForm.get('endTime').errors.required
+                              ">
+                              End time is required
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>&nbsp;</td>
+                      <td>
+                        <a class="text-black clr_txt" (click)="clearMeetingInfo('1')">Clear</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="first-col align-middle" nowrap="nowrap">
+                        Location:
+                      </td>
+                      <td class="second-col">
+                        <!-- <select class="form_line form-control" formControlName="location">
+                                                    <option value="">Select location</option>
+                                                    <option *ngFor="let location of manageMeetingLocationsListData"
+                                                        value="{{location.id}}">{{location.meeting_location}}</option>
+                                                </select> -->
+                        <select class="form_line form-control" formControlName="location"
+                          [(ngModel)]="selectedMeetingLocation">
+                          <option value="">Select location</option>
+                          <ng-container *ngFor="
+                              let location of manageMeetingLocationsListData
+                            ">
+                            <option [ngValue]="location.id" [selected]="
+                                selectedMeetingLocation == location.id
+                              ">
+                              <!-- <option [ngValue]="location.id" [selected]="selectedNextMeetingLocation == location.id || selectedNextMeetingLocation == location.id.toString()"></option> -->
+                              {{ location.meeting_location }}
+                            </option>
+                          </ng-container>
+                        </select>
+                        <div class="has-error" *ngIf="
+                            !createMeetingForm.controls.location.valid &&
+                            createMeetingForm.controls.location.touched
+                          ">
+                          <div *ngIf="
+                              createMeetingForm.get('location').errors.required
+                            ">
+                            Location is required
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>&nbsp;</td>
+                      <td>
+                        <a class="text-primary clr_txt" (click)="
+                            loadManageMeetingLocationsList(
+                              manageMeetingLocations
+                            )
+                          ">Manage Meeting Locations</a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+              <td class="col-md-4 pl-3 pr-0">
+                <table width="100%" cellpadding="2px">
+                  <tbody>
+                    <tr>
+                      <td>
+                        <input type="checkbox" class="float-left" name="list_name" [checked]="masterSelected" value="m1"
+                          (change)="checkUncheckAll($event)" />
+                        <label class="float-left text-left" for="checkboxCheckAll">Toggle All</label>
+                      </td>
+                    </tr>
+                    <tr *ngFor="
+                        let attendee of loadMeetingDialog?.meetingattendee
+                      ">
+                      <td>
+                        <span>
+                          <!-- <input checked="checked" type="checkbox" id="{{attendee.id}}"
+                                                        class="" /> -->
+                          <!-- <input (change)="checkedAttendees($event)" [checked]="attendee.isChecked" name="list_name" type="checkbox" id="{{attendee.id}}" class="" [value]="attendee.id"/> -->
+                          <input (change)="checkedAttendees($event, attendee)" [checked]="attendee.isChecked"
+                            name="list_name" type="checkbox" id="{{ attendee.id }}" class="" [value]="attendee.id" />
+                          <label for="{{ attendee.id }}">{{ attendee.name
+                            }}{{
+                            attendee.company
+                            ? "(" + attendee.company + ")"
+                            : ""
+                            }}</label>
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+              <td class="col-md-4 p-0 third-col">
+                <table width="100%" cellpadding="5px">
+                  <tbody>
+                    <tr>
+                      <td nowrap="nowrap" class="first-col align-middle">
+                        Next Meeting Start Time:
+                      </td>
+                      <td class="second-col d-flex">
+                        <div class="datepicker_style_particular">
+                          <input class="form_line form-control" id="date" (keydown)="(false)" readonly="readonly"
+                            placeholder="Start" type="text" (click)="
+                              d3.toggle(); d1.close(); d2.close(); d4.close()
+                            " format="mm/dd/YYYY" ngbDatepicker #d3="ngbDatepicker" formControlName="nextStartDate" />
+                          <div class="has-error" *ngIf="
+                              !createMeetingForm.controls.nextStartDate.valid &&
+                              createMeetingForm.controls.nextStartDate.touched
+                            ">
+                            <div *ngIf="
+                                createMeetingForm.get('nextStartDate').errors
+                                  .required
+                              ">
+                              Next start date is required
+                            </div>
+                          </div>
+                        </div>
+                        <div class="datepicker_style_particular">
+                          <select class="form_line form-control" formControlName="nextStartTime">
+                            <option *ngFor="let time of timePicker" value="{{ time.id }}">
+                              {{ time.value }}
+                            </option>
+                          </select>
+                          <div class="has-error" *ngIf="
+                              !createMeetingForm.controls.nextStartTime.valid &&
+                              createMeetingForm.controls.nextStartTime.touched
+                            ">
+                            <div *ngIf="
+                                createMeetingForm.get('nextStartTime').errors
+                                  .required
+                              ">
+                              Next start time is required
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td nowrap="nowrap" class="first-col align-middle">
+                        Next Meeting End Time:
+                      </td>
+                      <td class="second-col d-flex">
+                        <div class="datepicker_style_particular">
+                          <input class="form_line form-control" id="date" (keydown)="(false)" readonly="readonly"
+                            placeholder="Start" type="text" (click)="
+                              d4.toggle(); d1.close(); d2.close(); d3.close()
+                            " format="mm/dd/YYYY" ngbDatepicker #d4="ngbDatepicker" formControlName="nextEndDate" />
+                          <div class="has-error" *ngIf="
+                              !createMeetingForm.controls.nextEndDate.valid &&
+                              createMeetingForm.controls.nextEndDate.touched
+                            ">
+                            <div *ngIf="
+                                createMeetingForm.get('nextEndDate').errors
+                                  .required
+                              ">
+                              Next end date is required
+                            </div>
+                          </div>
+                        </div>
+                        <div class="datepicker_style_particular">
+                          <select class="form_line form-control" formControlName="nextEndTime">
+                            <option *ngFor="let time of timePicker" value="{{ time.id }}">
+                              {{ time.value }}
+                            </option>
+                          </select>
+                          <div class="has-error" *ngIf="
+                              !createMeetingForm.controls.nextEndTime.valid &&
+                              createMeetingForm.controls.nextEndTime.touched
+                            ">
+                            <div *ngIf="
+                                createMeetingForm.get('nextEndTime').errors
+                                  .required
+                              ">
+                              Next end time is required
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>&nbsp;</td>
+                      <td>
+                        <a class="text-black clr_txt" (click)="clearMeetingInfo('2')">Clear</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td nowrap="nowrap" class="first-col align-middle">
+                        Next Meeting Location:
+                      </td>
+                      <td class="second-col">
+                        <!-- <select class="form_line form-control" formControlName="nextLocation" [(ngModel)]="selectedName">
+                                                    <option value="">Select location</option>
+                                                    <option value="">{{selectedMeetingLocation}}</option>
+                                                    <option *ngFor="let location of manageMeetingLocationsListData"
+                                                        value="{{location.id}}" 
+                                                        [selected]="'selectedMeetingLocation==location.id'">{{location.meeting_location}}</option>
+                                                </select> -->
+                        <select class="form_line form-control" formControlName="nextLocation"
+                          [(ngModel)]="selectedNextMeetingLocation">
+                          <option value="">Select location</option>
+                          <ng-container *ngFor="
+                              let location of manageMeetingLocationsListData
+                            ">
+                            <!-- <option [ngvalue]="location.id" [selected]="selectedNextMeetingLocation !== location.id"> -->
+                            <option [ngValue]="location.id" [selected]="
+                                selectedNextMeetingLocation == location.id
+                              ">
+                              {{ location.meeting_location }}
+                            </option>
+                          </ng-container>
+                        </select>
+
+                        <div class="has-error" *ngIf="
+                            !createMeetingForm.controls.nextLocation.valid &&
+                            createMeetingForm.controls.nextLocation.touched
+                          ">
+                          <div *ngIf="
+                              createMeetingForm.get('nextLocation').errors
+                                .required
+                            ">
+                            Next location is required
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>&nbsp;</td>
+                      <td>
+                        <a class="text-primary clr_txt" (click)="
+                            loadManageMeetingLocationsList(
+                              manageMeetingLocations
+                            )
+                          ">Manage Meeting Locations</a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+    </div>
+    <div class="ui-dialog-buttonpane ui-dialog-content">
+      <div class="ui-dialog-buttonset">
+        <button type="button"
+          class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only btn-cmn mr-2" role="button"
+          (click)="createMeeting()">
+          <span class="ui-button-text">Create Meeting</span>
+        </button>
+        <button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only btn-cmn"
+          role="button" (click)="modal.dismiss('Cross click'); createMeetingForm.reset()">
+          <span class="ui-button-text">Cancel</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #manageMeeting let-modal class="tests">
+  <div class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-front ui-draggable ui-resizable bg-white"
+    tabindex="-1" role="dialog" aria-describedby="divMeetingTypesDialog" aria-labelledby="ui-id-16">
+    <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix ui-draggable-handle">
+      <span id="ui-id-16" class="ui-dialog-title">Manage Meeting Types — Advent —
+        {{ currentlySelectedProjectName }}</span>
+      <button type="button" (click)="modal.dismiss('Cross click')"
+        class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close"
+        role="button" title="Close">
+        <span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span>
+        <span class="ui-button-text">X</span>
+      </button>
+    </div>
+    <div id="divMeetingTypesDialog" class="ui-dialog-content ui-widget-content" style="
+        width: auto;
+        min-height: 0px;
+        max-height: none;
+        height: 547.5px;
+        overflow: auto;
+      ">
+      <div class="widgetContainer borderOutline">
+        <h3 class="title">
+          Manage Meeting Types For {{ currentlySelectedProjectName }}
+        </h3>
+        <form id="record_creation_form_container--create-meeting_type-record" class="formCreateMeetingType">
+          <table class="content" cellpadding="5px" width="95%">
+            <tbody [formGroup]="meetingTypeForm">
+              <tr>
+                <td class="textAlignRight verticalAlignMiddle">
+                  Meeting Type:
+                </td>
+                <td>
+                  <input type="text" class="required" style="width: 317px" formControlName="meeting_name" />
+                  <div class="has-error" *ngIf="
+                      !meetingTypeForm.controls.meeting_name.valid &&
+                      meetingTypeForm.controls.meeting_name.touched
+                    ">
+                    <div *ngIf="
+                        meetingTypeForm.get('meeting_name').errors.required
+                      ">
+                      Meeting type is required
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td class="textAlignRight">
+                  <input type="button" value="Create Meeting Type" (click)="checkAddMeetingType('form', '')" />
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <table id="record_list_container--manage-meeting_type-record w-100" cellpadding="5px">
+                    <thead class="borderBottom">
+                      <tr>
+                        <th class="textAlignLeft">Meeting Type</th>
+                        <th class="textAlignCenter">Delete</th>
+                      </tr>
+                    </thead>
+                    <tbody class="altColors">
+                      <tr *ngFor="let meetingType of meetingTypes">
+                        <td class="textAlignLeft">{{ meetingType.name }}</td>
+                        <td class="textAlignCenter" (click)="deleteMeetingType(meetingType)">
+                          <a>Delete</a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </form>
+      </div>
+      <div class="widgetContainer borderOutline">
+        <h3 class="title">
+          Import Meeting Types Into {{ currentlySelectedProjectName }}
+        </h3>
+        <table class="content" cellpadding="5px" width="95%">
+          <thead class="borderBottom">
+            <tr>
+              <th class="textAlignLeft fontsizefix">Meeting Type Template</th>
+              <th class="textAlignCenter fontsizefix">Add</th>
+            </tr>
+          </thead>
+          <tbody class="altColors">
+            <tr *ngFor="let meetingList of importMeetingList">
+              <td class="textAlignLeft">{{ meetingList.meeting_type }}</td>
+              <td class="textAlignCenter" (click)="importMeetingADD(meetingList, 'no_form')">
+                <a>Add</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #manageMeetingLocations let-modal class="tests">
+  <div class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-front ui-draggable ui-resizable bg-white"
+    tabindex="-1" role="dialog" aria-describedby="divMeetingTypesDialog" aria-labelledby="ui-id-16">
+    <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix ui-draggable-handle">
+      <span id="ui-id-16" class="ui-dialog-title">Manage Meeting Locations — Advent —
+        {{ currentlySelectedProjectName }}</span>
+      <button type="button" (click)="modal.dismiss('Cross click')"
+        class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close"
+        role="button" title="Close">
+        <span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span>
+        <span class="ui-button-text">X</span>
+      </button>
+    </div>
+    <div id="divMeetingTypesDialog" class="ui-dialog-content ui-widget-content" style="
+        width: auto;
+        min-height: 0px;
+        max-height: none;
+        height: 547.5px;
+        overflow: auto;
+      ">
+      <div class="widgetContainer">
+        <div class="borderOutline">
+          <h3 class="title">Create Meeting Location</h3>
+          <form id="record_creation_form_container--create-meeting_type-record" class="formCreateMeetingType">
+            <table class="content" cellpadding="5px" width="95%">
+              <tbody [formGroup]="manageMeetingLocationsForm">
+                <tr>
+                  <td class="textAlignRight verticalAlignMiddle">Location</td>
+                  <td>
+                    <input type="text" class="required" style="width: 317px" formControlName="meeting_location" />
+                    <div class="has-error" *ngIf="
+                        !manageMeetingLocationsForm.controls.meeting_location
+                          .valid &&
+                        manageMeetingLocationsForm.controls.meeting_location
+                          .touched
+                      ">
+                      <div *ngIf="
+                          manageMeetingLocationsForm.get('meeting_location')
+                            .errors.required
+                        ">
+                        Meeting location is required
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td class="textAlignRight">
+                    <input type="button" value="Create Meeting Location" (click)="addManageMeetingLocations()" />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </form>
+        </div>
+
+        <table>
+          <tbody>
+            <tr>
+              <td colspan="2">
+                <table id="record_list_container--manage-meeting_type-record w-100" cellpadding="5px">
+                  <thead class="borderBottom">
+                    <tr>
+                      <th class="textAlignLeft">Meeting Location</th>
+                      <th class="textAlignCenter">Delete</th>
+                    </tr>
+                  </thead>
+                  <tbody class="altColors">
+                    <tr *ngFor="
+                        let meetingLocation of manageMeetingLocationsListData
+                      ">
+                      <td class="textAlignLeft">
+                        {{ meetingLocation?.meeting_location }}
+                      </td>
+                      <td class="textAlignCenter" (click)="deleteManageMeetingLocation(meetingLocation)">
+                        <a>Delete</a>
+                      </td>
+                    </tr>
+                    <tr *ngIf="!manageMeetingLocationsListData.length">
+                      <td colspan="2" class="align-center">No data found</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #manageWaraningPopup let-modal class="tests">
+  <app-warning-modal (formSubmit)="formSubmit($event); modal.dismiss('Cross click')"
+    (modalClose)="modal.dismiss('Cross click')" [modalTitle]="modalTitle" [modalQuestion]="modalQuestion"
+    [modalLabel]="modalLabel" [modalContent]="modalContent"></app-warning-modal>
+</ng-template>
+
+<ng-template #deleteComment let-modal class="tests">
+  <app-warning-modal (formSubmit)="formSubmit('comments'); modal.dismiss('Cross click')"
+    (modalClose)="modal.dismiss('Cross click')" [modalTitle]="'Confirm Delete'"
+    [modalQuestion]="'Are You Sure That You Want To Delete This Discussion Item Comment?'"></app-warning-modal>
+  <!-- [modalContent]="modalContent" -->
+</ng-template>
+
+<ng-template #deleteDiscussion let-modal class="tests">
+  <app-warning-modal (formSubmit)="formSubmit('discussions'); modal.dismiss('Cross click')"
+    (modalClose)="modal.dismiss('Cross click')" [modalTitle]="'Confirm Delete'"
+    [modalQuestion]="'Are You Sure That You Want To Delete This Discussion Item?'"></app-warning-modal>
+  <!-- [modalContent]="modalContent" -->
+</ng-template>
+
+<ng-template #deleteActions let-modal class="tests">
+  <app-warning-modal (formSubmit)="formSubmit('actions'); modal.dismiss('Cross click')"
+    (modalClose)="modal.dismiss('Cross click')" [modalTitle]="'Confirm Delete'"
+    [modalQuestion]="'Are You Sure That You Want To Delete This Action Item?'"></app-warning-modal>
+  <!-- [modalContent]="modalContent" -->
+</ng-template>
+
+<ng-template #discussionItemsImport let-modal class="tests">
+  <div class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-front ui-draggable ui-resizable bg-white"
+    tabindex="-1" role="dialog" aria-describedby="divMeetingTypesDialog" aria-labelledby="ui-id-16">
+    <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix ui-draggable-handle">
+      <span id="ui-id-16" class="ui-dialog-title">Manage Meeting Locations — Advent —
+        {{ currentlySelectedProjectName }}</span>
+      <button type="button" (click)="modal.dismiss('Cross click')"
+        class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close"
+        role="button" title="Close" style="float: right">
+        <span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span>
+        <span class="ui-button-text">X</span>
+      </button>
+    </div>
+    <div id="dialog" class="ui-dialog-content ui-widget-content"
+      style="width: auto; min-height: 0px; max-height: none; height: 166px">
+      <form [formGroup]="frmImportItems">
+        <input class="form-control" type="hidden" [(ngModel)]="selectedMeetingListId" name="meetingid"
+          formControlName="meetingid" />
+        <input *ngIf="newMeetingIdData && newMeetingIdData.previous_meeting_id" class="form-control" type="hidden"
+          name="prevmeetingid" formControlName="prevmeetingid" />
+        <table cellpadding="5">
+          <tbody>
+            <tr>
+              <td>Where would you like to import discussion items from?</td>
+            </tr>
+            <tr>
+              <td>
+                <input id="lastMeetingOpenOnly" name="importFrom" type="radio" value="lastMeetingOpenOnly"
+                  style="vertical-align: middle" formControlName="importFrom" />
+                <label for="lastMeetingOpenOnly" style="float: none; margin-left: 5px">
+                  Last Meeting (Open Items Only) —
+                  {{
+                  newMeetingIdData && newMeetingIdData.openDiscussionItemCount
+                  }}
+                </label>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input id="lastMeetingAll" name="importFrom" type="radio" value="lastMeetingAll"
+                  style="vertical-align: middle" formControlName="importFrom" />
+                <label for="lastMeetingAll" style="float: none; margin-left: 5px">
+                  Last Meeting (All Items) —
+                  {{
+                  newMeetingIdData &&
+                  newMeetingIdData.allTypesDiscussionItemCount
+                  }}
+                </label>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+    </div>
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+      <div class="ui-dialog-buttonset">
+        <button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+          role="button" (click)="importdiscussionPrevData()">
+          <span class="ui-button-text">Import Discussion Items</span>
+        </button>
+        <button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+          role="button" (click)="modal.dismiss('Cross click')">
+          <span class="ui-button-text">Cancel</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!--Email-->
+<ng-template #EmailMeetingReport let-modal class="tests">
+  <div class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-front ui-draggable ui-resizable bg-white"
+    tabindex="-1" role="dialog" aria-describedby="divMeetingTypesDialog" aria-labelledby="ui-id-16">
+    <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix ui-draggable-handle">
+      <span id="ui-id-16" class="ui-dialog-title">Email Owner Meeting — Meeting {{meetingName}} Report</span>
+      <button type="button" (click)="modal.dismiss('Cross click')"
+        class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close"
+        role="button" title="Close" style="float: right">
+        <span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span>
+        <span class="ui-button-text">X</span>
+      </button>
+    </div>
+    <div id="dialog" class="ui-dialog-content ui-widget-content emailTemplateModal">
+      <table width="100%" border="0">
+        <tbody>
+          <tr valign="top">
+            <td>
+              <div class="permissionTableMainHeader">
+                Who would you like to send this email to?
+              </div>
+              <accordion class="accordian-container-cusrom">
+                <accordion-group id="accordion" class="custom-accordion">
+                  <div class="card-header p-0" accordion-heading>
+                    <h5 class="mb-0">
+                      <button class="btn btn-link">
+                        <span class="ui-accordion-header-icon ui-icon ui-icon-triangle-1-e"></span>
+                        <span class="arrow-left"></span>
+                        <span>Predefined Groups</span>
+                      </button>
+                    </h5>
+                  </div>
+                  <div class="card-body">
+                    <div class="discussion_items email-discussion">
+                      <div class="items" (click)="addMeetingAttendeesToList()">Meeting Attendees</div>
+                      <div class="items" (click)="addProjectContactsToList()">
+                        All Project Contacts That Can View
+                        <span>{{meetingTypeName | titlecase}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </accordion-group>
+              </accordion>
+              <accordion class="accordian-container-cusrom">
+                <accordion-group id="accordion" class="custom-accordion">
+                  <div class="card-header p-0" accordion-heading>
+                    <h5 class="mb-0">
+                      <button class="btn btn-link">
+                        <span class="ui-accordion-header-icon ui-icon ui-icon-triangle-1-e"></span>
+                        <span class="arrow-left"></span>
+                        <span>Project Contacts Filtered By Role</span>
+                      </button>
+                    </h5>
+                  </div>
+                  <div class="card-body">
+                    <div class="discussion_items email-discussion">
+                      <div class="items" *ngFor="let role of rolesOfProjectContacts"
+                        (click)="getContactForRole(role.id)">
+                        {{role.role}}
+                      </div>
+                    </div>
+                  </div>
+                </accordion-group>
+              </accordion>
+              <accordion class="accordian-container-cusrom">
+                <accordion-group id="accordion" class="custom-accordion">
+                  <div class="card-header p-0" accordion-heading>
+                    <h5 class="mb-0">
+                      <button class="btn btn-link">
+                        <span class="ui-accordion-header-icon ui-icon ui-icon-triangle-1-e"></span>
+                        <span class="arrow-left"></span>
+                        <span>Search For Individuals</span>
+                      </button>
+                    </h5>
+                  </div>
+                  <div class="card-body">
+                    <div class="discussion_items email-discussion">
+                      <div id="emailMeetingReport" class="contact-search-parent-container" style="height: 300px;">
+                        <table class="table-contact-search">
+                          <tbody>
+                            <tr>
+                              <th>Company Name</th>
+                              <th>Contact First Name</th>
+                              <th>Contact Last Name</th>
+                              <th>Contact Email</th>
+                              <th>&nbsp;</th>
+                            </tr>
+                            <tr>
+                              <td><input id="searchCompany_emailMeetingReport" name="searchCompany_emailMeetingReport"
+                                  type="text" class="ui-autocomplete-input" autocomplete="off"
+                                  [(ngModel)]="searchByCompany"></td>
+                              <td><input id="searchContactFirstName_emailMeetingReport"
+                                  name="searchContactFirstName_emailMeetingReport" type="text"
+                                  class="ui-autocomplete-input" autocomplete="off" [(ngModel)]="searchByFirstName"></td>
+                              <td><input id="searchContactLastName_emailMeetingReport"
+                                  name="searchContactLastName_emailMeetingReport" type="text"
+                                  class="ui-autocomplete-input" autocomplete="off" [(ngModel)]="searchByLastName"></td>
+                              <td><input id="searchContactEmail_emailMeetingReport"
+                                  name="searchContactEmail_emailMeetingReport" type="text" class="ui-autocomplete-input"
+                                  autocomplete="off" [(ngModel)]="searchByEmail"></td>
+                              <td><input id="btnClearSearch_emailMeetingReport" name="btnClearSearch_emailMeetingReport"
+                                  type="button" value="Clear" (click)="resetAllSearch()"></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <div id="divPossibleContacts_emailMeetingReport">
+                          <p>Viewing {{(searchForUserCompanyContacts |
+                            filterMeetingEmailContactsList:searchByCompany:searchByFirstName:searchByLastName:searchByEmail:filterMetadata).length}}
+                            of {{searchForUserCompanyContacts?.length}} (NOTE: Companies without contacts not included)
+                            <input id="btnRefreshSearch_emailMeetingReport" name="btnRefreshSearch_emailMeetingReport"
+                              type="button" value="Refresh" (click)="refreshSearchList()">
+                          </p>
+                          <div id="divContactListSearchResults">
+                            <table class="listTable" style="width:100%;">
+                              <thead>
+                                <tr>
+                                  <th>Company Name</th>
+                                  <th>First Name</th>
+                                  <th>Last Name</th>
+                                  <th>Email Address</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr
+                                  *ngFor="let contact of searchForUserCompanyContacts |filterMeetingEmailContactsList:searchByCompany:searchByFirstName:searchByLastName:searchByEmail:filterMetadata;"
+                                  (click)="addToSelectedRecepientList(contact)">
+                                  <td>{{contact?.company | titlecase}}</td>
+                                  <td> {{contact?.first_name | titlecase}} </td>
+                                  <td> {{contact?.last_name | titlecase}} </td>
+                                  <td> {{contact?.email}} </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </accordion-group>
+              </accordion>
+              <form [formGroup]="emailDialogBoxForm">
+                <div class="permissionTableMainHeader mt-4">
+                  Additional Comments
+                </div>
+                <textarea id="adHocEmailMessageText" class="autogrow" placeholder="Add addional comments to the email"
+                  formControlName="emailDialogBoxForm_comments"></textarea>
+              </form>
+            </td>
+            <td width="40%">
+              <table id="tblSelectedItems" cellpadding="3" cellspacing="0" style="table-layout: inherit" class="ml-2">
+                <tbody>
+                  <tr>
+                    <th colspan="2" style="text-align: left">
+                      Selected Recipients
+                    </th>
+                  </tr>
+                  <tr *ngFor="let selectedContact of selectedContactsList" id="selItem_{{selectedContact.contact_id}}"
+                    name="selItem_{{selectedContact.contact_id}}" title="{{selectedContact.name}}" class="lh-20">
+                    <td><a (click)="removeSelectedContactFromList(selectedContact.contact_id)" class="mr-3">X</a></td>
+                    <td>{{selectedContact.name | titlecase}} — {{selectedContact.company_name |
+                      titlecase}} </td>
+                    <td>({{selectedContact.email}})</td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+      <div class="ui-dialog-buttonset">
+        <button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+          role="button" (click)="sendEmailToSelectedRecipients()" [disabled]="emailDataSending">
+          <span *ngIf="emailDataSending" class="spinner-border spinner-border-sm mr-1"></span>
+          <span class="ui-button-text">Send Email To Selected Recipients</span>
+        </button>
+        <button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+          role="button" (click)="modal.dismiss('Cross click')">
+          <span class="ui-button-text">Cancel</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!--Meeting Permission-->
+<ng-template #MeetingPermission let-modal class="tests">
+  <div class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-front ui-draggable ui-resizable bg-white"
+    tabindex="-1" role="dialog" aria-describedby="divMeetingTypesDialog" aria-labelledby="ui-id-16">
+    <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix ui-draggable-handle">
+      <span id="ui-id-16" class="ui-dialog-title">Meeting Permission — Advent — Delta Lane</span>
+      <button type="button" (click)="modal.dismiss('Cross click')"
+        class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close"
+        role="button" title="Close" style="float: right">
+        <span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span>
+        <span class="ui-button-text">X</span>
+      </button>
+    </div>
+    <div id="dialog" class="ui-dialog-content ui-widget-content">
+      <div id="div_permission">
+        <div id="alpah" class="perlist" style="
+            font-weight: bold;
+            color: #3b90ce;
+            padding-bottom: 10px;
+            font-size: 12px;
+          ">
+          <span id="perall" class="filrol">Role(s)</span>
+          <span class="filrol">
+            <select id="specify_sel" class="addpermission" style="margin-left: 5px; margin-right: 5px; font-size: 14px">
+              <option value="all">Both roles</option>
+              <option value="Y" selected="">Proj Spec</option>
+              <option value="N">Not Proj Spec</option>
+            </select>
+          </span>
+          <span id="perA" class="filrol">A</span>
+          <span id="perB" class="filrol">B</span>
+          <span id="perC" class="filrol">C</span>
+        </div>
+        <div id="" class="nonProSpecTable">
+          <table width="100%" border="1" class="table-theme">
+            <thead>
+              <tr>
+                <th>Roles</th>
+                <th style="font-size: 12px">Owner Meeting</th>
+                <th style="font-size: 12px">LEED Meeting</th>
+                <th style="font-size: 12px">Weekly Subcontractor Meeting</th>
+                <th style="font-size: 12px">External Meeting</th>
+                <th style="font-size: 12px"></th>
+                <th style="font-size: 12px">first</th>
+                <th style="font-size: 12px">Internal Meeting</th>
+                <th style="font-size: 12px">test</th>
+                <th style="font-size: 12px">test55</th>
+                <th style="font-size: 12px">testmarch</th>
+                <th style="font-size: 12px">testmarch1</th>
+                <th style="font-size: 12px">testmarch232</th>
+                <th style="font-size: 12px">test_meeting_type</th>
+                <th style="font-size: 12px">test-35</th>
+                <th style="font-size: 12px">lead meeting</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="pspecify">Project Executive</td>
+                <td class="textAlignCenter">
+                  <label class="control control--checkbox col-sm-12 p-0 m-b-15">
+                    <input id="meetrolep-1-4" type="checkbox" />
+                    <div class="control__indicator"></div>
+                  </label>
+                </td>
+                <td class="textAlignCenter">
+                  <label class="control control--checkbox col-sm-12 p-0 m-b-15">
+                    <input id="meetrolep-2-4" type="checkbox" />
+                    <div class="control__indicator"></div>
+                  </label>
+                </td>
+                <td class="textAlignCenter">
+                  <label class="control control--checkbox col-sm-12 p-0 m-b-15">
+                    <input id="meetrolep-3-4" type="checkbox" />
+                    <div class="control__indicator"></div>
+                  </label>
+                </td>
+                <td class="textAlignCenter">
+                  <label class="control control--checkbox col-sm-12 p-0 m-b-15">
+                    <input id="meetrolep-65-4" type="checkbox" />
+                    <div class="control__indicator"></div>
+                  </label>
+                </td>
+                <td class="textAlignCenter">
+                  <label class="control control--checkbox col-sm-12 p-0 m-b-15">
+                    <input id="meetrolep-529-4" type="checkbox" />
+                    <div class="control__indicator"></div>
+                  </label>
+                </td>
+                <td class="textAlignCenter">
+                  <label class="control control--checkbox col-sm-12 p-0 m-b-15">
+                    <input id="meetrolep-828-4" type="checkbox" />
+                    <div class="control__indicator"></div>
+                  </label>
+                </td>
+                <td class="textAlignCenter">
+                  <label class="control control--checkbox col-sm-12 p-0 m-b-15">
+                    <input id="meetrolep-921-4" type="checkbox" />
+                    <div class="control__indicator"></div>
+                  </label>
+                </td>
+                <td class="textAlignCenter">
+                  <label class="control control--checkbox col-sm-12 p-0 m-b-15">
+                    <input id="meetrolep-963-4" type="checkbox" />
+                    <div class="control__indicator"></div>
+                  </label>
+                </td>
+                <td class="textAlignCenter">
+                  <label class="control control--checkbox col-sm-12 p-0 m-b-15">
+                    <input id="meetrolep-967-4" type="checkbox" />
+                    <div class="control__indicator"></div>
+                  </label>
+                </td>
+                <td class="textAlignCenter">
+                  <label class="control control--checkbox col-sm-12 p-0 m-b-15">
+                    <input id="meetrolep-968-4" type="checkbox" />
+                    <div class="control__indicator"></div>
+                  </label>
+                </td>
+                <td class="textAlignCenter">
+                  <label class="control control--checkbox col-sm-12 p-0 m-b-15">
+                    <input id="meetrolep-969-4" type="checkbox" />
+                    <div class="control__indicator"></div>
+                  </label>
+                </td>
+                <td class="textAlignCenter">
+                  <label class="control control--checkbox col-sm-12 p-0 m-b-15">
+                    <input id="meetrolep-971-4" type="checkbox" />
+                    <div class="control__indicator"></div>
+                  </label>
+                </td>
+                <td class="textAlignCenter">
+                  <label class="control control--checkbox col-sm-12 p-0 m-b-15">
+                    <input id="meetrolep-973-4" type="checkbox" />
+                    <div class="control__indicator"></div>
+                  </label>
+                </td>
+                <td class="textAlignCenter">
+                  <label class="control control--checkbox col-sm-12 p-0 m-b-15">
+                    <input id="meetrolep-974-4" type="checkbox" />
+                    <div class="control__indicator"></div>
+                  </label>
+                </td>
+                <td class="textAlignCenter">
+                  <label class="control control--checkbox col-sm-12 p-0 m-b-15">
+                    <input id="meetrolep-986-4" type="checkbox" />
+                    <div class="control__indicator"></div>
+                  </label>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!--Edit Info delete modal-->
+<ng-template #editinfoclosedialog let-modal class="tests">
+  <div class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-front ui-draggable ui-resizable bg-white"
+    tabindex="-1" role="dialog" aria-describedby="divMeetingTypesDialog" aria-labelledby="ui-id-16">
+    <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix ui-draggable-handle">
+      <span id="ui-id-16" class="ui-dialog-title">Delete Meeting?</span>
+      <button type="button" (click)="modal.dismiss('Cross click')"
+        class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close"
+        role="button" title="Close" style="float: right">
+        <span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span>
+        <span class="ui-button-text">X</span>
+      </button>
+    </div>
+    <div id="dialog" class="ui-dialog-content ui-widget-content">
+      <div class="">
+        <br />Are you sure you want to delete the following meeting?<br /><br />“{{meetingTypeName | titlecase}} — Meeting {{meetingName}}”<br /><br />This will delete all discussion items
+        and comments for this meeting. <br /><br />It will also delete all
+        action items if the action items are not associated with other
+        discussion items.
+      </div>
+    </div>
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+      <div class="ui-dialog-buttonset">
+        <button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+          role="button" (click)="deleteMeetingRecord()" [disabled]="deleteDataSending">
+          <span *ngIf="deleteDataSending" class="spinner-border spinner-border-sm mr-1"></span>
+          <span class="ui-button-text">Delete</span>
+        </button>
+        <button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+          role="button" (click)="modal.dismiss('Cross click')">
+          <span class="ui-button-text">Cancel</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<!--Edit Info attendees help-->
+<ng-template #editinfoattendeesdialog let-modal class="tests">
+  <div class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-front ui-draggable ui-resizable bg-white"
+    tabindex="-1" role="dialog" aria-describedby="divMeetingTypesDialog" aria-labelledby="ui-id-16">
+    <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix ui-draggable-handle">
+      <span id="ui-id-16" class="ui-dialog-title">Attendees Help</span>
+      <button type="button" (click)="modal.dismiss('Cross click')"
+        class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close"
+        role="button" title="Close" style="float: right">
+        <span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span>
+        <span class="ui-button-text">X</span>
+      </button>
+    </div>
+    <div id="dialog" class="ui-dialog-content ui-widget-content">
+      <div id="dialogHelp" style="font-size: 14px">
+        Potential attendees appear only when the following criteria are met:
+        <br /><br />
+        1. The contact is a team member on this project
+        <br />
+        2. The contact has access to this meeting type.
+        <br /><br />
+        Both of these settings can be changed by clicking "Meeting Permissions"
+        in the top right corner.
+      </div>
+    </div>
+  </div>
+</ng-template>

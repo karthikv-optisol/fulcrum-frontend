@@ -1,0 +1,70 @@
+<div
+  class="boxViewUploader uploaderInitialized"
+  style="width: 200px; margin: 10px"
+>
+  <div
+    class="qq-upload-button"
+    style="position: relative; overflow: hidden; direction: ltr"
+    (drop)="onDrop($event)"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave($event)"
+    *ngIf="!uploading else progressButton"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      fill="currentColor"
+      class="bi bi-file-earmark-plus"
+      viewBox="0 0 16 16"
+    >
+      <path
+        d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5z"
+      />
+      <path
+        d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"
+      />
+    </svg>
+    <!-- {{dragAndDropButtonText}} -->
+    {{ !dragOver ? "Drop/Click" : "Drop" }}
+    <!-- <span #dragAndDropButtonSpan>Drop/Click</span> -->
+
+    <!-- Drop/Click -->
+    <input
+      [multiple] = "isMultiple"
+      type="file"
+      name="file"
+      style="
+        position: absolute;
+        right: 0px;
+        top: 0px;
+        font-family: Arial;
+        font-size: 118px;
+        margin: 0px;
+        padding: 0px;
+        cursor: pointer;
+        opacity: 0;
+      "
+      [value] ="initialValue"
+      [accept]="allowed_extensions.join(', ')"
+      #fileInput
+      (change)="onFileSelected($event.target.files)"
+    />
+  </div>
+</div>
+
+<ul id="record_list_container--manage-costcode-file-import-record" class="record_list_container"
+style="margin:10px 0 5px 0px;list-style:none;padding:0;">
+<li *ngFor="let file of uploadedFiles; let i = index;">
+  <a href="javascript:void(0);" class="bs-tooltip entypo-cancel-circled" data-placement="right" data-original-title="Delete this file" (click)="removeFilesFromtheList(i)" style="color:black"></a>
+  {{file.name}}
+</li>
+</ul>
+
+<ng-template #progressButton>
+    <div class="qq-upload-button" style="position: relative; overflow: hidden; direction: ltr">
+      <span class="spinner-border spinner-border-sm mr-1"></span>
+      <!-- {{ fileUploadProgress }}% Uploaded... -->
+      {{ fileUploadProgressStatus }}
+    </div>
+</ng-template>

@@ -1,0 +1,356 @@
+
+<div id="sidebar_navbar">
+  <span id="close_toggle" class="btn-menu toggle">
+    <i class="fa fa-times"></i>
+  </span>
+  <div id="logo">
+    <a (click)="dashboard()"
+      ><img
+        alt=""
+        src="assets/images/logos/white-transparent-background3.gif"
+        width="180"
+        height="45"
+    /></a>
+  </div>
+  <div id="sidebar">
+    <div id="navBoxProject" class="sidebarBox projectNavBox">
+      <div id="navBoxModuleGroup" class="sidebarBox moduleNavBox">
+        <div class="arrowlistmenu" *ngIf="showProjectNavBox">
+          <input
+            type="hidden"
+            id="actcurprj"
+            value="{{ currentlySelectedProjectName }}"
+          />
+          <div
+            class="menuheader expandable openheader"
+            (click)="showsubmenu('active')"
+            *ngIf="arrActiveProjects?.length != 0"
+            headerindex="0h"
+          >
+            <span class="accordprefix"></span>Active Projects
+            <span class="accordsuffix"></span>
+          </div>
+          <div
+            id="0_selected"  *ngIf="IsshowActive"
+            name="selectedProjectDiv"
+            class="selectedProject"
+            (click)="dashboard()" 
+          >
+            
+            {{(currentlySelectedProjectName.length>27)? (currentlySelectedProjectName | slice:0:27)+'..':(currentlySelectedProjectName) }}
+            <span style="margin-left: 5%"></span>
+          </div>
+          <ul
+            class="categoryitems"
+            *ngIf="!isShownActive"
+            style="display: block"
+            contentindex="0c"
+          >
+            <li
+              *ngFor="let arrActiveProjects of arrActiveProjects"
+              (click)="
+                navigationProjectSelected(
+                  arrActiveProjects.id,
+                  arrActiveProjects.project_name,
+                  'active'
+                )
+              "
+            >
+              <div *ngIf="currentlySelectedProjectId != arrActiveProjects.id">
+                <a
+                  class="projectLinks"
+                  href="javascript:void(0);"
+                  data-id="{{ arrActiveProjects.id }}"
+                  data-encodedprojectname=""
+                >
+                {{(arrActiveProjects.project_name.length>27)? (arrActiveProjects.project_name | slice:0:27)+'...':(arrActiveProjects.project_name)}}
+              
+                  
+                  </a
+                >
+              </div>
+            </li>
+          </ul>
+          <div
+            class="menuheader expandable"
+            (click)="showsubmenu('completed')"
+            headerindex="1h"
+            *ngIf="arrCompletedProjects?.length > 0"
+          >
+            <span class="accordprefix"></span>Completed Projects
+            <span class="accordsuffix"></span>
+          </div>
+          <div
+            id="2_selected"
+            *ngIf="IsshowCompleted && arrCompletedProjects?.length > 0"
+            name="selectedProjectDiv"
+            class="selectedProject otherprojectname2"
+            (click)="dashboard()"
+          >
+
+          {{(currentlySelectedProjectName.length>27)? (currentlySelectedProjectName | slice:0:27)+'..':(currentlySelectedProjectName) }}
+            <!-- {{ currentlySelectedProjectName }} -->
+            <span style="margin-left: 5%"></span>
+          </div>
+          <ul *ngIf="!isShown" class="categoryitems" contentindex="1c">
+            <li
+              *ngFor="let arrCompletedProjects of arrCompletedProjects"
+              (click)="
+                navigationProjectSelected(
+                  arrCompletedProjects.id,
+                  arrCompletedProjects.project_name,
+                  'completed'
+                )
+              "
+            >
+              <div
+                *ngIf="currentlySelectedProjectId != arrCompletedProjects.id"
+              >
+                <a
+                  class="projectLinks"
+                  href="javascript:void(0);"
+                  data-groupindex="2"
+                  data-project_id="{{ arrCompletedProjects.id }}"
+                  data-encodedprojectname="{{
+                    arrCompletedProjects.project_name
+                  }}"
+                >
+                {{ (arrCompletedProjects.project_name.length>27)? (arrCompletedProjects.project_name | slice:0:27)+'..':(arrCompletedProjects.project_name) }}
+                <!-- {{arrCompletedProjects.project_name}} -->
+                </a>
+              </div>
+            </li>
+          </ul>
+          <div
+            class="menuheader expandable"
+            (click)="showsubmenu('other')"
+            headerindex="2h"
+            *ngIf="arrOtherProjects?.length > 0"
+          >
+            <span class="accordprefix"></span>Other Projects<span
+              class="accordsuffix"
+            ></span>
+          </div>
+          <div
+            id="3_selected"
+            *ngIf="IsshowOther"
+            name="selectedProjectDiv"
+            class="selectedProject otherprojectname3"
+            (click)="dashboard()"
+          >
+          {{(currentlySelectedProjectName.length>27)? (currentlySelectedProjectName | slice:0:27)+'..':(currentlySelectedProjectName) }}
+            <!-- {{ currentlySelectedProjectName }} -->
+            <span style="margin-left: 5%"></span>
+          </div>
+          <ul class="categoryitems" *ngIf="!isShownOther" contentindex="2c">
+            <li
+              *ngFor="let arrOtherProjects of arrOtherProjects"
+              (click)="
+                navigationProjectSelected(
+                  arrOtherProjects.id,
+                  arrOtherProjects.project_name,
+                  'other'
+                )
+              "
+            >
+              <div *ngIf="currentlySelectedProjectId != arrOtherProjects.id">
+                <a
+                  class="projectLinks"
+                  href="javascript:void(0);"
+                  data-groupindex="3"
+                  data-project_id=" {{ arrOtherProjects.id }}"
+                  data-encodedprojectname=""
+                >
+                {{ (arrOtherProjects.project_name.length>27)? (arrOtherProjects.project_name | slice:0:27)+'..':(arrOtherProjects.project_name) }}
+                <!-- {{arrOtherProjects.project_name}} -->
+                  
+                  </a
+                >
+              </div>
+            </li>
+          </ul>
+<div *ngIf="currentlySelectedProjectTypeIndex == '1'">
+  
+          <div class="menuheader expandable"  (click)="showsubmenu('bidding')"
+           *ngIf="mappedarrbid != ''">
+            Bidding Projects</div>
+            <ul class="categoryitems">
+          <div *ngIf="!isShownBidding" id="4_selected" name="selectedProjectDiv" class="selectedProject" 
+          (click)="dashboard()">
+
+             <li (click)="
+             navigationProjectSelected(
+              arrBiddingProjects.type,
+              arrBiddingProjects.value,
+               'bidding'
+             )
+           " *ngFor="let arrBiddingProjects of mappedarrbid">
+              <ng-container >
+                {{ (arrBiddingProjects.value.length>27)? (arrBiddingProjects.value | slice:0:27)+'..':(arrBiddingProjects.value) }}
+                
+          </ng-container>
+        </li>
+        <span style="margin-left:5%;"></span>
+            </div>
+          </ul>
+          </div>
+
+          <!-- we use below menu in future -->
+          <!-- <div
+          class="menuheader expandable openheader"
+          (click)="showsubmenu('globaladmin')"
+          headerindex="1h"
+        >
+          <span class="accordprefix"></span>GLOBAL ADMIN
+          <span class="accordsuffix"></span>
+        </div>
+
+        <ul *ngIf="!isShownGlobalAdmin" class="categoryitems" contentindex="1c">
+          <li>
+            <a
+              class="projectLinks"
+              (click)="manageRegisteredCompany()"
+              href="javascript:void(0);"
+            >
+            Manage Registered Co's
+            </a>
+          </li>
+          <li>
+            <a
+              class="projectLinks"
+              (click)="manageRegisteredUser()"
+              href="javascript:void(0);"
+            >
+            Manage Registered Users
+            </a>
+          </li>
+        </ul> -->
+          <!-- we use below menu in future -->
+
+          <!-- <div class="menuheader expandable openheader" headerindex="0h">
+            <span class="accordprefix"></span>
+            <a (click)="punchlist()">Punch List</a
+            ><span class="accordsuffix"></span>
+          </div> -->
+
+
+          <div *ngIf="is_projectmanagement == 1" (click)="showsubmenu('project-management')" class="menuheader expandable2" headerindex="0h"><span class="accordprefix"></span>Project Management<span class="accordsuffix"></span></div>
+          <ul  *ngIf="!isShownProjectManagement" class="categoryitems" id="0c" style="display: block;" contentindex="0c">
+            <li *ngFor="
+            let projectmanagement of getprojectmanagementmodules" id="menu_i_36">
+              <a 
+               href="javascript:void(0);" (click)="project_modules(projectmanagement.name)" [ngClass]="{'selectedFunction': this.selectedModulename == projectmanagement.name}" class="moduleLikeFunctionStyle projectLinks textAlignLeft prjct_menus-list">{{projectmanagement.name}}
+               <img *ngIf="projectmanagement.name == this.selectedModulename" id="i_36" class="invisible" alt="" src="assets/images/navigation/left-nav-arrow-green.gif" style="visibility: hidden;">
+            <img *ngIf="projectmanagement.name == this.selectedModulename" id="iselected_36" alt="" src="assets/images/navigation/left-nav-arrow-green.gif">
+          
+          </a></li></ul>
+
+
+          <div
+            class="menuheader expandable openheader"
+            (click)="showsubmenu('modules-file-manager-file-browser')"
+            headerindex="1h"
+          >
+            <span class="accordprefix"></span>File Manager
+            <span class="accordsuffix"></span>
+          </div>
+
+          <ul
+            *ngIf="!isShownFileManager"
+            class="categoryitems"
+            contentindex="1c"
+          >
+            <li>
+              <a
+                class="moduleLikeFunctionStyle projectLinks textAlignLeft prjct_menus-list" [ngClass]="{'selectedFunction': this.selectedModulename == 'modules-file-manager-file-browser'}"
+                (click)="file_manager()"
+                href="javascript:void(0);"
+              >
+                File Manager
+            <img *ngIf="selectedModulename == 'modules-file-manager-file-browser'" id="iselected_36" alt="" src="assets/images/navigation/left-nav-arrow-green.gif">         
+         </a>
+            </li>
+          </ul>
+          <div
+            class="menuheader expandable openheader"
+            (click)="showsubmenu('reports')"
+            headerindex="1h"
+          >
+            <span class="accordprefix"></span>Reports
+            <span class="accordsuffix"></span>
+          </div>
+
+          <ul *ngIf="!isShownReports" class="categoryitems" contentindex="1c">
+            <li>
+              <a
+                class="projectLinks"
+                (click)="reportslist()"
+                href="javascript:void(0);"
+              >
+                Reports
+              </a>
+            </li>
+          </ul>
+          <div
+            class="menuheader expandable openheader"
+            (click)="showsubmenu('myaccountsetting')"
+            headerindex="1h"
+          >
+            <span class="accordprefix"></span>My Account Settings
+            <span class="accordsuffix"></span>
+          </div>
+
+          <ul *ngIf="!isShownSettings" class="categoryitems" contentindex="1c">
+              
+            <li>
+              <a
+                class="projectLinks"
+                (click)="changeEmailAddress()"
+                href="javascript:void(0);"
+              >
+              Change Email Address
+              </a>
+            </li>
+            <li>
+              <a
+                class="projectLinks"
+                (click)="changePassword()"
+                href="javascript:void(0);"
+              >
+              Change Password
+              </a>
+            </li>
+            <li>
+              <a
+                class="projectLinks"
+                (click)="changeLoginInfo()"
+                href="javascript:void(0);"
+              >
+              Change Login Info
+              </a>
+            </li>
+            <li>
+              <a
+                class="projectLinks"
+                (click)="changeAccountInfo()"
+                href="javascript:void(0);"
+              >
+              Change Account Info
+              </a>
+            </li>
+            <li>
+              <a
+                class="projectLinks"
+                (click)="myESignature()"
+                href="javascript:void(0);"
+              >
+              My E-Signature
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="leftNavSpacer">&nbsp;</div>
+  </div>
+</div>

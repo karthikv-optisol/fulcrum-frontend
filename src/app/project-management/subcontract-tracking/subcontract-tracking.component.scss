@@ -1,0 +1,48 @@
+.table thead th
+{
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+    width: 100px;
+    font-weight: 100;
+    font-size: small;
+    background: dodgerblue;
+    color: white;
+    text-transform: capitalize;
+}
+.table tbody td
+{
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+    width: 170px;
+    font-weight: 100;
+    font-size: small;
+} 
+.table tbody td input
+{
+   width: 100%;
+   font-size: x-small;
+}
+.boxViewUploader .qq-upload-button {
+    display: block;
+    width: 100%;
+    font-size: x-small;
+    margin: 0;
+    text-align: center;
+    background: #eaeaea;
+    color: #0e66c8;
+    border: 1px solid #bbb;
+    font-weight: bold;
+    line-height: 30px;
+}
+.text-underline
+{
+    text-decoration: underline;
+}
+.notes{
+    font-weight: 100;
+    font-size: smaller;
+}
+.notes:nth-child(even)
+{
+    background-color: #bbb;
+}

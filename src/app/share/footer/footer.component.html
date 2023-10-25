@@ -1,0 +1,42 @@
+<div class="footer_sections">
+    <table *ngIf="usersData" align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody>
+            <tr *ngIf="usersData">
+                <td align="left">
+                    <div class="spacerTop">
+                        <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+                            <tbody>
+                                <tr>
+                                    <td align="right" class="bgGray">
+                                        <div class="authLinks debugBorder">
+                                            <span>{{ usersData.email }}</span>
+                                            <span class="linkSeparator">|</span>
+                                            <a (click)="logout()">Logout</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                        <tbody>
+                            <tr>
+                                <td nowrap="">
+                                    <div id="footer">
+                                        <a href="/">©2021 MyFulcrum.com™</a>
+                                        <a (click)="login()">Login</a>
+                                        <a href="">Account</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

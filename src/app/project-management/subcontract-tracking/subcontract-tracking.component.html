@@ -1,0 +1,799 @@
+<div class="w-100 float-left mb-3">
+    <div class="col-sm-12 col-md-6">
+        <ng-select [items]="tableheader" bindLabel="subcontract_item" bindValue="subcontract_item_abbreviation"
+            [searchable]="true" [(ngModel)]="selectHeader" placeholder="Select some options" [multiple]="true">
+            <ng-template ng-multi-label-tmp let-items="items">
+                <div class="ng-value" *ngFor="let item of items | slice:0:4">
+                    {{item['subcontract_item_abbreviation']}}
+                </div>
+                <div class="ng-value" *ngIf="items.length > 4">
+                    <span class="ng-value-label">{{items.length - 4}} more...</span>
+                </div>
+            </ng-template>
+        </ng-select>
+    </div>
+    <div class="col-sm-12 col-md-6 mt-2">
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <input (click)="exportPDF()" type="button" value="Print PDF - Subcontracts Manager">
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <input (click)="exportExcel()" type="button" value="Export Excel Subcontracts Manager">
+            </div>
+        </div>
+
+    </div>
+
+    <ng-template #deleteFile let-modal class="tests">
+        <app-warning-modal (formSubmit)="deleteSubmit(); modal.dismiss('Cross click')"
+            (modalClose)="modal.dismiss('Cross click')" [modalTitle]="'Confirm Delete'"
+            [modalQuestion]="'Are You Sure That You Want To Delete This File?'"></app-warning-modal>
+        <!-- [modalContent]="modalContent" -->
+    </ng-template>
+
+    <!--  -->
+
+    <ng-template #notify let-modal class="tests">
+        <app-warning-modal (formSubmit)="noticeSend(); modal.dismiss('Cross click')"
+            (modalClose)="modal.dismiss('Cross click')" [modalTitle]="'Confirmation'"
+            [modalButton]="'Yes'"
+            [modalArray1]="tablecount"
+            [modalArray2]="tracksData"
+            [modalContent] = "'Would you like to proceed?'"
+            [modalQuestion]="'You are about to send a notice of missing contract documents to,'+this.userProject+ ' - ' + this.userEmail "></app-warning-modal>
+        <!-- [modalContent]="modalContent" -->
+        <!-- You are about to send a notice of missing contract documents to 'Advent' - 'dinesh.kumar@optisolbusiness.com'. Would you like to proceed? -->
+    </ng-template>
+
+    <ng-template #sendback let-modal class="tests">
+        <app-warning-modal (formSubmit)="sendBackNotify(); modal.dismiss('Cross click')"
+            (modalClose)="modal.dismiss('Cross click')" [modalTitle]="'Confirmation'"
+            [modalButton]="'Yes'"
+            [modalQuestion]="'Some Document Are Missing ! Do You want to continue Anyway ?'"></app-warning-modal>
+        <!-- [modalContent]="modalContent" -->
+        <!-- You are about to send a notice of missing contract documents to 'Advent' - 'dinesh.kumar@optisolbusiness.com'. Would you like to proceed? -->
+    </ng-template>
+
+    <ng-template #prelimsbox let-modal class="gen_con">
+        <div class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-front ui-draggable ui-resizable bg-white"
+            tabindex="-1" role="dialog" aria-describedby="divMeetingTypesDialog" aria-labelledby="ui-id-16">
+            <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix ui-draggable-handle">
+                <span id="ui-id-16" class="ui-dialog-title">{{prelims_id ? 'Edit ' : 'Create '}} Prelims</span>
+                <button type="button" (click)="modal.dismiss('Cross click')"
+                    class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close"
+                    role="button" title="Close" style="float: right">
+                    <span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span>
+                    <span class="ui-button-text">&times;</span>
+                </button>
+            </div>
+            <div id="dialog" class="ui-dialog-content ui-widget-content"
+                style="width: auto; min-height: 0px; max-height: none;">
+                <table class="table" cellpadding="5">
+                    <tbody>
+                        <tr>
+                            <td>Supplier <span class="text-danger">*</span></td>
+                            <td>:</td>
+                            <td>
+                                <input type="text" name="supplier" [(ngModel)]="supplier" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Amount <span class="text-danger">*</span></td>
+                            <td>:</td>
+                            <td>
+                                <input type="text" name="amount" [(ngModel)]="amount" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Release Date <span class="text-danger">*</span></td>
+                            <td>:</td>
+                            <td>
+                                <div class="datepicker_style_particulars">
+                                    <div class="input-group">
+                                        <input class="form-control" placeholder="yyyy/mm/dd" name="dp"
+                                            [markDisabled]="isDisabled" [(ngModel)]="release_date"
+                                            [placeholder]="release_date" data-data="{{release_date}}"
+                                            name="release_date" ngbDatepicker #r1="ngbDatepicker"
+                                            (click)="r1.toggle()" />
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Received date <span class="text-danger">*</span></td>
+                            <td>:</td>
+                            <td>
+                                <div class="datepicker_style_particulars">
+                                    <div class="input-group">
+                                        <input class="form-control" placeholder="yyyy/mm/dd" name="dp"
+                                            [markDisabled]="isDisabled" [(ngModel)]="receive_date"
+                                            [placeholder]="receive_date" data-data="{{receive_date}}"
+                                            name="receive_date" ngbDatepicker #r2="ngbDatepicker"
+                                            (click)="r2.toggle()" />
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Document <span class="text-danger">*</span>
+                            </td>
+                            <td>
+                                :
+                            </td>
+                            <td class="boxViewUploader">
+                                <input type="file" accept="image/*,application/pdf"
+                                    (change)="fileUpload($event,'pre_files')" class="d-none" name="pre_files"
+                                    id="pre_files" />
+                                <label class="qq-upload-button rounded-0" for="pre_files">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
+                                        <path
+                                            d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5z" />
+                                        <path
+                                            d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z" />
+                                    </svg>
+                                    Drop or Click Files
+                                </label>
+                                <span *ngIf="pre_files_data && pre_files_data.virtual_file_name">
+                                    <a target="_blank"
+                                        href="{{pre_files_data.url}}">{{pre_files_data.virtual_file_name}}
+                                    </a>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <div class="ui-dialog-buttonset">
+                    <button type="button" (click)="createPrelims(); modalClose();"
+                        class="btn btn-primary ui-button mr-2 ui-widget ui-state-default ui-corner-all ui-button-text-only"
+                        role="button">
+                        <span class="ui-button-text">Submit</span>
+                    </button>
+                    <button type="button"
+                        class="btn btn-primary ui-button ui-widget  ui-state-default ui-corner-all ui-button-text-only"
+                        role="button" (click)="modal.dismiss('Cross click')">
+                        <span class="ui-button-text">Close</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+
+    <!-- general condition -->
+    <ng-template #genCon let-modal class="gen_con">
+        <div class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-front ui-draggable ui-resizable bg-white"
+            tabindex="-1" role="dialog" aria-describedby="divMeetingTypesDialog" aria-labelledby="ui-id-16">
+            <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix ui-draggable-handle">
+                <span id="ui-id-16" class="ui-dialog-title">Signed - {{divnumber}} {{costcode}}
+                    {{costcode_description}} - </span>
+                <button type="button" (click)="modal.dismiss('Cross click')"
+                    class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close"
+                    role="button" title="Close" style="float: right">
+                    <span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span>
+                    <span class="ui-button-text">&times;</span>
+                </button>
+            </div>
+            <div id="dialog" class="ui-dialog-content ui-widget-content"
+                style="width: auto; min-height: 0px; max-height: none;">
+                <table class="table" cellpadding="5">
+                    <tbody>
+                        <tr>
+                            <td>
+                                Upload
+                            </td>
+                            <td class="boxViewUploader">
+                                <input type="file" accept="image/*,application/pdf"
+                                    (change)="fileUpload($event,'gen_con')" class="d-none" name="gen_files"
+                                    id="gen_files" />
+                                <label class="qq-upload-button rounded-0" for="gen_files">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
+                                        <path
+                                            d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5z" />
+                                        <path
+                                            d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z" />
+                                    </svg>
+                                    Drop or Click Files
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>View</td>
+                            <td>
+                                <span *ngIf="gen_con_data && gen_con_data.virtual_file_name">
+                                    <a target="_blank"
+                                        href="{{gen_con_data.file_url}}">{{gen_con_data.virtual_file_name}}
+                                    </a>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <div class="ui-dialog-buttonset">
+                    <button type="button" (click)="handleChanges(tracksData)"
+                        class="btn btn-primary ui-button mr-2 ui-widget ui-state-default ui-corner-all ui-button-text-only"
+                        role="button">
+                        <span class="ui-button-text">Submit</span>
+                    </button>
+                    <button type="button"
+                        class="btn btn-primary ui-button ui-widget  ui-state-default ui-corner-all ui-button-text-only"
+                        role="button" (click)="modal.dismiss('Cross click')">
+                        <span class="ui-button-text">Close</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </ng-template>
+    <!-- subcontract item templates -->
+    <ng-template #subcontractItemTemplate let-modal class="tests">
+        <div class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-front ui-dialog-buttons ui-draggable ui-resizable p-2"
+            [style]="{'width':windowWidth}"
+            style="position: absolute; height: 600px; overflow-y: auto;  top: 6px; left: -45%; display: block; z-index: 401;background:white;"
+            tabindex="-1" role="dialog" aria-describedby="divModalWindow" aria-labelledby="ui-id-5">
+            <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix ui-draggable-handle">
+                <span id="ui-id-16" class="ui-dialog-title">Signed - {{divnumber}} {{costcode}}
+                    {{costcode_description}} - </span>
+                <button type="button" (click)="modal.dismiss('Cross click')"
+                    class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close"
+                    role="button" title="Close" style="float: right">
+                    <span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span>
+                    <span class="ui-button-text">&times;</span>
+                </button>
+            </div>
+            <div id="dialog" class="ui-dialog-content ui-widget-content"
+                style="width: auto; min-height: 0px; max-height: none;">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <table class="table">
+                            <tr>
+                                <th class="bg-dark text-white" colspan="3">Contract Document</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Document
+                                </td>
+                                <td>
+                                    Upload Signed Document
+                                </td>
+                                <td>
+                                    View signed Document
+                                </td>
+                            </tr>
+                            <tr *ngFor="let document of documents">
+                                <td *ngIf="document">{{document.subcontract_item_abbreviation}}</td>
+                                <td *ngIf="document" class="col-sm-6 boxViewUploader">
+                                    <input type="file" accept="image/*,application/pdf"
+                                        (change)="fileUpload($event,'documents')" class="d-none"
+                                        name="gen_files" id="gen_files" />
+                                    <label class="qq-upload-button rounded-0" for="gen_files">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
+                                            <path
+                                                d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5z" />
+                                            <path
+                                                d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z" />
+                                        </svg>
+                                        Drop or Click Files
+                                    </label>
+                                </td>
+                                <td *ngIf="document">
+                                    <span class="file"
+                                        *ngIf="document.virtual_file_name && document.file_url">
+                                        <a [href]="document.file_url" target="_blank">
+                                            {{document.virtual_file_name}}
+                                        </a>
+                                    </span>
+                                    <span class="no-file" *ngIf="!document">
+                                        &nbsp;
+                                    </span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div class="col-sm-12 mb-2">
+                                <h2 class="text-white bg-dark p-2">Additional Document</h2>
+                            </div>
+                            <div class="col-sm-12 mb-2">
+                                <div class="col-sm-6 boxViewUploader">
+                                    <input type="file" accept="image/*,application/pdf"
+                                        (change)="fileUpload($event,'additional_docs')" class="d-none"
+                                        name="additional_docs" id="additional_docs" />
+                                    <label class="qq-upload-button rounded-0" for="additional_docs">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
+                                            <path
+                                                d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5z" />
+                                            <path
+                                                d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z" />
+                                        </svg>
+                                        Drop or Click Files
+                                    </label>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-12 mb-2">
+                                <!-- additionDocs -->
+                                <div *ngFor="let addition of additionDocs">
+                                    <span *ngIf="addition.virtual_file_name">
+                                        <a target="_blank"
+                                            [href]="addition.file_url">{{addition.virtual_file_name}}</a>
+                                        <span class="text-primary text-decoration"
+                                            (click)="deleteDialogBox(deleteFile,addition)">&times;</span>
+                                    </span>
+
+                                </div>
+                            </div>
+                            <div class="col-sm-12 mb-2">
+                                <h2 class="text-white bg-dark p-2">Prelims Notice</h2>
+                            </div>
+                            <div class="col-sm-12 mb-2">
+                                <input type="button" (click)="loadPrelimsDialog(prelimsbox)" value="Create New Prelim">
+                            </div>
+                            <div class="col-sm-12 mb-2">
+                                <div *ngFor="let prelims of prelimsData">
+                                    <a target="_blank"
+                                        [href]="prelims.file_url">{{prelims.virtual_file_name}}
+                                    </a>
+                                    <span class="text-primary text-decoration"
+                                        (click)="deleteDialogBox(deleteFile,prelims)">&times;</span>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-12 mb-2">
+                                <h2 class="text-white bg-dark p-2">Prelims Fulcrum</h2>
+                                <table class="table">
+                                    <tr>
+                                        <th>Supplier</th>
+                                        <th>Received</th>
+                                        <th>Released</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                    <tr *ngFor="let prelims of prelimsData"
+                                        (click)="loadPrelimsDialog(prelimsbox,prelims)">
+                                        <td class="text-center">{{prelims.supplier}}</td>
+                                        <td class="text-center">{{prelims.received_date}}</td>
+                                        <td class="text-center">{{prelims.released_date}}</td>
+                                        <td class="text-center">{{prelims.amount | currency:'USD'}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-sm-12 mb-2">
+                                <h2 class="text-white bg-dark p-2">Contract Notes</h2>
+                            </div>
+                            <div class="col-sm-12 mb-2">
+                                <textarea class="form-control" [(ngModel)]="subcontract_note"></textarea>
+                                <div class="text-right mt-2">
+                                    <button (click)="createNote()" type="button"
+                                        class="btn btn-primary ui-button mr-2 ui-widget ui-state-default ui-corner-all ui-button-text-only"
+                                        role="button">
+                                        <span class="ui-button-text">Save</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 mb-2">
+                                <div class="notes" *ngFor="let notes of notesData">
+                                    <span>
+                                        {{notes.created}} by {{notes.contacts.contactfullname}} <br>
+                                        {{notes.subcontractor_note}}
+                                    </span>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix mt-2">
+                <div class="ui-dialog-buttonset mt-2">
+                    <button type="button"
+                        class="btn btn-primary ui-button ui-widget  ui-state-default ui-corner-all ui-button-text-only"
+                        role="button" (click)="modal.dismiss('Cross click')">
+                        <span class="ui-button-text">Close</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #editDialog let-modal class="tests">
+        <div class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-front ui-draggable ui-resizable bg-white"
+            tabindex="-1" role="dialog" aria-describedby="divMeetingTypesDialog" aria-labelledby="ui-id-16">
+            <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix ui-draggable-handle">
+                <span id="ui-id-16" class="ui-dialog-title">Insurance and License Documents - {{divnumber}}
+                    {{costcode}}
+                    {{costcode_description}} - </span>
+                <button type="button" (click)="modal.dismiss('Cross click')"
+                    class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close"
+                    role="button" title="Close" style="float: right">
+                    <span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span>
+                    <span class="ui-button-text">&times;</span>
+                </button>
+            </div>
+            <div id="dialog" class="ui-dialog-content ui-widget-content"
+                style="width: auto; min-height: 0px; max-height: none;">
+                <form>
+
+                    <table class="table table-border table-striped" cellpadding="5">
+                        <thead>
+                            <tr>
+                                <th>Insurnace Document</th>
+                                <th>Upload Doc</th>
+                                <th>View Doc</th>
+                                <th>Expiry date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>GL Insurance</td>
+                                <td class="boxViewUploader">
+                                    <input type="file" accept="image/*,application/pdf"
+                                        (change)="fileUpload($event,'general_insurance_file_id')" class="d-none"
+                                        name="gen_files" id="gen_files" />
+                                    <label class="qq-upload-button rounded-0" for="gen_files">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
+                                            <path
+                                                d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5z" />
+                                            <path
+                                                d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z" />
+                                        </svg>
+                                        Drop or Click Files
+                                    </label>
+                                </td>
+                                <td>
+                                    <span *ngIf="general_insurance && general_insurance.virtual_file_name">
+                                        <a target="_blank"
+                                            href="{{general_insurance.file_url}}">{{general_insurance.virtual_file_name}}</a>
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="datepicker_style_particulars">
+                                        <div class="input-group">
+                                            <input class="form-control" placeholder="yyyy/mm/dd" name="dp"
+                                                [markDisabled]="isDisabled" [(ngModel)]="gl_insurance_date"
+                                                [placeholder]="gl_insurance_date" name="gl_insurance_date" ngbDatepicker
+                                                #d1="ngbDatepicker" (click)="d1.toggle()" />
+                                        </div>
+
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>WC Insurance</td>
+                                <td class="boxViewUploader">
+                                    <input type="file" accept="image/*,application/pdf"
+                                        (change)="fileUpload($event,'worker_file_id')" class="d-none" name="wc_files"
+                                        id="wc_files" />
+                                    <label class="qq-upload-button rounded-0" for="wc_files">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
+                                            <path
+                                                d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5z" />
+                                            <path
+                                                d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z" />
+                                        </svg>
+                                        Drop or Click Files
+                                    </label>
+                                </td>
+                                <td>
+                                    <span *ngIf="worker_license && worker_license.virtual_file_name">
+                                        <a target="_blank"
+                                            href="{{worker_license.file_url}}">{{worker_license.virtual_file_name}}</a>
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="datepicker_style_particulars">
+                                        <div class="input-group">
+                                            <input class="form-control" placeholder="yyyy/mm/dd" name="dp"
+                                                [markDisabled]="isDisabled" [(ngModel)]="wc_insurance_date"
+                                                [placeholder]="wc_insurance_date" name="wc_insurance_date" ngbDatepicker
+                                                #d2="ngbDatepicker" (click)="d2.toggle()" />
+                                        </div>
+
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Auto Insurance</td>
+                                <td class="boxViewUploader">
+                                    <input type="file" accept="image/*,application/pdf"
+                                        (change)="fileUpload($event,'car_insurance_file_id')" class="d-none"
+                                        name="auto_files" id="auto_files" />
+                                    <label class="qq-upload-button rounded-0" for="auto_files">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
+                                            <path
+                                                d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5z" />
+                                            <path
+                                                d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z" />
+                                        </svg>
+                                        Drop or Click Files
+                                    </label>
+                                </td>
+                                <td>
+                                    <span *ngIf="car_insurance && car_insurance.virtual_file_name">
+                                        <a target="_blank"
+                                            href="{{car_insurance.file_url}}">{{car_insurance.virtual_file_name}}</a>
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="datepicker_style_particulars">
+                                        <div class="input-group">
+                                            <input class="form-control" placeholder="yyyy/mm/dd" name="dp"
+                                                [markDisabled]="isDisabled" [(ngModel)]="auto_insurance_date"
+                                                [placeholder]="auto_insurance_date" name="auto_insurance_date"
+                                                ngbDatepicker #d3="ngbDatepicker" (click)="d3.toggle()" />
+                                        </div>
+
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Business Insurance</td>
+                                <td class="boxViewUploader">
+                                    <input type="file" accept="image/*,application/pdf"
+                                        (change)="fileUpload($event,'city_license_file_id')" class="d-none"
+                                        name="business_files" id="business_files" />
+                                    <label class="qq-upload-button rounded-0" for="business_files">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
+                                            <path
+                                                d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5z" />
+                                            <path
+                                                d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z" />
+                                        </svg>
+                                        Drop or Click Files
+                                    </label>
+                                </td>
+                                <td>
+                                    <span *ngIf="city_license && city_license.virtual_file_name">
+                                        <a target="_blank"
+                                            href="{{city_license.file_url}}">{{city_license.virtual_file_name}}</a>
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="datepicker_style_particulars">
+                                        <div class="input-group">
+                                            <input class="form-control" placeholder="yyyy/mm/dd" name="dp"
+                                                [markDisabled]="isDisabled" [(ngModel)]="business_insurance_date"
+                                                [placeholder]="business_insurance_date" name="business_insurance_date"
+                                                ngbDatepicker #d4="ngbDatepicker" (click)="d4.toggle()" />
+                                        </div>
+
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <div class="ui-dialog-buttonset">
+                    <button type="button" (click)="handleInsurance()"
+                        class="btn btn-primary ui-button mr-2 ui-widget ui-state-default ui-corner-all ui-button-text-only"
+                        role="button">
+                        <span class="ui-button-text">Submit</span>
+                    </button>
+                    <button type="button"
+                        class="btn btn-primary ui-button ui-widget  ui-state-default ui-corner-all ui-button-text-only"
+                        role="button" (click)="modal.dismiss('Cross click')">
+                        <span class="ui-button-text">Close</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+</div>
+<div class="col-md-12 col-lg-12 col-sm-12 float-start table-responsive p-0">
+    <div class="clearfix mb-3">
+
+        <table #subcontractTracking class="table table-striped Submittal-work" id="subcontract-tracking">
+            <thead>
+                <tr>
+                    <!-- <th *ngFor="let header of headers">{{header}}</th> -->
+                    <th *ngFor="let dynamicheader of tableheader; let i = index;">
+                        {{dynamicheader.subcontract_item_abbreviation ?
+                        dynamicheader.subcontract_item_abbreviation : dynamicheader.subcontract_item}}
+                    </th>
+                    <!-- <th *ngFor="let header2 of headers2">{{header2}}</th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let trackdata of trackingData">
+                    <td>{{trackdata.costcode.division_number}} - {{trackdata.costcode.cost_code}}</td>
+                    <td>{{trackdata.costcode.cost_code_description}}</td>
+                    <td class="text-primary"><ins>{{trackdata.company_name}}</ins></td>
+                    <td>{{trackdata.subcontract_actual_value | currency:'USD'}}</td>
+                    <td class="text-center">
+                        <div class="datepicker_style_particulars">
+                            <div class="input-group">
+                                <input class="form-control" placeholder="yyyy/mm/dd" name="dp"
+                                    (dateSelect)="handleChanges(trackdata)" [markDisabled]="isDisabled"
+                                    [(ngModel)]="trackdata.subcontract_mailed_date"
+                                    [placeholder]="trackdata.subcontract_mailed_date=='0000-00-00' ? '' : trackdata.subcontract_mailed_date"
+                                    name="subcontract_mailed_date" ngbDatepicker #d5="ngbDatepicker"
+                                    (click)="d5.toggle()" />
+                            </div>
+
+                        </div>
+
+                    </td>
+                    <td class="text-center" (click)="loadDialog(genCon,trackdata)">
+                        <span class="text-primary text-underline" *ngIf="trackdata.gen_con!='0000-00-00'">
+                            {{trackdata.gen_con | date:'yyyy-MM-dd'}}
+                        </span>
+                        <span class="text-danger" *ngIf="trackdata.gen_con=='0000-00-00' || !trackdata.gen_con">
+                            ADD
+                        </span>
+
+                    </td>
+                    <td (click)="loadSubContractTemplate(subcontractItemTemplate,trackdata)" class="text-center"
+                        *ngFor="let dynamicheader of tablecount; let i = index">
+                        <span *ngIf="trackdata.resignDate[i] && trackdata.resignDate[i].contract_track=='Y'">
+                            <span
+                                *ngIf="trackdata.resignDate[i].resignDate && trackdata.resignDate[i].resignDate.modified && trackdata.resignDate[i].resignDate.modified=='ADD'">
+                                <span class="text-primary text-underline">ADD</span>
+                            </span>
+                            <span
+                                *ngIf="trackdata.resignDate[i].resignDate && trackdata.resignDate[i].resignDate.modified && trackdata.resignDate[i].resignDate.modified!='ADD'">
+                                <span class="text-primary text-underline">{{trackdata.resignDate[i].resignDate.modified
+                                    | date:'yyyy-MM-dd'}}</span>
+                            </span>
+                        </span>
+                        <span *ngIf="trackdata.resignDate[i] && trackdata.resignDate[i].contract_track=='N'">
+                            <span class="text-primary text-underline">ADD</span>
+                        </span>
+                        <span *ngIf="!trackdata.resignDate[i]">
+                            <span class="text-primary text-underline">ADD</span>
+                        </span>
+                    </td>
+                    <td>
+                        <span *ngIf="trackdata.subcontract_target_execution_date !='0000-00-00'">
+                            <div class="datepicker_style_particulars">
+                                <div class="input-group">
+                                    <input class="form-control" placeholder="yyyy/mm/dd" name="dp"
+                                        (dateSelect)="handleChanges(trackdata)" [markDisabled]="isDisabled"
+                                        [(ngModel)]="trackdata.subcontract_target_execution_date"
+                                        [placeholder]="trackdata.subcontract_target_execution_date "
+                                        name="license_expiry" ngbDatepicker #d7="ngbDatepicker" (click)="d7.toggle()" />
+                                </div>
+                            </div>
+                        </span>
+                        <span *ngIf="trackdata.subcontract_target_execution_date =='0000-00-00'">
+                            <div class="input-group">
+                                <input class="form-control" placeholder="yyyy/mm/dd" name="dp"
+                                    (dateSelect)="handleChanges(trackdata)" [markDisabled]="isDisabled"
+                                    [(ngModel)]="trackdata.subcontract_target_execution_date " name="license_expiry"
+                                    ngbDatepicker #d7="ngbDatepicker" (click)="d7.toggle()" />
+                            </div>
+                        </span>
+
+                    </td>
+                    <td>
+                        <span *ngIf="trackdata.subcontract_execution_date !='0000-00-00'">
+                            <div class="datepicker_style_particulars">
+                                <div class="input-group">
+                                    <input class="form-control" placeholder="yyyy/mm/dd" name="dp"
+                                        (dateSelect)="handleChanges(trackdata)" [markDisabled]="isDisabled"
+                                        [(ngModel)]="trackdata.subcontract_execution_date"
+                                        [placeholder]="trackdata.subcontract_execution_date " name="license_expiry"
+                                        ngbDatepicker #d8="ngbDatepicker" (click)="d8.toggle()" />
+                                </div>
+                            </div>
+                        </span>
+                        <span *ngIf="trackdata.subcontract_execution_date =='0000-00-00'">
+                            <div class="input-group">
+                                <input class="form-control" placeholder="yyyy/mm/dd" name="dp"
+                                    (dateSelect)="handleChanges(trackdata)" [markDisabled]="isDisabled"
+                                    [(ngModel)]="trackdata.subcontract_execution_date " name="license_expiry"
+                                    ngbDatepicker #d8="ngbDatepicker" (click)="d8.toggle()" />
+                            </div>
+                        </span>
+
+                    </td>
+                    <td class="text-center text-danger">
+                        <span *ngIf="trackdata.send_back_date != '0000-00-00'">
+                            {{trackdata.send_back_date}}
+                        </span>
+                        <span *ngIf="trackdata.send_back_date == '0000-00-00'">
+                            <button (click)="sendBackModal(sendback,trackdata)" class="btn btn-primary btn-sm border-primary bg-white text-danger"> send </button>
+                        </span>
+
+                    </td>
+                    <td>
+                        <input type="text" (change)="handleChanges(trackdata)" class="form-control"
+                            [(ngModel)]="trackdata.license_number" name="license_number">
+                    </td>
+                    <td class="text-center">
+                        <span *ngIf="trackdata.license_expiry!='0000-00-00'">
+                            <div class="datepicker_style_particulars">
+                                <div class="input-group">
+                                    <input class="form-control" placeholder="yyyy/mm/dd" name="dp"
+                                        (dateSelect)="handleChanges(trackdata)" [markDisabled]="isDisabled"
+                                        [(ngModel)]="trackdata.license_expiry" [placeholder]="trackdata.license_expiry"
+                                        name="license_expiry" ngbDatepicker #d6="ngbDatepicker" (click)="d6.toggle()" />
+                                </div>
+                            </div>
+                        </span>
+                        <span *ngIf="trackdata.license_expiry=='0000-00-00'">
+                            <div class="input-group">
+                                <input class="form-control" placeholder="yyyy/mm/dd" name="dp"
+                                    (dateSelect)="handleChanges(trackdata)" [markDisabled]="isDisabled"
+                                    [(ngModel)]="trackdata.license_expiry" name="license_expiry" ngbDatepicker
+                                    #d6="ngbDatepicker" (click)="d6.toggle()" />
+                            </div>
+                        </span>
+
+                    </td>
+                    <td (click)="loadDialog(editDialog,trackdata)"
+                        [className]="trackdata.general_insurance_file_id==0 ? 'text-danger' : 'text-primary'">
+                        <div class="text-center">
+                            <span *ngIf="trackdata.general_insurance_file_id==0">ADD</span>
+                            <span *ngIf="trackdata.general_insurance_file_id > 0">View</span>
+                        </div>
+                    </td>
+                    <td (click)="loadDialog(editDialog,trackdata)">
+                        <span *ngIf="trackdata.general_insurance_date_expiry!='0000-00-00'">
+                            {{trackdata.general_insurance_date_expiry}}
+                        </span>
+                        <span *ngIf="trackdata.general_insurance_date_expiry=='0000-00-00'">
+                            &nbsp;
+                        </span>
+                    </td>
+                    <td (click)="loadDialog(editDialog,trackdata)"
+                        [className]="trackdata.car_insurance_file_id==0 ? 'text-danger' : 'text-primary'">
+                        <div class="text-center">
+                            <span *ngIf="trackdata.car_insurance_file_id==0">ADD</span>
+                            <span *ngIf="trackdata.car_insurance_file_id > 0">View</span>
+                        </div>
+                    </td>
+                    <td (click)="loadDialog(editDialog,trackdata)">
+                        <span *ngIf="trackdata.car_insurance_date_expiry!='0000-00-00'">
+                            {{trackdata.car_insurance_date_expiry}}
+                        </span>
+                        <span *ngIf="trackdata.car_insurance_date_expiry=='0000-00-00'">
+                            &nbsp;
+                        </span>
+                    </td>
+                    <td (click)="loadDialog(editDialog,trackdata)"
+                        [className]="trackdata.city_license_file_id=='0' ? 'text-danger' : 'text-primary'">
+                        <div class="text-center">
+                            <span *ngIf="trackdata.city_license_file_id == 0">ADD</span>
+                            <span *ngIf="trackdata.city_license_file_id > 0">View</span>
+                        </div>
+                    </td>
+                    <td (click)="loadDialog(editDialog,trackdata)">
+                        <span *ngIf="trackdata.city_license_date_expiry!='0000-00-00'">
+                            {{trackdata.city_license_date_expiry}}
+                        </span>
+                        <span *ngIf="trackdata.city_license_date_expiry=='0000-00-00'">
+                            &nbsp;
+                        </span>
+                    <td (click)="loadDialog(editDialog,trackdata)"
+                        [className]="trackdata.worker_file_id==0 ? 'text-danger' : 'text-primary'">
+                        <div class="text-center">
+                            <span *ngIf="trackdata.worker_file_id == 0">ADD</span>
+                            <span *ngIf="trackdata.worker_file_id > 0">View</span>
+                        </div>
+                    </td>
+                    <td (click)="loadDialog(editDialog,trackdata)">{{trackdata.worker_date_expiry}}</td>
+                    <td class="text-center text-danger" (click)="notifydialog(notify,trackdata)">
+                        Send
+                    </td>
+                    <!-- <td>{{trackdata.subconracts[0].subcontract_mailed_date}}</td> -->
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

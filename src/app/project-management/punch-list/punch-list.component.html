@@ -1,0 +1,216 @@
+
+          <table id="contentArea" align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+                
+                  <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tbody>
+                      <tr>
+                        <td align="left">
+                          <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%">
+                            <tbody>
+                              <tr>
+                                <td>
+                                  <div id="softwareModuleHeadline">{{currentlySelectedProjectName}} Punch List</div>
+                                  <div id="messageDiv" class="userMessage"></div>
+
+                                  <input id="userRole" type="hidden" value="global_admin">
+                                  <div id="ViewUser" class="modal">
+                                  </div>
+                                  <div class="container">
+                                    <div class="table-responsive-sm" style="font-size:14px;">
+
+                                      <!-- <ng-template #callAPIDialog>
+                                          <div class="">
+                                            <span  mat-dialog-title  cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle id="ui-id-2" class="ui-dialog-title">Attachements</span>
+                                            
+                                          </div>
+                                          <div mat-dialog-content id="divpunchlist" class="ui-dialog-content ui-widget-content" style="width: auto; min-height: 0px; max-height: none; height: 104px;">	
+                                            <div id="record_creation_form_container--create-subChange-record--">
+                                            <table border="0">
+                                            <tbody>
+                                            <tr>
+                                            <td id="tdAttachedFilesList" class="" colspan="3">
+                                            <ul style="list-style:none; margin:0; padding:0;" id="container--request_for_information_attachments--create-request_for_information-record" class="subcontractor_attachments">
+                                            <li *ngFor="let attachment of attachmentRecords;" id="record_container--manage-file_manager_file-record--file_manager_files--14712" class="uploadedfile">
+                                              <a target="_blank" href="//45.118.132.111/_{{attachment.pi_attachment_file_manager_file_id}}" style="color:#06c;">
+                                              {{attachment.virtual_file_name}}</a>
+                                              <input class="upfileid" value="{{attachment.pi_attachment_file_manager_file_id}}" type="hidden">
+                                            </li>
+
+                                           
+                                              <li *ngIf="!modalloading && attachmentRecords?.length == 0" class="placeholder" style="color:#000000;">No Files Attached</li>
+                                           
+                                              
+                                            </ul>
+                                            </td>
+                                            </tr>
+                                            </tbody></table>
+                                           
+                                            </div></div>
+                                           
+                                              <mat-dialog-actions align="end">
+                                                <button mat-button color="primary"(click)="punch__openpdfInNewTab(punchPdfUrl)" cdkFocusInitial>View Punch List PDF</button>
+                                                <ng-container ngProjectAs="btn-close">
+                                                  <button mat-button color="warn" (click)="dialog.closeAll()">Close</button>
+                                                </ng-container>
+                                               
+                                              </mat-dialog-actions>
+                                      </ng-template> -->
+
+
+                                      <ng-template #Contentattachments let-modal>
+                                        <div id="divpunchlist" class="ui-dialog-content ui-widget-content"
+                                          style="width: auto;min-height: 0px;max-height: none;height: 104px;">
+                                          <div class="modal-content modal_popup">
+                                            <div class="modal-header">
+                                              <span id="ui-id-1" class="ui-dialog-title">Attachements</span>
+                                              <span class="close" (click)="modal.dismiss('Cross click')">×</span>
+                                            </div>
+                                            <div class="modal-body"
+                                              style="height:400px;overflow-y:scroll;overflow-x:hidden;">
+                                              <div class="tableview">
+                                                <table border="0">
+                                                  <tbody>
+                                                    <tr>
+                                                      <td id="tdAttachedFilesList" class="" colspan="3">
+                                                        <ul style="list-style:none; margin:0; padding:0;"
+                                                          id="container--request_for_information_attachments--create-request_for_information-record"
+                                                          class="subcontractor_attachments">
+                                                          <li *ngFor="let attachment of attachmentRecords;"
+                                                            id="record_container--manage-file_manager_file-record--file_manager_files--14712"
+                                                            class="uploadedfile">
+                                                            <a target="_blank"
+                                                              href="//45.118.132.111/_{{attachment.pi_attachment_file_manager_file_id}}"
+                                                              style="color:#06c;">
+                                                              {{attachment.virtual_file_name}}</a>
+                                                            <input class="upfileid"
+                                                              value="{{attachment.pi_attachment_file_manager_file_id}}"
+                                                              type="hidden">
+                                                          </li>
+
+
+                                                          <li *ngIf="!modalloading && attachmentRecords?.length == 0"
+                                                            class="placeholder" style="color:#000000;">No Files Attached
+                                                          </li>
+
+
+                                                        </ul>
+                                                      </td>
+                                                    </tr>
+                                                  </tbody>
+                                                </table>
+                                              </div>
+                                            </div>
+                                            <div class="modal-footer">
+
+                                              <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                                                <div class="ui-dialog-buttonset">
+                                                  <button style="
+                                                  cursor: pointer;
+                                              " (click)="punch__openpdfInNewTab(punchPdfUrl)" type="button"
+                                                    class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+                                                    role="button">
+                                                    <span class="ui-button-text">View Punch List PDF</span></button>
+                                                  <button style="
+                                                  cursor: pointer;
+                                              " (click)="modal.dismiss('Cross click')" type="button"
+                                                    class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+                                                    role="button">
+                                                    <span class="ui-button-text">Close</span></button>
+                                                </div>
+                                              </div>
+
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </ng-template>
+
+
+
+                                      <!-- <div class="d-flex justify-content-center" *ngIf="loading">
+                                        <app-pageloader></app-pageloader>
+                                      </div> -->
+                                      <div class="dataTables_length" id="example_length">
+                                        <label>Show
+                                          <select name="example_length" #t aria-controls="example"
+                                            (change)="showpunchlists($event.target.value)" class="">
+                                            <option value="10">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                          </select> entries</label></div>
+                                      <div class="search-hero">
+                                        <input class="form-control" #box type="text" [value]="fieldvalue"
+                                          (keyup)="searchpunchlist($event.target.value)" name="search"
+                                          autocomplete="off" placeholder="Search">
+                                      </div>
+
+                                      <table class="table table-sm table-bordered border-dark table-hover"
+                                        style="table-layout:auto!important;">
+
+                                        <thead class="border-dark">
+                                          <tr class="text-center text-white" style="background-color: #3b90ce;">
+                                            <th>ID</th>
+                                            <th>Company</th>
+                                            <th>Building</th>
+                                            <th>Unit</th>
+                                            <th>Due date</th>
+                                            <th>To</th>
+                                            <th>Status</th>
+                                            <th>Description</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody
+                                          *ngFor="let company of punchList| keyvalue: asIsOrder  | paginate: { itemsPerPage:limit, currentPage: p,totalItems: totalcount }">
+                                          <tr style="cursor:pointer;"
+                                            (click)="showPunchitemAttach(company.value.punch_id,Contentattachments);">
+                                            <td class="text-center">{{company.value.sequence_number}}</td>
+                                            <td>{{company.value.company}}</td>
+                                            <td>{{company.value.building_name}}</td>
+                                            <td>{{company.value.room_name}}</td>
+                                            <td class="text-center">{{company.value.due_date}}</td>
+                                            <td>{{company.value.contactfullname}}</td>
+                                            <td class="text-center">{{company.value.punch_item_status}}</td>
+                                            <td>{{company.value.defect_name}}</td>
+                                          </tr>
+                                        </tbody>
+
+
+
+                                        <!-- <tbody *ngIf="punchList?.length == 0"> -->
+                                        <tbody *ngIf="!modalloading && punchList?.length == 0">
+                                          <tr>
+                                            <td colspan='7' class="text-center">No Data Found</td>
+                                          </tr>
+                                        </tbody>
+
+
+
+                                      </table>
+                                      <div>
+
+                                        <span style="float: left;">{{paginationData}}</span>
+
+                                        <span style="float: right;">
+
+                                          <pagination-controls previousLabel="" nextLabel=""
+                                            (pageChange)="handlePageChange($event)">
+
+                                          </pagination-controls>
+
+                                        </span>
+
+                                      </div>
+                                    </div>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+          </table>
+
+
+  <!-- <app-footer></app-footer> -->

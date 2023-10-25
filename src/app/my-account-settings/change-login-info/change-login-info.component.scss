@@ -1,0 +1,94 @@
+#contentAreaRight {
+    margin: 0;
+    padding: 0 15px 0 30px;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+#contentAreaRight form table td {
+    padding: 4px;
+}
+
+td {
+    empty-cells: hide;
+    font-size: 14px;
+    vertical-align: top;
+    empty-cells: show !important;
+    text-align: -webkit-left;
+    width: 100%;
+    display: table-cell;
+    vertical-align: inherit;
+}
+.inputsize {
+    width: 90%;
+}
+select[_ngcontent-uhd-c65] {
+    padding: 2px;
+    margin: 0;
+}
+input[type="checkbox"], input[type="radio"] {
+    box-sizing: border-box;
+    padding: 0;
+    height: 13px;
+    width: 13px;
+    display: block !important;
+}
+.messageQueueSuccess{
+    color: green;
+    font-size: 1.1em;
+    font-weight: 700;
+    padding: 0 1px 0 25px;
+}
+.alignmentDiv{
+    margin-left: 25px;
+    margin-top: 10px;
+}
+.change-emailpw {
+    table-layout: inherit;
+}
+.requiredAccountInfoBox td {
+    width: auto;
+}
+td.mobile_number-td input {
+    margin-right: 5px;
+}
+.email_alert {
+    width: 12px !important;
+}
+.email_alert input {
+    margin-right: 0px;
+}
+.email_addrs input {
+    width: 160px !important;
+}
+.email_addrs {
+    // width: 20% !important;
+}
+.w-none {
+    width: inherit;
+}
+td.lablename_login {
+    width: 10% !important;
+}
+.inputsize {
+    width: 100%;
+}
+.reset_save-btn, .reset_change-btn {
+    border-bottom: none !important;
+}
+.reset_save-btn {
+    padding: 7px 25px !important;
+}
+.reset_change-btn {
+    padding: 7px 21px !important;
+}
+.security_information {
+    padding-top: 8px;
+}
+ol.instructionsList {
+    margin-top: 0.7em;
+}
+ol.instructionsList li {
+    padding-bottom: 5px;
+}
