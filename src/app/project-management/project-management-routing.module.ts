@@ -10,6 +10,7 @@ import { SubmittalsComponent } from './submittals/submittals.component';
 import * as path from 'path';
 import { SubcontractTrackingComponent } from './subcontract-tracking/subcontract-tracking.component';
 import { OwnerChangeOrderComponent } from './owner-change-order/owner-change-order.component';
+import { PaymentApplicationComponent } from './payment-application/payment-application.component';
 
 const routes: Routes = [
   {
@@ -88,6 +89,16 @@ const routes: Routes = [
       {
         path: '',
         component: OwnerChangeOrderComponent
+      }
+    ]
+  },
+  {
+    path: 'payment-applications',
+    component: ProjectManagementComponent,
+    children:[
+      {
+        path: '',
+        component: PaymentApplicationComponent
       }
     ]
   }

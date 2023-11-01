@@ -32,6 +32,7 @@
     "@ng-select/ng-select": "^8.0.0",
     "@types/highcharts": "^7.0.0",
     "@types/node": "^17.0.23",
+    "angular-datatables": "^16.0.0",
     "bootstrap": "^4.6.1",
     "file-saver": "^2.0.5",
     "highcharts": "^9.3.1",

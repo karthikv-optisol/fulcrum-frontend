@@ -352,6 +352,10 @@ export class SidemenuComponent implements OnInit {
     {
         this.owner_change_order();
     }
+    else if(module_name = 'Payment Application')
+    {
+      this.payment_application();
+    }
   }
 
   punchlist() {
@@ -378,6 +382,12 @@ export class SidemenuComponent implements OnInit {
   owner_change_order()
   {
     this.router.navigate(['/project-management/owner-change-order'],
+      { queryParams: { pid: this.pid } });
+  }
+
+  payment_application()
+  {
+    this.router.navigate(['/project-management/payment-applications'],
       { queryParams: { pid: this.pid } });
   }
 

@@ -54,6 +54,8 @@ import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { FilterMeetingEmailContactsList } from './filter-meetingEmailContactsList.pipe';
 import { SubcontractTrackingComponent } from './subcontract-tracking/subcontract-tracking.component';
 import { OwnerChangeOrderComponent } from './owner-change-order/owner-change-order.component';
+import { PaymentApplicationComponent } from './payment-application/payment-application.component';
+
 
 const materialModules = [
   CdkTreeModule,
@@ -102,7 +104,8 @@ const materialModules = [
     MeetingsComponent,
     RFIsComponent,
     SubcontractTrackingComponent,
-    OwnerChangeOrderComponent
+    OwnerChangeOrderComponent,
+    PaymentApplicationComponent
   ],
   imports:
     [

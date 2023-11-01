@@ -1,0 +1,59 @@
+<div class="w-100 float-left mb-3">
+    <div class="col-sm-12 col-md-12 mt-2">
+        <h2 class="title-text">{{ currentlySelectedProjectName }}: Payment Applications</h2>
+        <hr>
+        <div class="col-sm-12">
+            <div class="col-sm-10">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <select class="select">
+                            <option value="">All</option>
+                            <option value="">Draft</option>
+                            <option value="">Posted</option>
+                            <option value="">Open</option>
+                            <option value="">Paid</option>
+                            <option value="">Partially Paid</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="button" value="Create Retention">
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="button" value="Create Retention Draws">
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="button" value="Print List View">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="table-responsive mt-5">
+            <table datatable class="table">
+                <thead>
+                    <tr class="text-center text-small">
+                        <th *ngFor="let heads of headings">{{heads}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let draw of drawList" class="text-center text-small">
+
+                        <td>{{draw.application_number}}</td>
+                        <td>{{draw.through_date}}</td>
+                        <td>{{draw.status}}</td>
+                        <td>{{draw.totalOriginalScheduledValue | currency}}</td>
+                        <td>{{draw.changeOrderDrawItems | currency}}</td>
+                        <td>{{draw.totalScheduledValue | currency}}</td>
+                        <td>{{draw.previousDraw | currency}}</td>
+                        <td>{{draw.total_completion_percentage}}</td>
+                        <td>{{draw.total_current_app | currency}}</td>
+                        <td>{{draw.total_current_retainer_value ? draw.total_current_retainer_value : 0 | currency}}
+                        </td>
+                        <td>{{draw.totalPreviousRetainerValue ? draw.totalPreviousRetainerValue : 0 | currency}}</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
