@@ -24,9 +24,6 @@ import { PageLayoutComponent } from './page-layout/page-layout.component';
 import { DatePickerDirective } from './services/date-picker.directive';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
-import { DataTablesModule } from 'angular-datatables';
-
-
 
 @NgModule({
   declarations: [
@@ -47,7 +44,6 @@ import { DataTablesModule } from 'angular-datatables';
     MatDatepickerModule,
     MatRippleModule,
     ShareModule,
-    DataTablesModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({
       timeOut: 3000,

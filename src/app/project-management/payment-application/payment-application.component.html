@@ -6,13 +6,13 @@
             <div class="col-sm-10">
                 <div class="row">
                     <div class="col-sm-2">
-                        <select class="select">
-                            <option value="">All</option>
-                            <option value="">Draft</option>
-                            <option value="">Posted</option>
-                            <option value="">Open</option>
-                            <option value="">Paid</option>
-                            <option value="">Partially Paid</option>
+                        <select class="select" (change)="filterStatus($event)">
+                            <option value="6">All</option>
+                            <option value="1">Draft</option>
+                            <option value="2">Posted</option>
+                            <option value="3">Open</option>
+                            <option value="4">Paid</option>
+                            <option value="5">Partially Paid</option>
                         </select>
                     </div>
                     <div class="col-sm-2">
@@ -28,6 +28,21 @@
 
             </div>
         </div>
+        <div class="clearfix mt-3">
+            <div class="float-left mr-2">
+                Show
+                <select class="wauto" [className]="page" [(ngModel)]="page">
+                    <option *ngFor="let entryValue of entrieValues">
+                        {{entryValue}}
+                    </option>
+                </select>
+                Entries
+            </div>
+            <div class="float-right ">
+                Search
+                <input class="wauto" (keyup)="searchRFI($event)" type="search">
+            </div>
+        </div>
         <div class="table-responsive mt-5">
             <table datatable class="table">
                 <thead>
@@ -36,24 +51,97 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let draw of drawList" class="text-center text-small">
-
-                        <td>{{draw.application_number}}</td>
-                        <td>{{draw.through_date}}</td>
-                        <td>{{draw.status}}</td>
-                        <td>{{draw.totalOriginalScheduledValue | currency}}</td>
-                        <td>{{draw.changeOrderDrawItems | currency}}</td>
-                        <td>{{draw.totalScheduledValue | currency}}</td>
-                        <td>{{draw.previousDraw | currency}}</td>
-                        <td>{{draw.total_completion_percentage}}</td>
-                        <td>{{draw.total_current_app | currency}}</td>
-                        <td>{{draw.total_current_retainer_value ? draw.total_current_retainer_value : 0 | currency}}
-                        </td>
-                        <td>{{draw.totalPreviousRetainerValue ? draw.totalPreviousRetainerValue : 0 | currency}}</td>
-                        <td>&nbsp;</td>
-                    </tr>
+                    <!--   -->
+                    <ng-container
+                        *ngFor="let draw of drawList | paginate: { currentPage: p, itemsPerPage: page};  let i=index">
+                        <tr *ngIf="draw.status==1 || i<=0" class="text-center text-small">
+                            <td>{{draw.application_number}}</td>
+                            <td>{{draw.through_date}}</td>
+                            <td>{{draw.status}}</td>
+                            <td>{{draw.totalOriginalScheduledValue | currency}}</td>
+                            <td>{{draw.changeOrderDrawItems | currency}}</td>
+                            <td>{{draw.totalScheduledValue | currency}}</td>
+                            <td>{{draw.previousDraw | currency}}</td>
+                            <td>{{draw.total_completion_percentage | number}}</td>
+                            <td>{{draw.total_current_app | currency}}</td>
+                            <td>{{draw.total_current_retainer_value ? draw.total_current_retainer_value : 0 | currency}}
+                            </td>
+                            <td>{{draw.totalPreviousRetainerValue ? draw.totalPreviousRetainerValue : 0 | currency}}
+                            </td>
+                            <td>
+                                <a href="javascript:void()" class="cross-cancel">
+                                    <span (click)="deleteDraw(draw)" *ngIf="i==0"
+                                        class="px-2 entypo-cancel-circled"></span>
+                                </a>
+                            </td>
+                        </tr>
+                        <ng-container *ngIf="i>=0 && i==1">
+                            <tr *ngFor="let retention of retentionList" class="text-center text-small bg-light">
+                                <td>Ret {{retention.application_number}}</td>
+                                <td>{{retention.through_date}}</td>
+                                <td>{{retention.status}}</td>
+                                <td>{{retention.totalOriginalScheduledValue | currency}}</td>
+                                <td>{{retention.changeOrderDrawItems | currency}}</td>
+                                <td>{{retention.totalScheduledValue | currency}}</td>
+                                <td>{{retention.previousDraw | currency}}</td>
+                                <td>{{retention.total_completion_percentage | number}}</td>
+                                <td>{{retention.total_current_app | currency}}</td>
+                                <td>{{retention.total_current_retainer_value ? retention.total_current_retainer_value :
+                                    0 | currency}}
+                                </td>
+                                <td>{{retention.totalPreviousRetainerValue ? retention.totalPreviousRetainerValue : 0 |
+                                    currency}}</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                        </ng-container>
+                        <tr *ngIf="draw.status!=1 && i>0" class="text-center text-small">
+                            <td>{{draw.application_number}}</td>
+                            <td>{{draw.through_date}}</td>
+                            <td>{{draw.status}}</td>
+                            <td>{{draw.totalOriginalScheduledValue | currency}}</td>
+                            <td>{{draw.changeOrderDrawItems | currency}}</td>
+                            <td>{{draw.totalScheduledValue | currency}}</td>
+                            <td>{{draw.previousDraw | currency}}</td>
+                            <td>{{draw.total_completion_percentage | number}}</td>
+                            <td>{{draw.total_current_app | currency}}</td>
+                            <td>{{draw.total_current_retainer_value ? draw.total_current_retainer_value : 0 | currency}}
+                            </td>
+                            <td>{{draw.totalPreviousRetainerValue ? draw.totalPreviousRetainerValue : 0 | currency}}
+                            </td>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </ng-container>
+                    <ng-container *ngIf="drawList.length==0">
+                        <tr *ngFor="let retention of retentionList" class="text-center text-small">
+                            <td>Ret {{retention.application_number}}</td>
+                            <td>{{retention.through_date}}</td>
+                            <td>{{retention.status}}</td>
+                            <td>{{retention.totalOriginalScheduledValue | currency}}</td>
+                            <td>{{retention.changeOrderDrawItems | currency}}</td>
+                            <td>{{retention.totalScheduledValue | currency}}</td>
+                            <td>{{retention.previousDraw | currency}}</td>
+                            <td>{{retention.total_completion_percentage}}</td>
+                            <td>{{retention.total_current_app | currency}}</td>
+                            <td>{{retention.total_current_retainer_value ? retention.total_current_retainer_value :
+                                0 | currency}}
+                            </td>
+                            <td>{{retention.totalPreviousRetainerValue ? retention.totalPreviousRetainerValue : 0 |
+                                currency}}</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </ng-container>
                 </tbody>
             </table>
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-6">
+                        Showing {{p}} to {{page<=totalList ? (page) : totalList}} of {{totalList}} entries </div>
+                            <div class="col-sm-6">
+                                <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                            </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
-</div>

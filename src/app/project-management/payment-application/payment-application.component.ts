@@ -13,25 +13,28 @@ import { PaymentApplicationService } from 'src/app/services/payment-application.
 @Component({
   selector: 'app-payment-application',
   templateUrl: './payment-application.component.html',
-  styleUrls: ['./payment-application.component.scss']
+  styleUrls: ['./payment-application.component.scss'],
 })
 export class PaymentApplicationComponent implements OnInit {
 
- 
 
-  constructor(private route: ActivatedRoute,private paymentService: PaymentApplicationService,private loader: LoaderService, public modalService: NgbModal, private toaster: ToasterService,) {
+
+  constructor(private route: ActivatedRoute, private paymentService: PaymentApplicationService, private loader: LoaderService, public modalService: NgbModal, private toaster: ToasterService,) {
     this.route.queryParams.subscribe((params) => {
       this.pid = params['pid'];
     });
-   }
+  }
 
-   currentlySelectedProjectName: string;
-   pid:any;
-   headings:any[] = ['#Draw', 'Through Date', 'Status', 'PCSV value', "Approved CO's", 'Total Sch.Val', 'Billed To Date', '% Comp', 'Curr. App', 'Curr. Ret	', 'Total Ret', 'Action'];
-
-   drawList:any;
-   retentionList:any;
-  
+  entrieValues: any = [5, 10, 25, 50, 100]
+  page: any = 5;
+  p = 1;
+  currentlySelectedProjectName: string;
+  pid: any;
+  headings: any[] = ['#Draw', 'Through Date', 'Status', 'PCSV value', "Approved CO's", 'Total Sch.Val', 'Billed To Date', '% Comp', 'Curr. App', 'Curr. Ret	', 'Total Ret', 'Action'];
+  status: any = 6;
+  drawList: any = [];
+  retentionList: any = [];
+  totalList: any = 0;
 
   ngOnInit(): void {
 
@@ -42,24 +45,58 @@ export class PaymentApplicationComponent implements OnInit {
     this.getDrawList();
   }
 
-  getDrawList()
-  {
-      let data = {
-        projectId:this.pid,
+  getDrawList() {
+    let data = {
+      projectId: this.pid,
+      status: this.status
+    }
+
+    this.loader.show();
+
+    this.paymentService.getDrawList(data).subscribe((res) => {
+
+      if (res.status == true) {
+        if (res.body.draws || res.body.retention) {
+
+          this.retentionList = res.body.retention;
+          this.drawList = res.body.draws;
+
+          if (res.body.draws && res.body.retention) {
+            this.totalList = res.body.draws.length + res.body.retention.length
+          }
+          else if (res.body.draws) {
+            this.totalList = res.body.draws.length
+            this.retentionList = [];
+          }
+          else if (res.body.retention) {
+            this.totalList = res.body.retention.length
+            this.drawList = [];
+          }
+          else {
+            this.totalList = 0;
+            this.retentionList = [];
+            this.drawList = [];
+          }
+
+        }
+        this.loader.hide();
       }
 
-      this.paymentService.getDrawList(data).subscribe((res)=>{
-
-        if(res.status == true)
-        {
-            if(res.body.draws || res.body.retention)
-            {
-                this.drawList = res.body.draws;
-                this.retentionList = res.body.retention
-            }
-        }
-
-      })
+    })
   }
 
+  filterStatus(event: any) {
+    this.status = event.target.value;
+
+    this.getDrawList();
+  }
+
+  searchRFI(event: any) {
+
+  }
+
+  deleteDraw(draw)
+  {
+     console.log(draw,'draw');
+  }
 }
