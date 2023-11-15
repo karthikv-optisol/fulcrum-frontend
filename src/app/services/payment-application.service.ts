@@ -9,7 +9,9 @@ import { Observable } from 'rxjs';
 })
 export class PaymentApplicationService {
 
-  private PaymentListURL = Constant.BE_URL + 'api/project_management/module_draw_list';
+  private drawListURL = Constant.BE_URL + 'api/project_management/module_draw_list';
+  private createDrawURL = Constant.BE_URL + 'api/project_management/saveDrawAsDraft';
+  private createRetentionURL = Constant.BE_URL + 'api/project_management/saveRetentionAsDraft';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -41,10 +43,16 @@ export class PaymentApplicationService {
     });
   }
 
-  getDrawList(data:any)
-  {
-    return this.httpClient.post<any>(this.PaymentListURL, data, this.httpOptions);
+  getDrawList(data: any) {
+    return this.httpClient.post<any>(this.drawListURL, data, this.httpOptions);
   }
 
+  createDraw(data: any) {
+    return this.httpClient.post<any>(this.createDrawURL, data, this.httpOptions);
+  }
+
+  createRetention(data: any) {
+    return this.httpClient.post<any>(this.createRetentionURL, data, this.httpOptions);
+  }
 
 }

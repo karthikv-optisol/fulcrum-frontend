@@ -95,8 +95,56 @@ export class PaymentApplicationComponent implements OnInit {
 
   }
 
-  deleteDraw(draw)
-  {
-     console.log(draw,'draw');
+  createDraws() {
+
+    this.loader.show();
+    let data = {
+      projectId: this.pid,
+    }
+
+    this.paymentService.createDraw(data).subscribe((res) => {
+      if (res.status == true) {
+        if (res.body && res.body.original.status == false) {
+          this.toaster.showFailToaster(res.body.original.message, '')
+          this.loader.hide();
+          return;
+        }
+        if (res.body && res.body.original.status == true) {
+          this.toaster.showSuccessToaster(res.body.original.message, '')
+          // window.open('');
+          this.getDrawList();
+          return;
+        }
+      }
+      
+    })
+  }
+
+  createRetentions() {
+
+    this.loader.show();
+
+    let data = {
+      projectId: this.pid,
+    }
+
+    this.paymentService.createRetention(data).subscribe((res) => {
+      if (res.status == true) {
+        if (res.body && res.body.original.status == false) {
+          this.toaster.showFailToaster(res.body.original.message, '')
+          this.loader.hide();
+          return;
+        }
+        if (res.body && res.body.original.status == true) {
+          this.toaster.showSuccessToaster(res.body.original.message, '')
+          this.getDrawList();
+          return;
+        }
+      }
+    })
+  }
+
+  deleteDraw(draw) {
+    console.log(draw, 'draw');
   }
 }

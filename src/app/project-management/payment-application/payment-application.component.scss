@@ -1,16 +1,30 @@
-table tr:hover{
+table tbody tr:hover {
     background-color: #3487C7 !important;
     color: #fff;
+    cursor: pointer;
 }
-table tr a:hover
-{
-    
+
+table thead tr:hover {
+    background-color: #fff;
+    color: #3487C7 !important;
 }
-.cross-cancel
-{
+
+table thead tr {
+    background-color: #3487C7;
+    color: #fff;
+    font-size: smaller;
+}
+table tbody tr{
+    font-size: smaller;
+    cursor: pointer;
+}
+table tbody tr a:hover{
+    color: #fff;
+}
+.cross-cancel {
     color: #000;
 }
-.cross-cancel:active
-{
+
+.cross-cancel:active {
     color: red;
 }

@@ -16,10 +16,10 @@
                         </select>
                     </div>
                     <div class="col-sm-2">
-                        <input type="button" value="Create Retention">
+                        <input type="button" (click)="createDraws()" value="Create Draws">
                     </div>
                     <div class="col-sm-3">
-                        <input type="button" value="Create Retention Draws">
+                        <input type="button" (click)="createRetentions()" value="Create Retention Draws">
                     </div>
                     <div class="col-sm-3">
                         <input type="button" value="Print List View">
@@ -80,16 +80,14 @@
                                 <td>Ret {{retention.application_number}}</td>
                                 <td>{{retention.through_date}}</td>
                                 <td>{{retention.status}}</td>
-                                <td>{{retention.totalOriginalScheduledValue | currency}}</td>
+                                <td>{{draw.totalOriginalScheduledValue | currency}}</td>
                                 <td>{{retention.changeOrderDrawItems | currency}}</td>
-                                <td>{{retention.totalScheduledValue | currency}}</td>
-                                <td>{{retention.previousDraw | currency}}</td>
-                                <td>{{retention.total_completion_percentage | number}}</td>
-                                <td>{{retention.total_current_app | currency}}</td>
-                                <td>{{retention.total_current_retainer_value ? retention.total_current_retainer_value :
-                                    0 | currency}}
-                                </td>
-                                <td>{{retention.totalPreviousRetainerValue ? retention.totalPreviousRetainerValue : 0 |
+                                <td>{{draw.totalScheduledValue | currency}}</td>
+                                <td>{{retention.retentionBilledTodate | currency}}</td>
+                                <td>&nbsp;</td>
+                                <td>{{retention.total_current_retainer_value | currency}}</td>
+                                <td>&nbsp;</td>
+                                <td>{{retention.retTotalRetFormatted ? retention.retTotalRetFormatted : 0 |
                                     currency}}</td>
                                 <td>&nbsp;</td>
                             </tr>
@@ -116,16 +114,14 @@
                             <td>Ret {{retention.application_number}}</td>
                             <td>{{retention.through_date}}</td>
                             <td>{{retention.status}}</td>
-                            <td>{{retention.totalOriginalScheduledValue | currency}}</td>
+                            <td>{{draw.totalOriginalScheduledValue | currency}}</td>
                             <td>{{retention.changeOrderDrawItems | currency}}</td>
-                            <td>{{retention.totalScheduledValue | currency}}</td>
-                            <td>{{retention.previousDraw | currency}}</td>
-                            <td>{{retention.total_completion_percentage}}</td>
+                            <td>{{draw.totalScheduledValue | currency}}</td>
+                            <td>{{retention.retentionBilledTodate | currency}}</td>
+                            <td>&nbsp;</td>
                             <td>{{retention.total_current_app | currency}}</td>
-                            <td>{{retention.total_current_retainer_value ? retention.total_current_retainer_value :
-                                0 | currency}}
-                            </td>
-                            <td>{{retention.totalPreviousRetainerValue ? retention.totalPreviousRetainerValue : 0 |
+                            <td>&nbsp;</td>
+                            <td>{{retention.retTotalRetFormatted ? retention.retTotalRetFormatted : 0 |
                                 currency}}</td>
                             <td>&nbsp;</td>
                         </tr>
