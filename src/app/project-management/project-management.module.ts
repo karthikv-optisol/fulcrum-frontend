@@ -55,6 +55,8 @@ import { FilterMeetingEmailContactsList } from './filter-meetingEmailContactsLis
 import { SubcontractTrackingComponent } from './subcontract-tracking/subcontract-tracking.component';
 import { OwnerChangeOrderComponent } from './owner-change-order/owner-change-order.component';
 import { PaymentApplicationComponent } from './payment-application/payment-application.component';
+import { DrawsComponent } from './payment-application/draws/draws.component';
+import { RetentionComponent } from './payment-application/retention/retention.component';
 
 
 const materialModules = [
@@ -105,7 +107,9 @@ const materialModules = [
     RFIsComponent,
     SubcontractTrackingComponent,
     OwnerChangeOrderComponent,
-    PaymentApplicationComponent
+    PaymentApplicationComponent,
+    DrawsComponent,
+    RetentionComponent
   ],
   imports:
     [

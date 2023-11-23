@@ -11,6 +11,8 @@ import * as path from 'path';
 import { SubcontractTrackingComponent } from './subcontract-tracking/subcontract-tracking.component';
 import { OwnerChangeOrderComponent } from './owner-change-order/owner-change-order.component';
 import { PaymentApplicationComponent } from './payment-application/payment-application.component';
+import { DrawsComponent } from './payment-application/draws/draws.component';
+import { RetentionComponent } from './payment-application/retention/retention.component';
 
 const routes: Routes = [
   {
@@ -101,7 +103,27 @@ const routes: Routes = [
         component: PaymentApplicationComponent
       }
     ]
-  }
+  },
+  {
+    path:'payment-applications/edit-draws',
+    component: ProjectManagementComponent,
+    children:[
+      {
+        path: '',
+        component: DrawsComponent
+      }
+    ]
+  },
+  {
+    path:'payment-applications/edit-retention',
+    component: ProjectManagementComponent,
+    children:[
+      {
+        path: '',
+        component: RetentionComponent
+      }
+    ]
+  },
 ];
 
 @NgModule({

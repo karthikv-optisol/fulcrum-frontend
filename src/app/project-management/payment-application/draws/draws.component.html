@@ -1,0 +1,111 @@
+<div class="w-100 float-left mb-3">
+    <div class="col-sm-12 col-md-12 mt-2">
+        <h2 class="title-text">{{ currentlySelectedProjectName }}: Draws</h2>
+        <hr>
+        <input type="button" value="Back To Draws">
+    </div>
+    <div class="col-sm-12 col-md-12 mt-2">
+
+    </div>
+    <div class="col-sm-12 col-md-12 mt-2">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover table-sm">
+                <thead>
+                    <tr class="text-center text-small">
+                        <th>Cost Code</th>
+                        <th>Cost Code Description</th>
+                        <th>Scheduled Value</th>
+                        <th>Previous App</th>
+                        <th>% Comp</th>
+                        <th>Current App</th>
+                        <th>Retention Rate</th>
+                        <th>Current Retention</th>
+                        <th>Previous Retainage</th>
+                        <th>Total Completed(Prev + Curr App)</th>
+                        <th>Total Retention</th>
+                        <th>Narrative</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let items of drawItems" class="text-center text-small border">
+                        <td>{{items.division_number}} - {{items.cost_code}}</td>
+                        <td>{{items.cost_code_description}}</td>
+                        <td>{{scheduledValue(items.scheduled_value, items.realocation) | currency}}</td>
+                        <td>
+                            <span *ngIf="items.previousDraw && items.previousDraw.pcurrent_app">
+                                {{items.previousDraw.pcurrent_app | currency}}
+                            </span>
+                            <span *ngIf="!items.previousDraw">
+                                &nbsp;
+                            </span>
+                        </td>
+                        <td>
+                            <input class="form-control p-0" type="number"
+                                value="{{items.completed_percent ? items.completed_percent : 0}}" />
+                        </td>
+                        <td>
+                            <input class="form-control p-0" type="number"
+                                value="{{items.current_app ? items.current_app : 0 | currency}}" />
+                        </td>
+                        <td>
+                            <input class="form-control p-0" type="number"
+                                value="{{items.retainer_rate ? items.retainer_rate : 0 | currency}}" />
+                        </td>
+                        <td>
+                            <input class="form-control p-0" type="number"
+                                value="{{items.current_retainer_value ? items.current_retainer_value : 0 | currency}}" />
+                        </td>
+                        <td>
+                            <span *ngIf="items.previousDraw && items.previousDraw.pcurrent_retainer_value">
+                                {{items.previousDraw.pcurrent_retainer_value | currency}}
+                            </span>
+                            <span *ngIf="!items.previousDraw">
+                                &nbsp;
+                            </span>
+                        </td>
+                        <td>
+                            <span *ngIf="items.previousDraw && items.previousDraw.pcurrent_retainer_value">
+                                {{addingValues(items.previousDraw.pcurrent_app,items.current_app) | currency}}
+                            </span>
+                            <span *ngIf="items.previousDraw && !items.previousDraw.pcurrent_retainer_value">
+                                {{items.current_app | currency}}
+                            </span>
+                            <span *ngIf="!items.previousDraw">
+                                {{items.current_app | currency}}
+                            </span>
+                        </td>
+                        <td>
+                            <span *ngIf="items.previousDraw && items.previousDraw.pcurrent_retainer_value">
+                                {{addingValues(items.previousDraw.pcurrent_retainer_value,items.current_retainer_value)
+                                | currency}}
+                            </span>
+                            <span *ngIf="items.previousDraw && !items.previousDraw.pcurrent_retainer_value">
+                                {{items.current_retainer_value | currency}}
+                            </span>
+                            <span *ngIf="!items.previousDraw">
+                                {{items.current_retainer_value | currency}}
+                            </span>
+                        </td>
+                        <td>
+                            <textarea name="" class="form-control p-0" id=""></textarea>
+                        </td>
+                    </tr>
+                    <tr class="text-right text-small border">
+                        <td></td>
+                        <td>Total</td>
+                        <td>{{totalScheduleValue | currency}}</td>
+                        <td>{{totalPreviousApp | currency}}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

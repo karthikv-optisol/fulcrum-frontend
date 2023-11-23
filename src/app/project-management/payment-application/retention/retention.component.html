@@ -1,0 +1,50 @@
+<div class="w-100 float-left mb-3">
+    <div class="col-sm-12 col-md-12 mt-2">
+        <h2 class="title-text">{{ currentlySelectedProjectName }}: Draws</h2>
+        <hr>
+        <input type="button" value="Back To Draws">
+    </div>
+    <div class="col-sm-12 col-md-12 mt-2">
+
+    </div>
+    <div class="col-sm-12 col-md-12 mt-2">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover table-sm">
+                <thead>
+                    <tr class="text-center text-small">
+                        <th>Cost Code</th>
+                        <th>Cost Code Description</th>
+                        <th>Scheduled Value</th>
+                        <th>Current Ret. withheld</th>
+                        <th>Previous Ret. Billed</th>
+                        <th>Ret. Amount to Bill</th>
+                        <th>Narrative</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let items of retentionItems; let i = index" class="text-center text-small">
+                        <td>{{items.division_number}} - {{items.cost_code}}</td>
+                        <td>{{items.cost_code_description}}</td>
+                        <td>{{items.scheduled_retention_value | currency}}</td>
+                        <td>{{items.current_retainage | currency}}</td>
+                        <td>{{items.previous_retainage ? items.previous_retainage : 0  | currency}}</td>
+                        <td>{{items.current_retainer_value | currency}}</td>
+                        <td>{{items.narrative}}</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="text-center text-small">
+                        <td>&nbsp;</td>
+                        <td>Total</td>
+                        <td>$2,122,671.50</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+    </div>
+</div>

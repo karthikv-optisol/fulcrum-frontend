@@ -26,7 +26,7 @@ export class PaymentApplicationComponent implements OnInit {
   }
 
   entrieValues: any = [5, 10, 25, 50, 100]
-  page: any = 5;
+  page: any = 25;
   p = 1;
   currentlySelectedProjectName: string;
   pid: any;
@@ -43,6 +43,8 @@ export class PaymentApplicationComponent implements OnInit {
     this.currentlySelectedProjectName = userdata['currentlySelectedProjectName'];
 
     this.getDrawList();
+
+    document.title = 'Draws - '+this.currentlySelectedProjectName
   }
 
   getDrawList() {
@@ -59,6 +61,7 @@ export class PaymentApplicationComponent implements OnInit {
         if (res.body.draws || res.body.retention) {
 
           this.retentionList = res.body.retention;
+          
           this.drawList = res.body.draws;
 
           if (res.body.draws && res.body.retention) {
@@ -116,7 +119,7 @@ export class PaymentApplicationComponent implements OnInit {
           return;
         }
       }
-      
+
     })
   }
 
@@ -146,5 +149,13 @@ export class PaymentApplicationComponent implements OnInit {
 
   deleteDraw(draw) {
     console.log(draw, 'draw');
+  }
+
+  editDrawItems(items) {
+    window.open('/#/project-management/payment-applications/edit-draws?pid='+this.pid+'&drawId=' + items.id, '_self')
+  }
+
+  editRetentionItems(items) {
+    window.open('/#/project-management/payment-applications/edit-retention?pid='+this.pid+'&retentionId=' + items.id, '_self')
   }
 }

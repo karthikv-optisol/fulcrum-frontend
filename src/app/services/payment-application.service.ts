@@ -12,6 +12,8 @@ export class PaymentApplicationService {
   private drawListURL = Constant.BE_URL + 'api/project_management/module_draw_list';
   private createDrawURL = Constant.BE_URL + 'api/project_management/saveDrawAsDraft';
   private createRetentionURL = Constant.BE_URL + 'api/project_management/saveRetentionAsDraft';
+  private getDrawsInfoURL = Constant.BE_URL + 'api/project_management/getDrawsInfo';
+  private getRetDrawsInfoURL = Constant.BE_URL + 'api/project_management/getRetDrawsInfo';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -53,6 +55,14 @@ export class PaymentApplicationService {
 
   createRetention(data: any) {
     return this.httpClient.post<any>(this.createRetentionURL, data, this.httpOptions);
+  }
+
+  getDrawsInfo(data: any) {
+    return this.httpClient.post<any>(this.getDrawsInfoURL, data, this.httpOptions);
+  }
+
+  getRetDrawsInfo(data: any) {
+    return this.httpClient.post<any>(this.getRetDrawsInfoURL, data, this.httpOptions);
   }
 
 }

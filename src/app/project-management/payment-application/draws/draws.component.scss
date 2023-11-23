@@ -1,0 +1,18 @@
+
+table thead tr {
+    background-color: #3487C7;
+    color: #fff;
+    font-size: smaller;
+}
+table tbody tr{
+    font-size: smaller;
+    cursor: pointer;
+}
+table tbody tr td input{
+    height: auto;
+}
+
+
+table tbody tr a:hover{
+    color: #fff;
+}
