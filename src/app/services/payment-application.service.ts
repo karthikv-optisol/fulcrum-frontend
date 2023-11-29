@@ -14,6 +14,7 @@ export class PaymentApplicationService {
   private createRetentionURL = Constant.BE_URL + 'api/project_management/saveRetentionAsDraft';
   private getDrawsInfoURL = Constant.BE_URL + 'api/project_management/getDrawsInfo';
   private getRetDrawsInfoURL = Constant.BE_URL + 'api/project_management/getRetDrawsInfo';
+  private getDrawActionTypeOptionsURL = Constant.BE_URL + 'api/project_management/getDrawActionType';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -61,8 +62,15 @@ export class PaymentApplicationService {
     return this.httpClient.post<any>(this.getDrawsInfoURL, data, this.httpOptions);
   }
 
+  // get Ret Draws Info
   getRetDrawsInfo(data: any) {
     return this.httpClient.post<any>(this.getRetDrawsInfoURL, data, this.httpOptions);
+  }
+
+  // Get Draw Action Type Options
+  getDrawActionType(data:any)
+  {
+    return this.httpClient.post<any>(this.getDrawActionTypeOptionsURL, data, this.httpOptions);
   }
 
 }

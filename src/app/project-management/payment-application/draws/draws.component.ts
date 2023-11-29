@@ -19,8 +19,18 @@ export class DrawsComponent implements OnInit {
   currentlySelectedProjectName: any;
   drawId: any;
   drawItems: any;
-  totalScheduleValue:any;
-  totalPreviousApp:any;
+  actionId: any = "";
+  actions: any;
+  actionOptions: any;
+  totalScheduleValue: any = 0;
+  totalPreviousApp: any = 0;
+  totalCompletePer: any = 0;
+  totalCurrentApp: any = 0;
+  totalCurrentRet: any = 0;
+  totalCompletedApp: any = 0;
+  totalRetention: any = 0;
+  showRealloc:boolean = false;
+  draws: any;
   constructor(private route: ActivatedRoute, private paymentService: PaymentApplicationService, private loader: LoaderService, public modalService: NgbModal, private toaster: ToasterService,) {
     this.route.queryParams.subscribe((params) => {
       this.pid = params['pid'];
@@ -47,19 +57,92 @@ export class DrawsComponent implements OnInit {
       if (res.status == true) {
         if (res.body.original.status == true) {
           this.drawItems = res.body.original.data;
-          let total:any = 0;
-          let total_previous:any = 0;
+          let total: any = 0;
+          let total_previous: any = 0;
+          let total_complete: any = 0;
+          let total_current_app: any = 0;
+          let total_current_ret: any = 0;
+          let total_completed_app: any = 0;
+          let total_retention: any = 0;
 
+          this.draws = res.body.original.draws;
+
+          this.actions = res.body.original.actions;
 
           res.body.original.data.map(element => {
-            total = parseFloat(total)+parseFloat(element.scheduled_value);
+            //total schedule value
+            total = parseFloat(total) + parseFloat(element.scheduled_value);
             this.totalScheduleValue = total;
+
+            //total previous 
+            total_previous = parseFloat(total_previous) + parseFloat(element.previousDraw.pcurrent_app);
+            this.totalPreviousApp = total_previous;
+
+            //total complete percentage
+            if (element.completed_percent) {
+              total_complete = parseFloat(total_complete) + parseFloat(element.completed_percent);
+              this.totalCompletePer = total_complete;
+              console.log("totalCompletePer", this.totalCompletePer)
+            }
+
+
+            //total current app
+            if (element.current_app) {
+              total_current_app = parseFloat(total_current_app) + parseFloat(element.current_app);
+              this.totalCurrentApp = total_current_app;
+              console.log("total_current_app", this.totalCurrentApp)
+            }
+
+            //total current retainer
+            if (element.current_retainer_value) {
+              total_current_ret = parseFloat(total_current_ret) + parseFloat(element.current_retainer_value);
+
+              this.totalCurrentRet = total_current_ret;
+              console.log("totalCurrentRet", this.totalCurrentRet)
+            }
+
+            //total prev and current app
+
+            if (element.current_app && element.previousDraw.pcurrent_app) {
+              total_completed_app = parseFloat(total_completed_app) + this.addingValues(element.previousDraw.pcurrent_app, element.current_app)
+              this.totalCompletedApp = total_completed_app;
+            }
+
+            if (element.current_app && !element.previousDraw.pcurrent_app) {
+              total_completed_app = parseFloat(total_completed_app) + parseFloat(element.current_app);
+              this.totalCompletedApp = total_completed_app;
+            }
+
+            if (!element.current_app && element.previousDraw.pcurrent_app) {
+              total_completed_app = parseFloat(total_completed_app) + parseFloat(element.previousDraw.pcurrent_app);
+              this.totalCompletedApp = total_completed_app;
+            }
+
+            if (element.previousDraw.pcurrent_retainer_value && element.current_retainer_value) {
+              total_retention = parseFloat(total_retention) + (this.addingValues(element.previousDraw.pcurrent_retainer_value, element.current_retainer_value))
+              this.totalRetention = total_retention;
+              console.log("totalRetention1", this.totalRetention)
+            }
+
+
+            if (!element.previousDraw.pcurrent_retainer_value && element.current_retainer_value) {
+              total_retention = parseFloat(total_retention);
+              this.totalRetention = total_retention;
+              console.log("totalRetention2", this.totalRetention)
+            }
+
+            if (element.previousDraw.pcurrent_retainer_value && !element.current_retainer_value) {
+              total_retention = element.previousDraw.pcurrent_retainer_value;
+              this.totalRetention = total_retention;
+              console.log("totalRetention3", this.totalRetention)
+            }
+
+
           });
 
-          
+
           res.body.original.data.map(element => {
-            total_previous = parseFloat(total_previous)+parseFloat(element.previousDraw.pcurrent_app);
-            this.totalPreviousApp = total_previous;
+
           });
 
         }
@@ -75,8 +158,34 @@ export class DrawsComponent implements OnInit {
     return a * b;
   }
 
-  addingValues(a,b)
-  {
+  addingValues(a, b) {
     return parseFloat(a) + parseFloat(b);
+  }
+
+  historyBack() {
+    window.history.back();
+  }
+
+  changeOptions(event: any) {
+    let value = event.target.value;
+
+    let data = {
+      projectId: this.pid,
+      actionId: this.actionId
+    }
+
+    this.paymentService.getDrawActionType(data).subscribe((res) => {
+
+      if (res.status == true) {
+        if (res.body.original.status == true) {
+          this.actionOptions = res.body.original.data
+        }
+      }
+    })
+  }
+
+  changeAllocations()
+  {
+      this.showRealloc = !this.showRealloc;
   }
 }

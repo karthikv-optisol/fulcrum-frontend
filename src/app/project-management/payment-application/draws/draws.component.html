@@ -2,110 +2,298 @@
     <div class="col-sm-12 col-md-12 mt-2">
         <h2 class="title-text">{{ currentlySelectedProjectName }}: Draws</h2>
         <hr>
-        <input type="button" value="Back To Draws">
-    </div>
-    <div class="col-sm-12 col-md-12 mt-2">
-
+        <input type="button" (click)="historyBack()" value="Back To Draws">
     </div>
     <div class="col-sm-12 col-md-12 mt-2">
         <div class="table-responsive">
-            <table class="table table-bordered table-hover table-sm">
-                <thead>
-                    <tr class="text-center text-small">
-                        <th>Cost Code</th>
-                        <th>Cost Code Description</th>
-                        <th>Scheduled Value</th>
-                        <th>Previous App</th>
-                        <th>% Comp</th>
-                        <th>Current App</th>
-                        <th>Retention Rate</th>
-                        <th>Current Retention</th>
-                        <th>Previous Retainage</th>
-                        <th>Total Completed(Prev + Curr App)</th>
-                        <th>Total Retention</th>
-                        <th>Narrative</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let items of drawItems" class="text-center text-small border">
-                        <td>{{items.division_number}} - {{items.cost_code}}</td>
-                        <td>{{items.cost_code_description}}</td>
-                        <td>{{scheduledValue(items.scheduled_value, items.realocation) | currency}}</td>
-                        <td>
-                            <span *ngIf="items.previousDraw && items.previousDraw.pcurrent_app">
-                                {{items.previousDraw.pcurrent_app | currency}}
-                            </span>
-                            <span *ngIf="!items.previousDraw">
-                                &nbsp;
-                            </span>
-                        </td>
-                        <td>
-                            <input class="form-control p-0" type="number"
-                                value="{{items.completed_percent ? items.completed_percent : 0}}" />
-                        </td>
-                        <td>
-                            <input class="form-control p-0" type="number"
-                                value="{{items.current_app ? items.current_app : 0 | currency}}" />
-                        </td>
-                        <td>
-                            <input class="form-control p-0" type="number"
-                                value="{{items.retainer_rate ? items.retainer_rate : 0 | currency}}" />
-                        </td>
-                        <td>
-                            <input class="form-control p-0" type="number"
-                                value="{{items.current_retainer_value ? items.current_retainer_value : 0 | currency}}" />
-                        </td>
-                        <td>
-                            <span *ngIf="items.previousDraw && items.previousDraw.pcurrent_retainer_value">
-                                {{items.previousDraw.pcurrent_retainer_value | currency}}
-                            </span>
-                            <span *ngIf="!items.previousDraw">
-                                &nbsp;
-                            </span>
-                        </td>
-                        <td>
-                            <span *ngIf="items.previousDraw && items.previousDraw.pcurrent_retainer_value">
-                                {{addingValues(items.previousDraw.pcurrent_app,items.current_app) | currency}}
-                            </span>
-                            <span *ngIf="items.previousDraw && !items.previousDraw.pcurrent_retainer_value">
-                                {{items.current_app | currency}}
-                            </span>
-                            <span *ngIf="!items.previousDraw">
-                                {{items.current_app | currency}}
-                            </span>
-                        </td>
-                        <td>
-                            <span *ngIf="items.previousDraw && items.previousDraw.pcurrent_retainer_value">
-                                {{addingValues(items.previousDraw.pcurrent_retainer_value,items.current_retainer_value)
-                                | currency}}
-                            </span>
-                            <span *ngIf="items.previousDraw && !items.previousDraw.pcurrent_retainer_value">
-                                {{items.current_retainer_value | currency}}
-                            </span>
-                            <span *ngIf="!items.previousDraw">
-                                {{items.current_retainer_value | currency}}
-                            </span>
-                        </td>
-                        <td>
-                            <textarea name="" class="form-control p-0" id=""></textarea>
-                        </td>
-                    </tr>
-                    <tr class="text-right text-small border">
-                        <td></td>
-                        <td>Total</td>
-                        <td>{{totalScheduleValue | currency}}</td>
-                        <td>{{totalPreviousApp | currency}}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
+            <table class="table border-0 table-sm table-block">
+                <tr class="text-center">
+                    <td>
+                        Application Number
+                    </td>
+                    <td>
+                        Through Date:
+                    </td>
+                    <td>
+                        Invoice Date:
+                    </td>
+                    <td>
+                        Retention Actions
+                    </td>
+                    <td>
+                        &nbsp;
+                    </td>
+                    <td colspan="6">
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr class="text-center text-small" *ngIf="draws">
+                    <td>
+                        {{draws.application_number}}
+                    </td>
+                    <td>
+                        <div class="datepicker_style_particulars">
+                            <div class="input-group">
+                                <input class="form-control" placeholder="yyyy-mm-dd" name="dp"
+                                    [placeholder]="draws.through_date" name="rfi_due_date" ngbDatepicker
+                                    #d="ngbDatepicker" (click)="d.toggle()" />
+                            </div>
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="datepicker_style_particulars">
+                            <div class="input-group">
+                                <input class="form-control" placeholder="yyyy-mm-dd" name="dp"
+                                    [placeholder]="draws.through_date" name="rfi_due_date" ngbDatepicker
+                                    #d="ngbDatepicker" (click)="d.toggle()" />
+                            </div>
+
+                        </div>
+                    </td>
+                    <td *ngIf="actions">
+                        <select (change)="changeOptions($event)" [(ngModel)]="actionId">
+                            <option value="">Select Type</option>
+                            <option *ngFor="let action of actions" value="{{action.id}}">
+                                {{action.action_name}}
+                            </option>
+                        </select>
+                    </td>
+                    <td *ngIf="actionId=='' || actionId==1 || actionId==2">
+                        <select>
+                            <option>Select Option</option>
+                            <option *ngFor="let option of actionOptions" value="{{option.id}}">
+                                {{option.option_name}}
+                            </option>
+                        </select>
+                    </td>
+                    <td *ngIf="actionId==2 || actionId==4">
+                        <select name="" id="" multiple>
+                            <option value="">Select Export Option</option>
+                            <option value="general_condition_summary">General Conditions Summary Only</option>
+                            <option value="narrative_column">Narrative Column</option>
+                            <option value="cost_code_alias">Cost Code Aliases</option>
+                        </select>
+                    </td>
+                    <td *ngIf="actionId==1 || actionId==2 || actionId==3">
+                        <img src="assets/images/icons/pdf-download.png" width="20" />
+                    </td>
+                    <td *ngIf="actionId==4">
+                        <img src="assets/images/icons/xlsx-download.png" width="20" />
+                    </td>
+                    <td>
+                        <input type="button" value="Save as Draft"> OR 
+                    </td>
+                    <td>
+                        <input type="button" value="Post Draw">
+                    </td>
+                    <td>
+                        <input type="button" (click)="changeAllocations()" 
+                        [value]="showRealloc ? 'Hide Reallocations' : 'Add Reallocations'">
+                    </td>
+                    <td>
+                        <input type="button" value="Commit Reallocations">
+                    </td>
+                </tr>
             </table>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-12 mt-2">
+        <div class="row">
+            <div class="table-responsive col-sm-12 col-md-12 col-lg-12">
+                <table class="table table-bordered table-hover table-sm">
+                    <thead>
+                        <tr class="text-center text-small">
+                            <th>Cost Code</th>
+                            <th>Cost Code Description</th>
+                            <th>Scheduled Value</th>
+                            <th *ngIf="showRealloc">Reallocations</th>
+                            <th>Previous App</th>
+                            <th>% Comp</th>
+                            <th>Current App</th>
+                            <th>Retention Rate</th>
+                            <th>Current Retention</th>
+                            <th>Previous Retainage</th>
+                            <th>Total Completed(Prev + Curr App)</th>
+                            <th>Total Retention</th>
+                            <th>Narrative</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let items of drawItems" class="text-center text-small border">
+                            <td>{{items.division_number}} - {{items.cost_code}}</td>
+                            <td>{{items.cost_code_description}}</td>
+                            <td>{{scheduledValue(items.scheduled_value, items.realocation) | currency}}</td>
+                            <td *ngIf="showRealloc">
+                                <span *ngIf="draws.status == 1">
+                                    <input type="text" class="form-control p-0" value="{{items.realocation}}"  />
+                                </span>
+                                <span *ngIf="draws.status != 1">
+                                    {{items.realocation}}
+                                </span>
+                            </td>
+                            <td>
+                                <span *ngIf="items.previousDraw || items.previousDraw.pcurrent_app">
+                                   {{(items.previousDraw.pcurrent_app ? items.previousDraw.pcurrent_app : 0) | currency}}
+                                </span>
+                                <span *ngIf="!items.previousDraw">
+                                   {{ 0 | currency}}
+                                </span>
+                                
+                            </td>
+                            <td>
+                                <span *ngIf="draws.status == 1">
+                                    <input class="form-control p-0" type="number"
+                                        value="{{items.completed_percent ? items.completed_percent : 0}}" />
+                                </span>
+                                <span *ngIf="draws.status != 1">
+                                    {{items.completed_percent ? items.completed_percent : 0}}
+                                </span>
+                            </td>
+                            <td>
+                                <span *ngIf="draws.status == 1">
+                                    <input class="form-control p-0" type="number"
+                                        value="{{(items.current_app ? items.current_app : 0) | currency}}" />
+                                </span>
+                                <span *ngIf="draws.status != 1">
+                                    {{(items.current_app ? items.current_app : 0) | currency}}
+                                </span>
+                            </td>
+                            <td>
+                                <span *ngIf="draws.status == 1">
+                                    <input class="form-control p-0" type="number"
+                                        value="{{(items.retainer_rate ? items.retainer_rate : 0) | currency}}" />
+                                </span>
+                                <span *ngIf="draws.status != 1">
+                                    {{(items.retainer_rate ? items.retainer_rate : 0) | currency}}
+                                </span>
+                            </td>
+                            <td>
+                                <span *ngIf="draws.status == 1">
+                                    <input class="form-control p-0" type="number"
+                                        value="{{(items.current_retainer_value ? items.current_retainer_value : 0) | currency}}" />
+                                </span>
+                                <span *ngIf="draws.status != 1">
+                                    {{(items.current_retainer_value ? items.current_retainer_value : 0) | currency}}
+                                </span>
+    
+                            </td>
+                            <td>
+                                <span *ngIf="items.previousDraw && items.previousDraw.pcurrent_retainer_value">
+                                    {{items.previousDraw.pcurrent_retainer_value | currency}}
+                                </span>
+                                <span *ngIf="!items.previousDraw">
+                                    {{ 0 | currency}}
+                                </span>
+                            </td>
+                            <td>
+                                <span *ngIf="items.previousDraw && items.previousDraw.pcurrent_app">
+                                    {{addingValues(items.previousDraw.pcurrent_app,items.current_app) | currency}}
+                                </span>
+                                <span *ngIf="items.previousDraw && !items.previousDraw.pcurrent_app">
+                                    {{items.current_app | currency}}
+                                </span>
+                                <span *ngIf="!items.current_app">
+                                    {{items.previousDraw.pcurrent_app | currency}}
+                                </span>
+                            </td>
+                            <td>
+                                <span *ngIf="items.previousDraw && items.previousDraw.pcurrent_retainer_value">
+                                    {{addingValues(items.previousDraw.pcurrent_retainer_value,items.current_retainer_value)
+                                    | currency}}
+                                </span>
+                                <span *ngIf="items.previousDraw && !items.previousDraw.pcurrent_retainer_value">
+                                    {{items.current_retainer_value | currency}}
+                                </span>
+                                <span *ngIf="!items.current_retainer_value">
+                                    {{(items.previousDraw.pcurrent_retainer_value ? items.previousDraw.pcurrent_retainer_value : 0)  | currency}}
+                                </span>
+                            </td>
+                            <td>
+                                <span *ngIf="draws.status == 1">
+                                    <textarea name="" class="form-control p-0" cols="10" id=""></textarea>
+                                </span>
+                                <span *ngIf="draws.status != 1">
+                                &nbsp;
+                                </span>
+                            </td>
+                        </tr>
+                        <tr class="text-right text-small border">
+                            <td></td>
+                            <td class="text-strong">Total</td>
+                            <td class="text-strong">{{totalScheduleValue | currency}}</td>
+                            <td>&nbsp;</td>
+                            <td>{{totalCompletePer}}</td>
+                            <td class="text-strong">{{totalCurrentApp | currency}}</td>
+                            <td>&nbsp;</td>
+                            <td class="text-strong">{{totalCurrentRet | currency}}</td>
+                            <td >&nbsp;</td>
+                            <td class="text-strong">{{totalCompletedApp | currency}}</td>
+                            <td class="text-strong">{{totalRetention | currency}}</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-responsive col-sm-12 col-md-6 col-lg-6">
+                <h5 class="text-center text-small">DRAW SIGNATURE BLOCKS</h5>
+                <table class="table table-sm table-block">
+                    <tr class="text-small">
+                        <th class="text-small">Include?</th>
+                        <th class="text-small">Entity</th>
+                        <th class="text-small">Name</th>
+                    </tr>
+                    <tr class="text-small">
+                        <td><input class="d-block" type="checkbox"></td>
+                        <td>Contractor:</td>
+                        <td>Advent</td>
+                    </tr>
+                    <tr class="text-small">
+                        <td><input class="d-block" type="checkbox"></td>
+                        <td>Owner:</td>
+                        <td></td>
+                    </tr>
+                    <tr class="text-small">
+                        <td><input class="d-block" type="checkbox"></td>
+                        <td>Customer:Project</td>
+                        <td>
+                            <select>
+                                <option value="">Select QB</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr class="text-small">
+                        <td><input class="d-block" type="checkbox"></td>
+                        <td>Architect</td>
+                        <td>
+                            _Architects Inc.:arc test
+                        </td>
+                    </tr>
+                    <tr class="text-small">
+                        <td><input class="d-block" type="checkbox"></td>
+                        <td>Construction Lender</td>
+                        <td>
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <tr class="text-small">
+                        <td><input class="d-block" type="checkbox"></td>
+                        <td>Other</td>
+                        <td>
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="button" value="Add">
+                        </td>
+                        <td colspan="2">
+                            <button class="btn btn-sm px-2 py-0 btn-success">&nbsp;</button> <span class="text-small">Exists</span>
+                            <button class="btn btn-sm px-2 py-0 btn-danger">&nbsp;</button> <span class="text-small">Not Exists</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
 </div>

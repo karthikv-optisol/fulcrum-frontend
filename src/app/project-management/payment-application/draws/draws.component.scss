@@ -1,4 +1,12 @@
-
+.table-block
+{
+    display: block;
+    overflow: auto;
+    width: 100%;
+}
+table tr th.text-small{
+    font-size: smaller;
+}
 table thead tr {
     background-color: #3487C7;
     color: #fff;
