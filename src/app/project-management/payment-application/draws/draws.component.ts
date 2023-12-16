@@ -22,6 +22,7 @@ export class DrawsComponent implements OnInit {
   actionId: any = "";
   actions: any;
   actionOptions: any;
+  actionType: any = '';
   totalScheduleValue: any = 0;
   totalPreviousApp: any = 0;
   totalCompletePer: any = 0;
@@ -29,7 +30,8 @@ export class DrawsComponent implements OnInit {
   totalCurrentRet: any = 0;
   totalCompletedApp: any = 0;
   totalRetention: any = 0;
-  showRealloc:boolean = false;
+  showRealloc: boolean = false;
+  report_option:any = [];
   draws: any;
   constructor(private route: ActivatedRoute, private paymentService: PaymentApplicationService, private loader: LoaderService, public modalService: NgbModal, private toaster: ToasterService,) {
     this.route.queryParams.subscribe((params) => {
@@ -52,6 +54,8 @@ export class DrawsComponent implements OnInit {
       projectId: this.pid,
       drawId: this.drawId
     }
+
+    this.loader.show();
 
     this.paymentService.getDrawsInfo(data).subscribe((res) => {
       if (res.status == true) {
@@ -138,10 +142,7 @@ export class DrawsComponent implements OnInit {
             }
 
 
-          });
-
-
-          res.body.original.data.map(element => {
+            this.loader.hide();
 
           });
 
@@ -174,6 +175,9 @@ export class DrawsComponent implements OnInit {
       actionId: this.actionId
     }
 
+
+    this.actionType = '';
+
     this.paymentService.getDrawActionType(data).subscribe((res) => {
 
       if (res.status == true) {
@@ -184,8 +188,33 @@ export class DrawsComponent implements OnInit {
     })
   }
 
-  changeAllocations()
-  {
-      this.showRealloc = !this.showRealloc;
+  changeAllocations() {
+    this.showRealloc = !this.showRealloc;
+  }
+
+  exportPrintDraw() {
+
+    this.loader.show();
+    let data = {
+      projectId: this.pid,
+      actionOptionsId: this.actionType,
+      actionId: this.actionId,
+      drawId: this.drawId,
+      report_option:this.report_option
+    }
+
+    this.paymentService.exportPrintDraw(data).subscribe((res) => {
+
+      if (res.status == true) {
+        if (res.body.original.status == true) {
+          if (res.body.original.data) {
+            window.open(res.body.original.data, '_blank');
+          }
+        }
+        this.loader.hide();
+      }
+    })
+
+
   }
 }

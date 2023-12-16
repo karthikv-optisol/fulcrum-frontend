@@ -5,98 +5,89 @@
         <input type="button" (click)="historyBack()" value="Back To Draws">
     </div>
     <div class="col-sm-12 col-md-12 mt-2">
-        <div class="table-responsive">
-            <table class="table border-0 table-sm table-block">
-                <tr class="text-center">
-                    <td>
-                        Application Number
-                    </td>
-                    <td>
-                        Through Date:
-                    </td>
-                    <td>
-                        Invoice Date:
-                    </td>
-                    <td>
-                        Retention Actions
-                    </td>
-                    <td>
-                        &nbsp;
-                    </td>
-                    <td colspan="6">
-                        &nbsp;
-                    </td>
-                </tr>
-                <tr class="text-center text-small" *ngIf="draws">
-                    <td>
-                        {{draws.application_number}}
-                    </td>
-                    <td>
-                        <div class="datepicker_style_particulars">
-                            <div class="input-group">
-                                <input class="form-control" placeholder="yyyy-mm-dd" name="dp"
-                                    [placeholder]="draws.through_date" name="rfi_due_date" ngbDatepicker
-                                    #d="ngbDatepicker" (click)="d.toggle()" />
-                            </div>
 
-                        </div>
-                    </td>
-                    <td>
-                        <div class="datepicker_style_particulars">
-                            <div class="input-group">
-                                <input class="form-control" placeholder="yyyy-mm-dd" name="dp"
-                                    [placeholder]="draws.through_date" name="rfi_due_date" ngbDatepicker
-                                    #d="ngbDatepicker" (click)="d.toggle()" />
-                            </div>
+        <ul class="list-inline text-center text-small" *ngIf="draws">
+            <li>
+                Application Number<br>
+                {{draws.application_number}}
+            </li>
+            <li>
+                Through Date:<br>
+                <div class="datepicker_style_particulars">
+                    <div class="input-group">
+                        <input class="form-control" placeholder="yyyy-mm-dd" name="dp"
+                            [placeholder]="draws.through_date" name="rfi_due_date" ngbDatepicker #d1="ngbDatepicker"
+                            (click)="d1.toggle()" />
+                    </div>
 
-                        </div>
-                    </td>
-                    <td *ngIf="actions">
-                        <select (change)="changeOptions($event)" [(ngModel)]="actionId">
-                            <option value="">Select Type</option>
-                            <option *ngFor="let action of actions" value="{{action.id}}">
-                                {{action.action_name}}
-                            </option>
-                        </select>
-                    </td>
-                    <td *ngIf="actionId=='' || actionId==1 || actionId==2">
-                        <select>
-                            <option>Select Option</option>
-                            <option *ngFor="let option of actionOptions" value="{{option.id}}">
-                                {{option.option_name}}
-                            </option>
-                        </select>
-                    </td>
-                    <td *ngIf="actionId==2 || actionId==4">
-                        <select name="" id="" multiple>
-                            <option value="">Select Export Option</option>
-                            <option value="general_condition_summary">General Conditions Summary Only</option>
-                            <option value="narrative_column">Narrative Column</option>
-                            <option value="cost_code_alias">Cost Code Aliases</option>
-                        </select>
-                    </td>
-                    <td *ngIf="actionId==1 || actionId==2 || actionId==3">
-                        <img src="assets/images/icons/pdf-download.png" width="20" />
-                    </td>
-                    <td *ngIf="actionId==4">
-                        <img src="assets/images/icons/xlsx-download.png" width="20" />
-                    </td>
-                    <td>
-                        <input type="button" value="Save as Draft"> OR 
-                    </td>
-                    <td>
-                        <input type="button" value="Post Draw">
-                    </td>
-                    <td>
-                        <input type="button" (click)="changeAllocations()" 
-                        [value]="showRealloc ? 'Hide Reallocations' : 'Add Reallocations'">
-                    </td>
-                    <td>
-                        <input type="button" value="Commit Reallocations">
-                    </td>
-                </tr>
-            </table>
-        </div>
+                </div>
+            </li>
+            <li>
+                Invoice Date:<br>
+                <div class="datepicker_style_particulars">
+                    <div class="input-group">
+                        <input class="form-control" placeholder="yyyy-mm-dd" name="dp"
+                            [placeholder]="draws.invoice_date" name="rfi_due_date" ngbDatepicker #d2="ngbDatepicker"
+                            (click)="d2.toggle()" />
+                    </div>
+
+                </div>
+            </li>
+            <li *ngIf="actions">
+                Retention Actions<br>
+                <select (change)="changeOptions($event)" [(ngModel)]="actionId">
+                    <option value="">Select Type</option>
+                    <option *ngFor="let action of actions" value="{{action.id}}">
+                        {{action.action_name}}
+                    </option>
+                </select>
+            </li>
+            <li *ngIf="actionId=='' || actionId==1 || actionId==2">
+                &nbsp;<br>
+                <select [(ngModel)]="actionType">
+                    <option value="">Select Option</option>
+                    <option *ngFor="let option of actionOptions" value="{{option.id}}">
+                        {{option.option_name}}
+                    </option>
+                </select>
+            </li>
+            <li *ngIf="actionId==2 || actionId==4">
+                &nbsp;<br>
+                <select name="" id="" multiple [(ngModel)]="report_option">
+                    <option value="">Select Export Option</option>
+                    <option value="general_condition_summary">General Conditions Summary Only</option>
+                    <option value="narrative_column">Narrative Column</option>
+                    <option value="cost_code_alias">Cost Code Aliases</option>
+                </select>
+            </li>
+            <li *ngIf="actionId==1 || actionId==2 || actionId==3">
+                &nbsp;<br>
+                <img src="assets/images/icons/pdf-download.png" (click)="exportPrintDraw()" width="20" />
+            </li>
+            <li *ngIf="actionId==4">
+                &nbsp;<br>
+                <img src="assets/images/icons/xlsx-download.png" width="20" />
+            </li>
+            <li>
+                &nbsp;<br>
+                <input type="button" value="Save as Draft"> OR
+            </li>
+            <li>
+                &nbsp;<br>
+                <input type="button" value="Post Draw">
+            </li>
+        </ul>
+        <ul class="list-inline-new text-center text-small " *ngIf="draws">
+            <li>
+                &nbsp;<br>
+                <input type="button" (click)="changeAllocations()"
+                    [value]="showRealloc ? 'Hide Reallocations' : 'Add Reallocations'">
+            </li>
+            <li>
+                &nbsp;<br>
+                <input type="button" value="Commit Reallocations">
+            </li>
+        </ul>
     </div>
     <div class="col-sm-12 col-md-12 mt-2">
         <div class="row">
@@ -126,7 +117,7 @@
                             <td>{{scheduledValue(items.scheduled_value, items.realocation) | currency}}</td>
                             <td *ngIf="showRealloc">
                                 <span *ngIf="draws.status == 1">
-                                    <input type="text" class="form-control p-0" value="{{items.realocation}}"  />
+                                    <input type="text" class="form-control p-0" value="{{items.realocation}}" />
                                 </span>
                                 <span *ngIf="draws.status != 1">
                                     {{items.realocation}}
@@ -134,12 +125,13 @@
                             </td>
                             <td>
                                 <span *ngIf="items.previousDraw || items.previousDraw.pcurrent_app">
-                                   {{(items.previousDraw.pcurrent_app ? items.previousDraw.pcurrent_app : 0) | currency}}
+                                    {{(items.previousDraw.pcurrent_app ? items.previousDraw.pcurrent_app : 0) |
+                                    currency}}
                                 </span>
                                 <span *ngIf="!items.previousDraw">
-                                   {{ 0 | currency}}
+                                    {{ 0 | currency}}
                                 </span>
-                                
+
                             </td>
                             <td>
                                 <span *ngIf="draws.status == 1">
@@ -176,7 +168,7 @@
                                 <span *ngIf="draws.status != 1">
                                     {{(items.current_retainer_value ? items.current_retainer_value : 0) | currency}}
                                 </span>
-    
+
                             </td>
                             <td>
                                 <span *ngIf="items.previousDraw && items.previousDraw.pcurrent_retainer_value">
@@ -206,7 +198,8 @@
                                     {{items.current_retainer_value | currency}}
                                 </span>
                                 <span *ngIf="!items.current_retainer_value">
-                                    {{(items.previousDraw.pcurrent_retainer_value ? items.previousDraw.pcurrent_retainer_value : 0)  | currency}}
+                                    {{(items.previousDraw.pcurrent_retainer_value ?
+                                    items.previousDraw.pcurrent_retainer_value : 0) | currency}}
                                 </span>
                             </td>
                             <td>
@@ -214,7 +207,7 @@
                                     <textarea name="" class="form-control p-0" cols="10" id=""></textarea>
                                 </span>
                                 <span *ngIf="draws.status != 1">
-                                &nbsp;
+                                    &nbsp;
                                 </span>
                             </td>
                         </tr>
@@ -227,7 +220,7 @@
                             <td class="text-strong">{{totalCurrentApp | currency}}</td>
                             <td>&nbsp;</td>
                             <td class="text-strong">{{totalCurrentRet | currency}}</td>
-                            <td >&nbsp;</td>
+                            <td>&nbsp;</td>
                             <td class="text-strong">{{totalCompletedApp | currency}}</td>
                             <td class="text-strong">{{totalRetention | currency}}</td>
                             <td>&nbsp;</td>
@@ -235,9 +228,14 @@
                     </tbody>
                 </table>
             </div>
-            <div class="table-responsive col-sm-12 col-md-6 col-lg-6">
-                <h5 class="text-center text-small">DRAW SIGNATURE BLOCKS</h5>
-                <table class="table table-sm table-block">
+            <div class="table-responsive col-sm-12 col-md-6 col-lg-6 mt-3">
+
+                <table class="table table-sm table-block table-border">
+                    <tr>
+                        <th colspan="3">
+                            <h5 class="text-center text-small">DRAW SIGNATURE BLOCKS</h5>
+                        </th>
+                    </tr>
                     <tr class="text-small">
                         <th class="text-small">Include?</th>
                         <th class="text-small">Entity</th>
@@ -288,8 +286,10 @@
                             <input type="button" value="Add">
                         </td>
                         <td colspan="2">
-                            <button class="btn btn-sm px-2 py-0 btn-success">&nbsp;</button> <span class="text-small">Exists</span>
-                            <button class="btn btn-sm px-2 py-0 btn-danger">&nbsp;</button> <span class="text-small">Not Exists</span>
+                            <button class="btn btn-sm px-2 py-0 btn-success">&nbsp;</button> <span
+                                class="text-small">Exists</span>
+                            <button class="btn btn-sm px-2 py-0 btn-danger">&nbsp;</button> <span class="text-small">Not
+                                Exists</span>
                         </td>
                     </tr>
                 </table>

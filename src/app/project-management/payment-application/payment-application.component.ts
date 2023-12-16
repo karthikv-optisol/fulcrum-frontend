@@ -35,7 +35,8 @@ export class PaymentApplicationComponent implements OnInit {
   drawList: any = [];
   retentionList: any = [];
   totalList: any = 0;
-
+  dtype:any='';
+  drawId:any='';
   ngOnInit(): void {
 
     let userdata = JSON.parse(localStorage.getItem("users"));
@@ -44,7 +45,7 @@ export class PaymentApplicationComponent implements OnInit {
 
     this.getDrawList();
 
-    document.title = 'Draws - '+this.currentlySelectedProjectName
+    document.title = 'Draws - ' + this.currentlySelectedProjectName
   }
 
   getDrawList() {
@@ -61,7 +62,7 @@ export class PaymentApplicationComponent implements OnInit {
         if (res.body.draws || res.body.retention) {
 
           this.retentionList = res.body.retention;
-          
+
           this.drawList = res.body.draws;
 
           if (res.body.draws && res.body.retention) {
@@ -147,15 +148,82 @@ export class PaymentApplicationComponent implements OnInit {
     })
   }
 
-  deleteDraw(draw) {
-    console.log(draw, 'draw');
+  deleteDialogBox(deleteDialog, data, type) {
+    let ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      windowClass: 'dashboardlist-page1',
+    };
+
+    console.log(type, data);
+
+    this.modalService.open(deleteDialog, ngbModalOptions);
+
+    if (type == 'retention') {
+      this.dtype = type;
+      this.drawId = data.id;
+    }
+
+    if (type == 'draw') {
+      this.dtype = type;
+      this.drawId = data.id;
+    }
+  }
+
+  deleteDraw() {
+
+    this.loader.show();
+
+    let data = {
+      projectId: this.pid,
+      drawId: this.drawId
+    }
+
+    this.paymentService.deleteDraw(data).subscribe((res) => {
+      if (res.status == true) {
+        if (res.body.original.status == true) {
+          this.toaster.showSuccessToaster(res.body.original.message, '')
+          this.modalService.dismissAll('Draw deleted successfully');
+          this.getDrawList();
+        }
+        else {
+          this.modalService.dismissAll('Draw not deleted successfully');
+          this.toaster.showFailToaster(res.body.original.message, '')
+        }
+      }
+      this.loader.hide();
+    })
+  }
+
+  deleteRetention() {
+    this.loader.show();
+    let data = {
+      projectId: this.pid,
+      drawId: this.drawId
+    }
+
+    this.paymentService.deleteRetention(data).subscribe((res) => {
+      if (res.status == true) {
+        if (res.body.original.status == true) {
+          this.toaster.showSuccessToaster(res.body.original.message, '')
+          this.modalService.dismissAll('Retention deleted successfully');
+          this.getDrawList();
+        }
+        else {
+          this.toaster.showFailToaster(res.body.original.message, '')
+          this.modalService.dismissAll('Retention not deleted successfully');
+        }
+      }
+      this.loader.hide();
+    })
   }
 
   editDrawItems(items) {
-    window.open('/#/project-management/payment-applications/edit-draws?pid='+this.pid+'&drawId=' + items.id, '_self')
+    window.open('/#/project-management/payment-applications/edit-draws?pid=' + this.pid + '&drawId=' + items.id, '_self')
   }
 
   editRetentionItems(items) {
-    window.open('/#/project-management/payment-applications/edit-retention?pid='+this.pid+'&retentionId=' + items.id, '_self')
+    window.open('/#/project-management/payment-applications/edit-retention?pid=' + this.pid + '&retentionId=' + items.id, '_self')
   }
+
 }

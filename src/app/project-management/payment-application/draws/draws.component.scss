@@ -24,3 +24,21 @@ table tbody tr td input{
 table tbody tr a:hover{
     color: #fff;
 }
+
+.list-inline
+{
+ display: inline-flex;
+ width: 100%;
+}
+.list-inline-new
+{
+    display: inline-flex;
+    width: 100%;
+    justify-content: end;
+}
+
+.list-inline li,.list-inline-new li{
+    justify-content: space-between;
+    font-size: smaller;
+    padding: 1em;
+}

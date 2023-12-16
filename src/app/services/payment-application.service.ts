@@ -15,6 +15,9 @@ export class PaymentApplicationService {
   private getDrawsInfoURL = Constant.BE_URL + 'api/project_management/getDrawsInfo';
   private getRetDrawsInfoURL = Constant.BE_URL + 'api/project_management/getRetDrawsInfo';
   private getDrawActionTypeOptionsURL = Constant.BE_URL + 'api/project_management/getDrawActionType';
+  private exportPrintDrawURL = Constant.BE_URL + 'api/project_management/exportPrintDraw';
+  private deleteDrawURL = Constant.BE_URL + 'api/project_management/deleteDraw';
+  private deleteRetentionURL = Constant.BE_URL + 'api/project_management/deleteRetention';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -68,9 +71,24 @@ export class PaymentApplicationService {
   }
 
   // Get Draw Action Type Options
-  getDrawActionType(data:any)
-  {
+  getDrawActionType(data: any) {
     return this.httpClient.post<any>(this.getDrawActionTypeOptionsURL, data, this.httpOptions);
   }
 
+  // export Print Draw 
+  exportPrintDraw(data: any) {
+    return this.httpClient.post<any>(this.exportPrintDrawURL, data, this.httpOptions);
+  }
+
+  // delete draw
+  deleteDraw(data)
+  {
+    return this.httpClient.post<any>(this.deleteDrawURL, data, this.httpOptions);
+  }
+
+  //delete retention
+  deleteRetention(data)
+  {
+    return this.httpClient.post<any>(this.deleteRetentionURL, data, this.httpOptions);
+  }
 }

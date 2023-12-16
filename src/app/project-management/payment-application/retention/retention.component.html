@@ -5,84 +5,78 @@
         <input type="button" (click)="historyBack()" value="Back To Draws">
     </div>
     <div class="col-sm-12 col-md-12 mt-2">
-        <div class="table-responsive">
-            <table class="table border-0 table-sm">
-                <tr class="text-center">
-                    <td>
-                        Application Number
-                    </td>
-                    <td>
-                        Through Date:
-                    </td>
-                    <td>
-                        Invoice Date:
-                    </td>
-                    <td>
-                        Retention Actions
-                    </td>
-                    <td>
-                        &nbsp;
-                    </td>
-                    <td colspan="4">
-                        &nbsp;
-                    </td>
-                </tr>
-                <tr class="text-center text-small" *ngIf="retentions">
-                    <td>
-                        {{retentions.application_number}}
-                    </td>
-                    <td>
-                        <div class="datepicker_style_particulars">
-                            <div class="input-group">
-                                <input class="form-control" placeholder="yyyy-mm-dd" name="dp"
-                                    [placeholder]="retentions.through_date" name="rfi_due_date" ngbDatepicker
-                                    #d="ngbDatepicker" (click)="d.toggle()" />
-                            </div>
 
-                        </div>
-                    </td>
-                    <td>
-                        <div class="datepicker_style_particulars">
-                            <div class="input-group">
-                                <input class="form-control" placeholder="yyyy-mm-dd" name="dp"
-                                    [placeholder]="retentions.through_date" name="rfi_due_date" ngbDatepicker
-                                    #d="ngbDatepicker" (click)="d.toggle()" />
-                            </div>
+        <ul class="list-inline text-center text-small" *ngIf="retentions">
+            <li>
+                Application Number<br>
+                {{retentions.application_number}}
+            </li>
+            <li>
+                Through Date:<br>
+                <div class="datepicker_style_particulars">
+                    <div class="input-group">
+                        <input class="form-control" placeholder="yyyy-mm-dd" name="dp"
+                            [placeholder]="retentions.through_date" name="rfi_due_date" ngbDatepicker
+                            #d1="ngbDatepicker" (click)="d1.toggle()" />
+                    </div>
 
-                        </div>
-                    </td>
-                    <td *ngIf="actions">
-                        <select (change)="changeOptions($event)" [(ngModel)]="actionId">
-                            <option value="">Select Type</option>
-                            <option *ngFor="let action of actions" value="{{action.id}}">
-                                {{action.action_name}}
-                            </option>
-                        </select>
-                    </td>
-                    <td *ngIf="actionId=='' || actionId==1 || actionId==2">
-                        <select>
-                            <option>Select Option</option>
-                            <option *ngFor="let option of actionOptions" value="{{option.id}}">
-                                {{option.option_name}}
-                            </option>
-                        </select>
-                    </td>
-                    <td>
-                        <select name="" id="" *ngIf="actionId==2 || actionId==4">
-                            <option value="general_condition_summary">General Conditions Summary Only</option>
-                            <option value="narrative_column">Narrative Column</option>
-                            <option value="cost_code_alias">Cost Code Aliases</option>
-                        </select>
-                    </td>
-                    <td>
-                        <input type="button" value="Save as Draft"> OR
-                    </td>
-                    <td>
-                        <input type="button" value="Post Retention Draw">
-                    </td>
-                </tr>
-            </table>
-        </div>
+                </div>
+            </li>
+            <li>
+                Invoice Date:<br>
+                <div class="datepicker_style_particulars">
+                    <div class="input-group">
+                        <input class="form-control" placeholder="yyyy-mm-dd" name="dp"
+                            [placeholder]="retentions.invoice_date" name="rfi_due_date" ngbDatepicker
+                            #d2="ngbDatepicker" (click)="d2.toggle()" />
+                    </div>
+
+                </div>
+            </li>
+            <li *ngIf="actions">
+                Retention Actions<br>
+                <select (change)="changeOptions($event)" [(ngModel)]="actionId">
+                    <option value="">Select Type</option>
+                    <option *ngFor="let action of actions" value="{{action.id}}">
+                        {{action.action_name}}
+                    </option>
+                </select>
+            </li>
+            <li *ngIf="actionId=='' || actionId==1 || actionId==2">
+                &nbsp;<br>
+                <select [(ngModel)]="actionType">
+                    <option value="">Select Option</option>
+                    <option *ngFor="let option of actionOptions" value="{{option.id}}">
+                        {{option.option_name}}
+                    </option>
+                </select>
+            </li>
+            <li *ngIf="actionId==2 || actionId==4">
+                &nbsp;<br>
+                <select name="" id="" multiple [(ngModel)]="report_option">
+                    <option value="">Select Export Option</option>
+                    <option value="general_condition_summary">General Conditions Summary Only</option>
+                    <option value="narrative_column">Narrative Column</option>
+                    <option value="cost_code_alias">Cost Code Aliases</option>
+                </select>
+            </li>
+            <li *ngIf="actionId==1 || actionId==2 || actionId==3">
+                &nbsp;<br>
+                <img src="assets/images/icons/pdf-download.png" (click)="exportPrintDraw()" width="20" />
+            </li>
+            <li *ngIf="actionId==4">
+                &nbsp;<br>
+                <img src="assets/images/icons/xlsx-download.png" width="20" />
+            </li>
+            <li>
+                &nbsp;<br>
+                <input type="button" value="Save as Draft"> OR
+            </li>
+            <li>
+                &nbsp;<br>
+                <input type="button" value="Post Retention Draw">
+            </li>
+        </ul>
     </div>
     <div class="col-sm-12 col-md-12 mt-2">
         <div class="row">
@@ -96,8 +90,8 @@
                             <th>Current Ret. withheld</th>
                             <th>Previous Ret. Billed</th>
                             <th>Ret. Amount to Bill</th>
-                            <th>Narrative</th> 
-                        </tr>  
+                            <th>Narrative</th>
+                        </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let items of retentionItems; let i = index" class="text-center text-small">
@@ -123,9 +117,9 @@
                                         {{items.narrative}}
                                     </span>
                                 </span>
-                                
+
                             </td>
-                        </tr>  
+                        </tr>
                     </tbody>
                     <tfoot>
                         <tr class="text-center text-small">
@@ -194,8 +188,10 @@
                             <input type="button" value="Add">
                         </td>
                         <td colspan="2">
-                            <button class="btn btn-sm px-2 py-0 btn-success">&nbsp;</button> <span class="text-small">Exists</span>
-                            <button class="btn btn-sm px-2 py-0 btn-danger">&nbsp;</button> <span class="text-small">Not Exists</span>
+                            <button class="btn btn-sm px-2 py-0 btn-success">&nbsp;</button> <span
+                                class="text-small">Exists</span>
+                            <button class="btn btn-sm px-2 py-0 btn-danger">&nbsp;</button> <span class="text-small">Not
+                                Exists</span>
                         </td>
                     </tr>
                 </table>

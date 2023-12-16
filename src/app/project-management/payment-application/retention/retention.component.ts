@@ -27,7 +27,9 @@ export class RetentionComponent implements OnInit {
   totalCurrentRet: any = 0;
   totalPrevRet: any = 0;
   totalAmount: any = 0;
-
+  actionType: any = '';
+  drawId:any;
+  report_option:any=[];
   constructor(private route: ActivatedRoute, private paymentService: PaymentApplicationService, private loader: LoaderService, public modalService: NgbModal, private toaster: ToasterService,) {
     this.route.queryParams.subscribe((params) => {
       this.pid = params['pid'];
@@ -130,6 +132,32 @@ export class RetentionComponent implements OnInit {
         }
       }
     })
+  }
+
+  exportPrintDraw() {
+
+    this.loader.show();
+    let data = {
+      projectId: this.pid,
+      actionOptionsId: this.actionType,
+      actionId: this.actionId,
+      drawId: this.retentionId,
+      report_option:this.report_option
+    }
+
+    this.paymentService.exportPrintDraw(data).subscribe((res) => {
+
+      if (res.status == true) {
+        if (res.body.original.status == true) {
+          if (res.body.original.data) {
+            window.open(res.body.original.data, '_blank');
+          }
+        }
+        this.loader.hide();
+      }
+    })
+
+
   }
 
 }

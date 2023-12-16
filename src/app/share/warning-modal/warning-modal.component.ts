@@ -21,14 +21,14 @@ export class WarningModalComponent implements OnInit {
 
   @Input() public modalButton: string;
 
-  @Input() public modalArray1: any[];
+  @Input() public modalArray1?: any[];
 
-  @Input() public modalArray2: any[];
+  @Input() public modalArray2?: any[];
 
   constructor() { }
 
   ngOnInit(): void {
-    console.log("modalArray1",this.modalArray2);
+    console.log("");
   }
 
 }
