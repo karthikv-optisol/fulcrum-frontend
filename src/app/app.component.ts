@@ -1,6 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
 @Component({
   selector: 'app-root',
@@ -15,10 +16,13 @@ export class AppComponent {
   timeoutId;
   userInactive: Subject<any> = new Subject();
   constructor(
-    private titleService: Title, private router: Router) {
+    private titleService: Title, private router: Router, public modalService: NgbModal) {
     if (localStorage.getItem('users')) {
       this.checkTimeOut();
       this.userInactive.subscribe((message) => {
+      
+        this.modalService.dismissAll(message)
+        
         localStorage.clear();
         this.router.navigate(['/login-form']);
       }

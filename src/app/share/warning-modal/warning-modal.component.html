@@ -17,7 +17,7 @@
         style="width: auto; min-height: 0px; max-height: none; height: auto;overflow:auto; line-height: 2;">
         <p *ngIf="modalQuestion">{{modalQuestion}}</p>
         <p *ngIf="modalLabel">{{modalLabel}}</p>
-        <ul *ngIf="modalArray1.length>0">
+        <ul *ngIf="modalArray1 && modalArray1.length>0">
             <li *ngFor="let docs of modalArray1 let index=i;">
                 <span *ngIf="modalArray2.resignDate.length>0">
                     <span *ngFor="let items of modalArray2.resignDate">

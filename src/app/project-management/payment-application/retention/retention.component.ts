@@ -28,8 +28,11 @@ export class RetentionComponent implements OnInit {
   totalPrevRet: any = 0;
   totalAmount: any = 0;
   actionType: any = '';
-  drawId:any;
-  report_option:any=[];
+  drawId: any;
+  report_option: any = [];
+  invoice_date: any;
+  through_date: any;
+  status: any;
   constructor(private route: ActivatedRoute, private paymentService: PaymentApplicationService, private loader: LoaderService, public modalService: NgbModal, private toaster: ToasterService,) {
     this.route.queryParams.subscribe((params) => {
       this.pid = params['pid'];
@@ -74,19 +77,19 @@ export class RetentionComponent implements OnInit {
               this.totalSchedule = parseFloat(total_schedule)
             }
 
-            
+
             if (element.current_retainage) {
               total_curr_ret = parseFloat(total_curr_ret) + parseFloat(element.current_retainage)
               this.totalCurrentRet = parseFloat(total_curr_ret)
             }
 
-            
+
             if (element.previous_retainage) {
               total_prev_ret = parseFloat(total_prev_ret) + parseFloat(element.previous_retainage)
               this.totalPrevRet = parseFloat(total_prev_ret)
             }
 
-            
+
             if (element.current_retainer_value) {
               total_amount = parseFloat(total_amount) + parseFloat(element.current_retainer_value)
               this.totalAmount = parseFloat(total_amount)
@@ -142,10 +145,10 @@ export class RetentionComponent implements OnInit {
       actionOptionsId: this.actionType,
       actionId: this.actionId,
       drawId: this.retentionId,
-      report_option:this.report_option
+      report_option: this.report_option
     }
 
-    this.paymentService.exportPrintDraw(data).subscribe((res) => {
+    this.paymentService.exportPrintRetention(data).subscribe((res) => {
 
       if (res.status == true) {
         if (res.body.original.status == true) {
@@ -157,6 +160,55 @@ export class RetentionComponent implements OnInit {
       }
     })
 
+
+  }
+
+  onDateSelect(event, name) {
+    let year = event.year;
+    let month = event.month <= 9 ? '0' + event.month : event.month;;
+    let day = event.day <= 9 ? '0' + event.day : event.day;;
+    let finalDate = year + "-" + month + "-" + day;
+    console.log(name, finalDate);
+    this[name] = finalDate;
+  }
+
+
+  dateChange(date: any) {
+    return date.year + "-" + date.month + "-" + date.day;
+  }
+
+  updateRetention(status) {
+    let data: any = {
+      projectId: this.pid,
+      retId: this.retentionId
+    }
+
+    if (this.invoice_date) {
+      data.invoice_date = this.invoice_date;
+    }
+
+    if (this.through_date) {
+      data.through_date = this.through_date;
+    }
+
+    if (status) {
+      data.status = status;
+    }
+
+    this.loader.show();
+    this.paymentService.updateRetention(data).subscribe((res) => {
+      if (res.status == true) {
+        if (res.body.original.status) {
+          this.getDrawsInfo();
+          this.toaster.showSuccessToaster(res.body.original.message, '')
+        }
+      }
+      else {
+        this.toaster.showFailToaster(res.body.original.message, '')
+      }
+
+      this.loader.hide();
+    })
 
   }
 

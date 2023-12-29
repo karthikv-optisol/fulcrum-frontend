@@ -1,6 +1,6 @@
 <div class="w-100 float-left mb-3">
     <div class="col-sm-12 col-md-12 mt-2">
-        <h2 class="title-text">{{ currentlySelectedProjectName }}: retentions</h2>
+        <h2 class="title-text">{{ currentlySelectedProjectName }}: Retentions</h2>
         <hr>
         <input type="button" (click)="historyBack()" value="Back To Draws">
     </div>
@@ -15,9 +15,10 @@
                 Through Date:<br>
                 <div class="datepicker_style_particulars">
                     <div class="input-group">
-                        <input class="form-control" placeholder="yyyy-mm-dd" name="dp"
-                            [placeholder]="retentions.through_date" name="rfi_due_date" ngbDatepicker
-                            #d1="ngbDatepicker" (click)="d1.toggle()" />
+                        <input [disabled]="retentions.status==1 ? false : true" placeholder="yyyy-mm-dd"
+                            (dateSelect)="onDateSelect($event,'through_date')" name="dp" [(ngModel)]="through_date"
+                            [placeholder]="through_date ? through_date : retentions.through_date" name="through_date"
+                            ngbDatepicker #d1="ngbDatepicker" (click)="d1.toggle()" />
                     </div>
 
                 </div>
@@ -26,9 +27,10 @@
                 Invoice Date:<br>
                 <div class="datepicker_style_particulars">
                     <div class="input-group">
-                        <input class="form-control" placeholder="yyyy-mm-dd" name="dp"
-                            [placeholder]="retentions.invoice_date" name="rfi_due_date" ngbDatepicker
-                            #d2="ngbDatepicker" (click)="d2.toggle()" />
+                        <input [disabled]="retentions.status==1 ? false : true" placeholder="yyyy-mm-dd" name="dp"
+                            (dateSelect)="onDateSelect($event,'invoice_date')" [(ngModel)]="invoice_date"
+                            [placeholder]="invoice_date ? invoice_date : retentions.invoice_date" name="invoice_date"
+                            ngbDatepicker #d2="ngbDatepicker" (click)="d2.toggle()" />
                     </div>
 
                 </div>
@@ -70,11 +72,11 @@
             </li>
             <li>
                 &nbsp;<br>
-                <input type="button" value="Save as Draft"> OR
+                <input type="button" [className]="retentions.status==1 ? '' : 'disabled'" (click)="updateRetention(1)" value="Save as Draft"> OR
             </li>
             <li>
                 &nbsp;<br>
-                <input type="button" value="Post Retention Draw">
+                <input type="button" [className]="retentions.status==1 ? '' : 'disabled'" value="Post Retention Draw" (click)="updateRetention(2)">
             </li>
         </ul>
     </div>

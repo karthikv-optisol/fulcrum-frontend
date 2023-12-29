@@ -31,8 +31,12 @@ export class DrawsComponent implements OnInit {
   totalCompletedApp: any = 0;
   totalRetention: any = 0;
   showRealloc: boolean = false;
-  report_option:any = [];
+  report_option: any = [];
+  invoice_date: any;
+  through_date: any;
   draws: any;
+  status: any;
+  disabled:boolean = false;
   constructor(private route: ActivatedRoute, private paymentService: PaymentApplicationService, private loader: LoaderService, public modalService: NgbModal, private toaster: ToasterService,) {
     this.route.queryParams.subscribe((params) => {
       this.pid = params['pid'];
@@ -200,7 +204,7 @@ export class DrawsComponent implements OnInit {
       actionOptionsId: this.actionType,
       actionId: this.actionId,
       drawId: this.drawId,
-      report_option:this.report_option
+      report_option: this.report_option
     }
 
     this.paymentService.exportPrintDraw(data).subscribe((res) => {
@@ -216,5 +220,50 @@ export class DrawsComponent implements OnInit {
     })
 
 
+  }
+
+  onDateSelect(event,name) {
+    let year = event.year;
+    let month = event.month <= 9 ? '0' + event.month : event.month;;
+    let day = event.day <= 9 ? '0' + event.day : event.day;;
+    let finalDate = year + "-" + month + "-" + day;
+    console.log(name,finalDate);
+    this[name] = finalDate;
+   }
+
+  dateChange(date: any) {
+    return date.year +  "-" + date.month + "-" + date.day;
+  }
+
+  updateDraw(status) {
+    let data: any = {
+      projectId: this.pid,
+      drawId: this.drawId
+    }
+
+    if (this.invoice_date) {
+      data.invoice_date = this.invoice_date;
+    }
+
+    if (this.through_date) {
+      data.through_date = this.through_date;
+    }
+
+    if (status) {
+      data.status = status;
+    }
+
+    this.loader.show();
+    this.paymentService.updateDraw(data).subscribe((res) => {
+      if (res.status == true) {
+        if (res.body.original.status) {
+          this.getDrawsInfo();
+          this.toaster.showSuccessToaster(res.body.original.message, '')
+        }
+        else {
+          this.toaster.showFailToaster(res.body.original.message, '')
+        }
+      }
+    })
   }
 }

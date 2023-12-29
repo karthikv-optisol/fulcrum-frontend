@@ -16,8 +16,11 @@ export class PaymentApplicationService {
   private getRetDrawsInfoURL = Constant.BE_URL + 'api/project_management/getRetDrawsInfo';
   private getDrawActionTypeOptionsURL = Constant.BE_URL + 'api/project_management/getDrawActionType';
   private exportPrintDrawURL = Constant.BE_URL + 'api/project_management/exportPrintDraw';
+  private exportPrintRetentionURL = Constant.BE_URL + 'api/project_management/exportPrintRetention';
   private deleteDrawURL = Constant.BE_URL + 'api/project_management/deleteDraw';
   private deleteRetentionURL = Constant.BE_URL + 'api/project_management/deleteRetention';
+  private updateDrawURL = Constant.BE_URL + 'api/project_management/updateDraw';
+  private updateRetentionURL = Constant.BE_URL + 'api/project_management/updateRetention';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -80,6 +83,11 @@ export class PaymentApplicationService {
     return this.httpClient.post<any>(this.exportPrintDrawURL, data, this.httpOptions);
   }
 
+  // export Print Draw 
+  exportPrintRetention(data: any) {
+    return this.httpClient.post<any>(this.exportPrintRetentionURL, data, this.httpOptions);
+  }
+
   // delete draw
   deleteDraw(data)
   {
@@ -90,5 +98,17 @@ export class PaymentApplicationService {
   deleteRetention(data)
   {
     return this.httpClient.post<any>(this.deleteRetentionURL, data, this.httpOptions);
+  }
+
+  //update draw
+  updateDraw(data)
+  {
+    return this.httpClient.post<any>(this.updateDrawURL, data, this.httpOptions);
+  }
+
+  //update retention
+  updateRetention(data)
+  {
+    return this.httpClient.post<any>(this.updateRetentionURL, data, this.httpOptions);
   }
 }

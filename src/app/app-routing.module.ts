@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PageLayoutComponent } from './page-layout/page-layout.component';
 import { AuthGuard } from './services/auth.guard';
+import { CdnComponent } from './cdn/cdn.component';
 const routes: Routes = [
 
     {
@@ -85,9 +86,11 @@ const routes: Routes = [
           canActivate: [AuthGuard]
         },
       ],
-    },    
+    }, 
+    
+    { path: 'cdn/:number', component: CdnComponent },
   
-  { path: '**', redirectTo: '' },
+    { path: '**', redirectTo: '' },
 ];
 
 @NgModule({

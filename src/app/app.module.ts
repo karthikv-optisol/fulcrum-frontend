@@ -24,12 +24,14 @@ import { PageLayoutComponent } from './page-layout/page-layout.component';
 import { DatePickerDirective } from './services/date-picker.directive';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { CdnComponent } from './cdn/cdn.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PageLayoutComponent,
-    DatePickerDirective
+    DatePickerDirective,
+    CdnComponent
   ],
   imports: [
     BrowserModule,

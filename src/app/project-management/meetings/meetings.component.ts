@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -16,7 +16,7 @@ import { MeetingsService } from 'src/app/services/meetings.service';
   templateUrl: './meetings.component.html',
   styleUrls: ['./meetings.component.scss']
 })
-export class MeetingsComponent implements OnInit {
+export class MeetingsComponent implements OnInit, OnDestroy {
 
   public meetingTypes: any = '';
 
@@ -1912,6 +1912,7 @@ export class MeetingsComponent implements OnInit {
       keyboard: false,
       windowClass: 'dashboardlist-page1 email-meeting-dialog',
     };
+    console.log('yes')
     this.modalRef = this.modalService.open(EmailMeetingReport, ngbModalOptions);
   }
   loadEmailMeetingPdfDialog(EmailMeetingReport: any) {

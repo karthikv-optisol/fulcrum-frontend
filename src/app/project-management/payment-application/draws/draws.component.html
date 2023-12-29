@@ -15,9 +15,10 @@
                 Through Date:<br>
                 <div class="datepicker_style_particulars">
                     <div class="input-group">
-                        <input class="form-control" placeholder="yyyy-mm-dd" name="dp"
-                            [placeholder]="draws.through_date" name="rfi_due_date" ngbDatepicker #d1="ngbDatepicker"
-                            (click)="d1.toggle()" />
+                        <input [disabled]="draws.status==1 ? false : true" placeholder="yyyy-mm-dd" name="dp"
+                            (dateSelect)="onDateSelect($event,'through_date')" [(ngModel)]="through_date"
+                            [placeholder]="through_date ? through_date : draws.through_date" name="through_date"
+                            ngbDatepicker #d1="ngbDatepicker" (click)="d1.toggle()" />
                     </div>
 
                 </div>
@@ -26,9 +27,10 @@
                 Invoice Date:<br>
                 <div class="datepicker_style_particulars">
                     <div class="input-group">
-                        <input class="form-control" placeholder="yyyy-mm-dd" name="dp"
-                            [placeholder]="draws.invoice_date" name="rfi_due_date" ngbDatepicker #d2="ngbDatepicker"
-                            (click)="d2.toggle()" />
+                        <input [disabled]="draws.status==1 ? false : true" placeholder="yyyy-mm-dd" name="dp"
+                            (dateSelect)="onDateSelect($event,'invoice_date')" [(ngModel)]="invoice_date"
+                            [placeholder]="invoice_date ?invoice_date : draws.invoice_date" name="invoice_date"
+                            ngbDatepicker #d2="ngbDatepicker" (click)="d2.toggle()" />
                     </div>
 
                 </div>
@@ -66,21 +68,21 @@
             </li>
             <li *ngIf="actionId==4">
                 &nbsp;<br>
-                <img src="assets/images/icons/xlsx-download.png" width="20" />
+                <img src="assets/images/icons/xlsx-download.png" (click)="exportPrintDraw()" width="20" />
             </li>
             <li>
                 &nbsp;<br>
-                <input type="button" value="Save as Draft"> OR
+                <input type="button" [className]="draws.status==1 ? '' : 'disabled'" (click)="updateDraw(1)" value="Save as Draft"> OR
             </li>
             <li>
                 &nbsp;<br>
-                <input type="button" value="Post Draw">
+                <input type="button" [className]="draws.status==1 ? '' : 'disabled'" (click)="updateDraw(2)" value="Post Draw">
             </li>
         </ul>
         <ul class="list-inline-new text-center text-small " *ngIf="draws">
-            <li>
+            <li *ngIf="draws.status==1">
                 &nbsp;<br>
-                <input type="button" (click)="changeAllocations()"
+                <input type="button"  (click)="changeAllocations()"
                     [value]="showRealloc ? 'Hide Reallocations' : 'Add Reallocations'">
             </li>
             <li>
