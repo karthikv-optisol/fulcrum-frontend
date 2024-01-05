@@ -8,11 +8,11 @@
 
         <ul class="list-inline text-center text-small" *ngIf="draws">
             <li>
-                Application Number<br>
-                {{draws.application_number}}
+                <b>Application Number</b><br><br>
+                <span class="text-primary"><b>{{draws.application_number}}</b></span>
             </li>
             <li>
-                Through Date:<br>
+                <b>Through Date:</b><br>
                 <div class="datepicker_style_particulars">
                     <div class="input-group">
                         <input [disabled]="draws.status==1 ? false : true" placeholder="yyyy-mm-dd" name="dp"
@@ -24,7 +24,7 @@
                 </div>
             </li>
             <li>
-                Invoice Date:<br>
+                <b>Invoice Date:</b><br>
                 <div class="datepicker_style_particulars">
                     <div class="input-group">
                         <input [disabled]="draws.status==1 ? false : true" placeholder="yyyy-mm-dd" name="dp"
@@ -36,7 +36,7 @@
                 </div>
             </li>
             <li *ngIf="actions">
-                Retention Actions<br>
+                <b>Draw Actions</b><br>
                 <select (change)="changeOptions($event)" [(ngModel)]="actionId">
                     <option value="">Select Type</option>
                     <option *ngFor="let action of actions" value="{{action.id}}">
@@ -87,7 +87,7 @@
             </li>
             <li>
                 &nbsp;<br>
-                <input type="button" value="Commit Reallocations">
+                <input type="button" [className]="draws.status==1 ? '' : 'disabled'" value="Commit Reallocations">
             </li>
         </ul>
     </div>
@@ -101,6 +101,7 @@
                             <th>Cost Code Description</th>
                             <th>Scheduled Value</th>
                             <th *ngIf="showRealloc">Reallocations</th>
+                            <th *ngIf="showRealloc">Notes</th>
                             <th>Previous App</th>
                             <th>% Comp</th>
                             <th>Current App</th>
@@ -120,6 +121,11 @@
                             <td *ngIf="showRealloc">
                                 <span *ngIf="draws.status == 1">
                                     <input type="text" class="form-control p-0" value="{{items.realocation}}" />
+                                </span>
+                            </td>
+                            <td *ngIf="showRealloc">
+                                <span *ngIf="draws.status == 1">
+                                    <textarea name="" class="form-control p-0" cols="10" id=""></textarea>
                                 </span>
                                 <span *ngIf="draws.status != 1">
                                     {{items.realocation}}
@@ -156,10 +162,10 @@
                             <td>
                                 <span *ngIf="draws.status == 1">
                                     <input class="form-control p-0" type="number"
-                                        value="{{(items.retainer_rate ? items.retainer_rate : 0) | currency}}" />
+                                        value="{{(items.retainer_rate ? items.retainer_rate : 0)}}" />
                                 </span>
                                 <span *ngIf="draws.status != 1">
-                                    {{(items.retainer_rate ? items.retainer_rate : 0) | currency}}
+                                    {{(items.retainer_rate ? items.retainer_rate : 0)}}
                                 </span>
                             </td>
                             <td>

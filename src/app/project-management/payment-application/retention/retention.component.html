@@ -68,7 +68,7 @@
             </li>
             <li *ngIf="actionId==4">
                 &nbsp;<br>
-                <img src="assets/images/icons/xlsx-download.png" width="20" />
+                <img src="assets/images/icons/xlsx-download.png" (click)="exportPrintDraw()" width="20" />
             </li>
             <li>
                 &nbsp;<br>
@@ -104,7 +104,7 @@
                             <td>{{items.previous_retainage ? items.previous_retainage : 0 | currency}}</td>
                             <td>
                                 <span *ngIf="retentions.status == 1">
-                                    <input type="text" [className]="i==0 ? '' : 'disabled'" />
+                                    <input type="text" [className]="i==0 ? '' : 'disabled'" value="{{items.current_retainer_value | currency}}" />
                                 </span>
                                 <span *ngIf="retentions.status != 1">
                                     {{items.current_retainer_value | currency}}
